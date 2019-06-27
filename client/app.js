@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.scss';
 
-import {BrowserMockup, PhoneMockup} from './svg-utils'
+import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
 // {SVGUtils.createBrowserMockup()}
 
 class App extends React.Component {
@@ -16,6 +16,7 @@ class App extends React.Component {
                 <div style={{width:'800px', height:'600px'}}>
                     <BrowserMockup />
                     <PhoneMockup />
+                    <WatchMockup />
                 </div>
             </div>
         )
