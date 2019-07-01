@@ -4,6 +4,9 @@ class DotsFillPattern extends React.Component {
 
     render = () => {
         let dim = 10
+        if (this.props.dimension) {
+            dim = parseInt(this.props.dimension)
+        }
         let width = dim
         let height = dim
         let radius = 1
@@ -15,7 +18,7 @@ class DotsFillPattern extends React.Component {
         //       stroke="black" strokeWidth="1" />
 
         return (
-            <pattern id="dotsPattern" patternUnits="userSpaceOnUse" width={width} height={height}>
+            <pattern id={this.props.patternId} patternUnits="userSpaceOnUse" width={width} height={height}>
                 <circle cx={width-radius} cy={height-radius} r={radius} fill={fillColor}/>
             </pattern>
         )
@@ -45,14 +48,14 @@ export class BrowserMockup extends React.Component {
                          L${width - padding},${startY + padding}
                          L${width - padding},${height - padding}
                          L${startX + padding},${height - padding} z`
-        let content = <path d={contentPath} fill="red" stroke="none" strokeWidth="0" fill='url(#dotsPattern)'/>
+        let content = <path d={contentPath} fill="red" stroke="none" strokeWidth="0" fill='url(#pattern1)'/>
 
         // TODO address bar
         // TODO header
 
         return (
             <svg style={{width:'100%', height:'100%'}} viewBox={viewBox}>
-                <DotsFillPattern/>
+                <DotsFillPattern patternId="pattern1"/>
                 <g >
                     {frame}
                     {content}
@@ -126,11 +129,11 @@ export class PhoneMockup extends React.Component {
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z`
 
 
-        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#dotsPattern)'/>
+        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#pattern2)'/>
 
         return (
             <svg style={{width:'100%', height:'100%'}} viewBox={viewBox}>
-                <DotsFillPattern/>
+                <DotsFillPattern patternId="pattern2"/>
                 <g >
                     {frame}
                     {content}
@@ -152,7 +155,7 @@ export class WatchMockup extends React.Component {
         let startX = 0
         let startY = 100
         let phoneHeightFactor = 2 //1.324
-        let phoneHeightToWidthFactor = 1.25
+        let phoneHeightToWidthFactor = 1.17
         let phoneHeightToRadiusFactor = 12.67
         let phoneHeight = height / phoneHeightFactor // 453.14
         let phoneWidth = phoneHeight / phoneHeightToWidthFactor // 205.82
@@ -173,10 +176,10 @@ export class WatchMockup extends React.Component {
 
 
         startX = 20
-        startY = 100
+        startY = 102
         let bigRadius = phoneRadius * 14
         let beltHeight = 40
-        let beltLength = phoneWidth / 1.6
+        let beltLength = phoneWidth / 1.5
         let beltPath = `M${startX + padding},${startY}
                          a${phoneRadius},${phoneRadius},0,0,0,${phoneRadius},${-phoneRadius}
                          V${startY - phoneRadius - beltHeight}
@@ -211,12 +214,12 @@ export class WatchMockup extends React.Component {
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z`
 
 
-        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#dotsPattern)'/>
+        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#pattern3)'/>
 
         // {content}
         return (
             <svg style={{width:'100%', height:'100%'}} viewBox={viewBox}>
-                <DotsFillPattern/>
+                <DotsFillPattern patternId="pattern3" dimension={15}/>
                 <g >
                     {belt}
                     {frame}
