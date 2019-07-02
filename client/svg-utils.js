@@ -132,7 +132,7 @@ export class PhoneMockup extends React.Component {
         let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#pattern2)'/>
 
         return (
-            <svg style={{width:'100%', height:'100%'}} viewBox={viewBox}>
+            <svg className="mkp-svg-phone" style={{width:'100%', height:'100%'}} viewBox={viewBox} preserveAspectRatio="xMidYMid meet">
                 <DotsFillPattern patternId="pattern2"/>
                 <g >
                     {frame}

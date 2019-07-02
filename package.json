@@ -6,6 +6,8 @@
   "author": "<alex@eg312.com>",
   "license": "MIT",
   "dependencies": {
+    "canvg": "^2.0.0",
+    "jspdf": "^1.5.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
@@ -24,10 +26,10 @@
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2"
+  },
+  "scripts": {
+    "dev": "export NODE_PATH=\"./node_modules\" && webpack-dev-server --port=8080 --inline --progress --colors --mode=\"development\"",
+    "build": "export NODE_PATH=\"./node_modules\" && npm run clean && webpack --progress -p --mode=\"production\"",
+    "clean": "rm -rf dist/*"
   }
-   ,"scripts": {
-       "dev": "export NODE_PATH=\"./node_modules\" && webpack-dev-server --port=8080 --inline --progress --colors --mode=\"development\"",
-       "build": "export NODE_PATH=\"./node_modules\" && npm run clean && webpack --progress -p --mode=\"production\"",
-       "clean": "rm -rf dist/*"
-   }
 }
