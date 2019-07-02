@@ -9,6 +9,19 @@ import MyGoldenLayout from './glayout'
 
 class App extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.GoldenLayout = React.createRef();
+    }
+
+    getLayoutData = () => {
+        let data = this.GoldenLayout.current.getLayoutData()
+        let paperDim = this.GoldenLayout.current.getPaperDimensions()
+
+        // TODO
+        console.log('layout data', data, 'PD', paperDim);
+    }
+
 
     savePdf = () => {
         let elem = document.getElementsByClassName('mkp-svg-phone')[0]
@@ -36,7 +49,8 @@ class App extends React.Component {
                     <PhoneMockup />
                     <WatchMockup />
                 </div>
-                <MyGoldenLayout />
+                <button onClick={this.getLayoutData}>Get Layout Data</button>
+                <MyGoldenLayout ref={this.GoldenLayout} />
             </div>
         )
     }

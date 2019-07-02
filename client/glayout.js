@@ -286,6 +286,16 @@ export default class MyGoldenLayout extends React.PureComponent {
         }
     }
 
+    getLayoutData = () => {
+        return this.layout.toConfig()
+    }
+
+    getPaperDimensions = () => {
+        let elem = document.getElementById('layoutContainer')
+        let elemBBox = elem.getBoundingClientRect()
+        return elemBBox
+    }
+
     render() {
         return (
             <div style={{width: '100%', height: '100%'}} >
