@@ -1,4 +1,5 @@
 var path = require("path");
+var webpack = require("webpack");
 
 var app_dir = __dirname + '/client';
 
@@ -30,6 +31,11 @@ var config = {
             options: { babelrcRoots: ['.', '../'] }
         }]
     },
-    plugins: [HTMLWebpackPluginConfig]
+    plugins: [HTMLWebpackPluginConfig,
+        new webpack.ProvidePlugin({
+           $: 'jquery',
+           jQuery: 'jquery'
+         })
+    ]
 };
 module.exports = config;

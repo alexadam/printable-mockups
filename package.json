@@ -7,6 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "canvg": "^2.0.0",
+    "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"

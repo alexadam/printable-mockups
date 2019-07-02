@@ -4,7 +4,8 @@ import './style.scss';
 
 import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
 import * as PDFUtils from './svg-pdf'
-// {SVGUtils.createBrowserMockup()}
+
+import MyGoldenLayout from './glayout'
 
 class App extends React.Component {
 
@@ -30,11 +31,12 @@ class App extends React.Component {
             <div className="app">
                 <h1>Hello World</h1>
                 <button onClick={this.savePdf}>save</button>
-                <div style={{width:'800px', height:'600px'}}>
+                <div style={{width:'800px', height:'100%'}}>
                     <BrowserMockup />
                     <PhoneMockup />
                     <WatchMockup />
                 </div>
+                <MyGoldenLayout />
             </div>
         )
     }
