@@ -7,3 +7,13 @@ html, body {
 .app {
     width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;
 }
+
+.svgWrapper {
+    width: 100%;
+    height: 100%;
+    padding: 2px; // TODO ?
+    display: flex; flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}

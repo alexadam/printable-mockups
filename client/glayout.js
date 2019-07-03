@@ -14,6 +14,8 @@ import  GoldenLayout from './golden-layout/js_es6/LayoutManager';
 import './golden-layout/css/goldenlayout-base.css';
 import './golden-layout/css/goldenlayout-dark-theme.css';
 
+import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
+
 
 var config = {
   content: [{
@@ -37,15 +39,34 @@ var config = {
 
 class Gigi extends React.Component {
     state = {
+        svgWidth: '100%',
+        svgHeight: '100%',
         value: parseInt(this.props.glContainer._config.props.value)
+    }
+
+    constructor(props) {
+        super(props);
+        this.myRef = React.createRef();
     }
 
     componentDidMount = () => {
         // this.props.glEventHub.on('bibi', () => {
         //     console.log('YUYUYUYUYUYUY');
         // })
+        this.setNodeDimensions()
         this.props.glContainer.on('resize', () => {
-            console.log('YUYUYUYUYUYUY 222');
+            this.setNodeDimensions()
+        })
+    }
+
+    setNodeDimensions = () => {
+        let node = this.myRef.current;
+        let parentNode = node.parentNode
+        let parentNodeBBox = parentNode.getBoundingClientRect()
+
+        this.setState({
+            svgWidth: parentNodeBBox.width,
+            svgHeight: parentNodeBBox.height
         })
     }
 
@@ -70,16 +91,13 @@ class Gigi extends React.Component {
 
         let svgElem = null
         if (this.props.glContainer._config.props['type'] === 'svgElem1') {
-            svgElem = <SVGElem1 bgColor="red" />
+            svgElem = <SVGElem1 bgColor="red" width={this.state.svgWidth} height={this.state.svgHeight} />
         } else if (this.props.glContainer._config.props['type'] === 'svgElem2') {
-            svgElem = <SVGElem2 bgColor="yellow" />
+            svgElem = <SVGElem2 bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
         }
-
-        // GIGI {this.state.value} -- {this.props.value}
-        // <button onClick={this.onClick}>incr</button>
-
+        
         return (
-            <div style={{color:'white', width: '100%', height: '100%'}}>
+            <div style={{color:'white', width: '100%', height: '100%'}} ref={this.myRef}>
                 {svgElem}
             </div>
         )
@@ -89,7 +107,7 @@ class Gigi extends React.Component {
 class SVGElem1 extends React.Component {
     render = () => {
         return (
-            <div className="svgWrapper" style={{width:'100%', height:'100%'}}>
+            <div className="svgWrapper">
                 <svg style={{backgroundColor:this.props.bgColor, width:'100%', height:'100%'}} viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
                     <rect width="100" height="100" />
                     <rect x="120" width="100" height="100" rx="15" />
@@ -101,10 +119,8 @@ class SVGElem1 extends React.Component {
 class SVGElem2 extends React.Component {
     render = () => {
         return (
-            <div className="svgWrapper" style={{width:'100%', height:'100%'}}>
-                <svg style={{backgroundColor:this.props.bgColor, width:'100%', height:'100%'}} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                    <rect x="0" width="100" height="100" rx="15" />
-                </svg>
+            <div className="svgWrapper">
+                <PhoneMockup parentWidth={this.props.width} parentHeight={this.props.height}/>
             </div>
         )
     }
@@ -200,16 +216,10 @@ export default class MyGoldenLayout extends React.PureComponent {
 
         var layout = new GoldenLayout(config, this.layout);
         layout.registerComponent('IncrementButtonContainer',
-                                // (a, b) => {
-                                //     console.log('[][][]', a, b);
                                  wrapComponent('IncrementButtonContainer', 'this.context.store')
-                                // }
-
-
         );
         layout.registerComponent('DecrementButtonContainer',
                                  wrapComponent('DecrementButtonContainer', 'this.context.store')
-                                // () => <Gigi />
         );
         layout.registerComponent('TestComponentContainer',
                                  wrapComponent('TestComponentContainer', 'this.context.store')
@@ -220,10 +230,6 @@ export default class MyGoldenLayout extends React.PureComponent {
 
 
 
-        // let element = window.jQuery( '<div class="menu-item-www">' +
-        //     'createSvgElem1(whitew)'
-        //     + '</div>' );
-        // $( '#menuContainer' ).append( element );
         let newItemConfig = {
             title: 'title',
             type: 'react-component',
@@ -259,7 +265,7 @@ export default class MyGoldenLayout extends React.PureComponent {
                 // component.instance._container.emit('bibi')
                 // layout.emit('bibi')
                 // console.log(component);
-                // console.log('in comp resize !!!', component);
+                console.log('in comp resize !!!', component);
                 // component.config.props['value'] = component.config.props['value']+100
             });
         });

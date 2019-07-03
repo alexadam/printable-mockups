@@ -35,19 +35,19 @@ export class BrowserMockup extends React.Component {
 
         let startX = 0
         let startY = 0
-        let framePath = `M${startX + padding},${startY + padding}
-                         L${width - padding},${startY + padding}
+        let framePath = `M${startX},${startY}
+                         L${width - padding},${startY}
                          L${width - padding},${height - padding}
-                         L${startX + padding},${height - padding} z`
+                         L${startX},${height - padding} z`
 
         let frame = <path d={framePath} fill="none" stroke="black" strokeWidth="1"/>
 
         startX = 0
         startY = 50
-        let contentPath = `M${startX + padding},${startY + padding}
-                         L${width - padding},${startY + padding}
+        let contentPath = `M${startX},${startY}
+                         L${width - padding},${startY}
                          L${width - padding},${height - padding}
-                         L${startX + padding},${height - padding} z`
+                         L${startX},${height - padding} z`
         let content = <path d={contentPath} fill="red" stroke="none" strokeWidth="0" fill='url(#pattern1)'/>
 
         // TODO address bar
@@ -68,50 +68,44 @@ export class BrowserMockup extends React.Component {
 export class PhoneMockup extends React.Component {
 
     render = () => {
-        let width = 800
-        let height = 600
-        let padding = 2
-        let viewBox = `0 0 ${width} ${height}`
+        // let width = 800
+        // let height = 600
+        let padding = 20
+        // let viewBox = `0 0 ${width} ${height}`
 
         let startX = 0
         let startY = 0
-        let phoneHeightFactor = 1.324
-        let phoneHeightToWidthFactor = 2.2
         let phoneHeightToRadiusFactor = 12.67
-        let phoneHeight = height / phoneHeightFactor // 453.14
-        let phoneWidth = phoneHeight / phoneHeightToWidthFactor // 205.82
-        let phoneRadius = phoneHeight / phoneHeightToRadiusFactor // 35.76
-        let framePath = `M${startX + padding},${startY + padding + phoneRadius}
+        let phoneHeight = 750 // 1570
+        let phoneWidth = 375 //780
+        let phoneHeightToWidthFactor = phoneHeight / phoneWidth
+        let phoneRadius = 44
+        let framePath = `M${startX},${startY + phoneRadius}
                          a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${-phoneRadius}
-                         H${phoneWidth}
+                         H${phoneWidth - phoneRadius}
                          a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${phoneRadius}
-                         V${phoneHeight + startY}
+                         V${phoneHeight - phoneRadius}
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${phoneRadius}
-                         H${startX + padding + phoneRadius}
-                         a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z`
+                         H${startX + phoneRadius}
+                         a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z
+                        `
 
         let frame = <path d={framePath} fill="none" stroke="black" strokeWidth="1"/>
 
-        startX = 0
-        startY = 0
         let phoneBorder = 7
 
         // let contentFrameFactor = 0.99
-        let contentHeight = phoneHeight - phoneBorder + 2
-        phoneWidth = contentHeight / phoneHeightToWidthFactor
-        phoneRadius = contentHeight / phoneHeightToRadiusFactor
+        let contentHeight = phoneHeight - phoneBorder
+        phoneWidth = phoneWidth - phoneBorder
+        phoneRadius = 40
 
         let notchRadius = phoneRadius / 3
-        let notchHeight = 10
-        let notchWidth = phoneWidth / 2 //+ notchRadius
-        console.log(notchWidth, notchRadius, phoneWidth);
-        // let notchDist = (phoneWidth - 2 * phoneRadius - notchWidth) / 2
-        let notchDist = phoneWidth / 9
-        console.log(notchDist);
+        let notchHeight = phoneHeight / 35
+        let notchWidth = 185
+        let notchDist = 40
 
         let contentPath = `M${startX + phoneBorder},${startY + phoneBorder + phoneRadius}
                          a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${-phoneRadius}
-
 
                          H${startX + phoneBorder + phoneRadius + notchDist}
                          V${startY + phoneBorder + notchHeight}
@@ -121,20 +115,36 @@ export class PhoneMockup extends React.Component {
                          V${startY + phoneBorder}
                          H${startX + phoneBorder + phoneRadius + notchDist + notchWidth + notchRadius + notchDist}
 
-
                          a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${phoneRadius}
-                         V${contentHeight}
+                         V${contentHeight - phoneRadius}
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${phoneRadius}
                          H${startX + phoneBorder + phoneRadius}
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z`
 
 
+        let viewBox = `-1 -1 ${phoneWidth + 20} ${phoneHeight + 20}`
         let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#pattern2)'/>
 
+
+        let parentWidth = parseInt(this.props.parentWidth)
+        let parentHeight = parseInt(this.props.parentHeight)
+        let svgRealWidth = 0
+        let svgRealHeight = 0
+
+        if (parentHeight / parentWidth >= phoneHeightToWidthFactor) {
+            svgRealWidth = parentWidth  //- padding * 2
+            svgRealHeight = phoneHeightToWidthFactor * svgRealWidth
+        } else {
+            svgRealHeight = parentHeight - padding * 2
+            svgRealWidth = svgRealHeight / phoneHeightToWidthFactor
+        }
+        let ww = (svgRealWidth) + 'px'
+        let wh = (svgRealHeight) + 'px'
+
         return (
-            <svg className="mkp-svg-phone" style={{width:'100%', height:'100%'}} viewBox={viewBox} preserveAspectRatio="xMidYMid meet">
+            <svg className="mkp-svg-phone mkp-svg" style={{width:ww, height:wh}} viewBox={viewBox} preserveAspectRatio="xMidYMid meet">
                 <DotsFillPattern patternId="pattern2"/>
-                <g >
+                <g>
                     {frame}
                     {content}
                 </g>
@@ -160,17 +170,15 @@ export class WatchMockup extends React.Component {
         let phoneHeight = height / phoneHeightFactor // 453.14
         let phoneWidth = phoneHeight / phoneHeightToWidthFactor // 205.82
         let phoneRadius = phoneHeight / phoneHeightToRadiusFactor // 35.76
-        let framePath = `M${startX + padding},${startY + padding + phoneRadius}
+        let framePath = `M${startX},${startY + phoneRadius}
                          a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${-phoneRadius}
                          H${phoneWidth}
                          a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${phoneRadius}
                          V${phoneHeight + startY}
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${phoneRadius}
-                         H${startX + padding + phoneRadius}
+                         H${startX + phoneRadius}
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z
                         `
-        console.log(phoneHeight, phoneWidth, 'ioiooi');
-
         let frame = <path d={framePath} fill="none" stroke="black" strokeWidth="1"/>
 
 
@@ -180,7 +188,7 @@ export class WatchMockup extends React.Component {
         let bigRadius = phoneRadius * 14
         let beltHeight = 40
         let beltLength = phoneWidth / 1.5
-        let beltPath = `M${startX + padding},${startY}
+        let beltPath = `M${startX},${startY}
                          a${phoneRadius},${phoneRadius},0,0,0,${phoneRadius},${-phoneRadius}
                          V${startY - phoneRadius - beltHeight}
                          a${bigRadius},${bigRadius},0,0,1,${startX + beltLength},${0}

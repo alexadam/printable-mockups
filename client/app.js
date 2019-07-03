@@ -46,7 +46,7 @@ class App extends React.Component {
                 <button onClick={this.savePdf}>save</button>
                 <div style={{width:'800px', height:'100%'}}>
                     <BrowserMockup />
-                    <PhoneMockup />
+                    <PhoneMockup parentWidth={460} parentHeight={1200} />
                     <WatchMockup />
                 </div>
                 <button onClick={this.getLayoutData}>Get Layout Data</button>

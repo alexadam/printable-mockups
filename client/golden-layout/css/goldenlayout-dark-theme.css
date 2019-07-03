@@ -1,12 +1,14 @@
 
 
 .lm_goldenlayout {
-	background: #000000
+	background: #000000;
+	background: rgba(0,0,0,0);
 }
 
 .lm_content {
 	background: #222222;
-	border: 1px solid transparent
+	background: rgba(0,0,0,0);
+	border: 1px solid gray;
 }
 
 .lm_dragProxy .lm_content {
