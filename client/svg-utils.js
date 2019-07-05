@@ -142,7 +142,11 @@ export class PhoneMockup extends React.Component {
         let wh = (svgRealHeight) + 'px'
 
         return (
-            <svg className="mkp-svg-phone mkp-svg" style={{width:ww, height:wh}} viewBox={viewBox} preserveAspectRatio="xMidYMid meet">
+            <svg className="mkp-svg-phone mkp-svg"
+                 type="mkp-svg-phone"
+                 style={{width:ww, height:wh}}
+                 viewBox={viewBox}
+                 preserveAspectRatio="xMidYMid meet">
                 <DotsFillPattern patternId="pattern2"/>
                 <g>
                     {frame}

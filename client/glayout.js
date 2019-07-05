@@ -95,7 +95,7 @@ class Gigi extends React.Component {
         } else if (this.props.glContainer._config.props['type'] === 'svgElem2') {
             svgElem = <SVGElem2 bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
         }
-        
+
         return (
             <div style={{color:'white', width: '100%', height: '100%'}} ref={this.myRef}>
                 {svgElem}
@@ -133,9 +133,10 @@ class MenuItem1 extends React.Component {
     }
 
     render = () => {
+        // <SVGElem1 bgColor={this.state.bgColor} />
         return (
             <div id="MenuItem1" style={{width:'200px', height:'100px', backgroundColor:'yellow'}}>
-                <SVGElem1 bgColor={this.state.bgColor} />
+                MENU 1
             </div>
         )
     }
@@ -149,7 +150,7 @@ class MenuItem2 extends React.Component {
     render = () => {
         return (
             <div id="MenuItem2" style={{width:'200px', height:'100px', backgroundColor:'yellow'}}>
-                <SVGElem2 bgColor={this.state.bgColor} />
+                MENU 2
             </div>
         )
     }
@@ -310,7 +311,7 @@ export default class MyGoldenLayout extends React.PureComponent {
                     <MenuItem1 />
                     <MenuItem2 />
                 </div>
-                <div id='layoutContainer' className='goldenLayout' ref={input => this.layout = input} style={{width: '1000px', height: '600px'}}/>
+                <div id='layoutContainer' className='goldenLayout' ref={input => this.layout = input} style={{width: '1000px', height: '707px'}}/>
             </div>
         );
     }

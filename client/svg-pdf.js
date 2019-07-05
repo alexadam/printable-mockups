@@ -1,38 +1,39 @@
 import * as jsPDF from 'jspdf'
 import canvg from 'canvg'
 
-const addSVG = (doc, svgData, posterData) => {
+const addSVG = (doc, paperData, svgData, pixelToMMFactor) => {
     let canvasElem = document.createElement('canvas')
-    canvasElem.width  = 200;
-    canvasElem.height = 200;
-    canvg(canvasElem, svgData);
+    canvasElem.width  = svgData.size.width;
+    canvasElem.height = svgData.size.height;
+    canvg(canvasElem, svgData.svgAsText);
     let imgData = canvasElem.toDataURL("image/png");
 
-    // let offsetX = centerHorizontal(posterData, svgData)
-    // let offsetY = centerVertical(posterData, svgData)
-    let offsetX = posterData.offsetX
-    let offsetY = posterData.offsetY
-
     doc.addImage(imgData, 'PNG',
-        10,
-        10,
-        100,
-        100);
+        (svgData.size.left - paperData.containerOffsetX) * pixelToMMFactor,
+        (svgData.size.top - paperData.containerOffsetY) * pixelToMMFactor,
+        svgData.size.width * pixelToMMFactor,
+        svgData.size.height * pixelToMMFactor
+    );
 }
 
-const createTestPDF = (svgAsText) => {
+const createTestPDF = (data) => {
+
+    let A4_Width_MM = 297
+    let A4_Height_MM = 210
+    let A4_widthToHeight = 1.414
+    let pixelToMMFactor = A4_Width_MM / data.paper.widthPixels
 
     let pdf = new jsPDF({
-      orientation: 'landscape',
+      orientation: data.paper.orientation,
       unit: 'mm',
       format: 'a4'
-  })
+    })
 
-  // var svgAsText = new XMLSerializer().serializeToString(svgText.documentElement);
-  // pdf.addSVG(svgAsText, 20, 20, pdf.internal.pageSize.width - 20*2)
-  addSVG(pdf, svgAsText, {offsetX: 10, offsetY: 10, graphic: {width: 100, height: 300}})
+    for (let form of data.forms) {
+        addSVG(pdf, data.paper, form, pixelToMMFactor)
+    }
 
-  pdf.save('mockup.pdf')
+    pdf.save('mockup.pdf')
 }
 
 export {createTestPDF}

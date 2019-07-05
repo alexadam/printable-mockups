@@ -22,33 +22,66 @@ class App extends React.Component {
         console.log('layout data', data, 'PD', paperDim);
     }
 
+    prepareSVGData = () => {
+        let container = document.getElementById('layoutContainer')
+        let containerSize = container.getBoundingClientRect()
 
-    savePdf = () => {
-        let elem = document.getElementsByClassName('mkp-svg-phone')[0]
-        let svgAsText = new XMLSerializer().serializeToString(elem);
-
-        let children = elem.children;
-        for (let child of children) {
-            if (child.tagName === 'g') {
-                let dimensions = child.getBoundingClientRect();
-            }
+        let data = {
+            paper: {
+                orientation: 'landscape', // TODO
+                widthPixels: containerSize.width,
+                heightPixels: containerSize.height,
+                containerOffsetX: containerSize.left,
+                containerOffsetY: containerSize.top
+            },
+            forms: []
         }
 
-        PDFUtils.createTestPDF(svgAsText)
+        let svgElems = document.getElementsByClassName('mkp-svg')
+        for (let svgElem of svgElems) {
+            let type = svgElem.getAttribute('type')
+
+            let size = null
+            let children = svgElem.children;
+            for (let child of children) {
+                if (child.tagName === 'g') {
+                    size = child.getBoundingClientRect()
+                    // TODO remove / test different heights
+                    // let tttt = svgElem.getBoundingClientRect()
+                    // console.log(size.height, tttt.height);
+                }
+            }
+
+            let svgAsText = new XMLSerializer().serializeToString(svgElem);
+            data.forms.push({
+                type,
+                size,
+                svgAsText,
+                options: {}
+            })
+        }
+
+        return data
+    }
+
+    savePdf = () => {
+        let data = this.prepareSVGData()
+        PDFUtils.createTestPDF(data)
     }
 
     render = () => {
 
 
+        // <div style={{width:'800px', height:'100%'}}>
+        //     <BrowserMockup />
+        //     <PhoneMockup parentWidth={460} parentHeight={1200} />
+        //     <WatchMockup />
+        // </div>
+
         return (
             <div className="app">
                 <h1>Hello World</h1>
                 <button onClick={this.savePdf}>save</button>
-                <div style={{width:'800px', height:'100%'}}>
-                    <BrowserMockup />
-                    <PhoneMockup parentWidth={460} parentHeight={1200} />
-                    <WatchMockup />
-                </div>
                 <button onClick={this.getLayoutData}>Get Layout Data</button>
                 <MyGoldenLayout ref={this.GoldenLayout} />
             </div>
