@@ -3,14 +3,14 @@ import React from 'react';
 class DotsFillPattern extends React.Component {
 
     render = () => {
-        let dim = 10
+        let dim = 20
         if (this.props.dimension) {
             dim = parseInt(this.props.dimension)
         }
         let width = dim
         let height = dim
-        let radius = 1
-        let fillColor = 'rgba(0,0,0,0.5)'
+        let radius = 1.5
+        let fillColor = 'rgba(0,0,0, 0.15)'
 
         // <path d="M-1,1 l2,-2
         //          M0,4 l4,-4

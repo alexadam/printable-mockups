@@ -53,7 +53,18 @@ class App extends React.Component {
             //     }
             // }
 
+            let qualityFactor = 1
+            
+            let originalWidth = svgElem.style.width
+            let originalHeight = svgElem.style.height
+            svgElem.style.width = parseInt(svgElem.style.width) * qualityFactor + 'px'
+            svgElem.style.height = parseInt(svgElem.style.height) * qualityFactor + 'px'
+
             let svgAsText = new XMLSerializer().serializeToString(svgElem);
+
+            svgElem.style.height = originalHeight
+            svgElem.style.width = originalWidth
+
             data.forms.push({
                 type,
                 size,
