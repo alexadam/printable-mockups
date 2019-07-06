@@ -10,7 +10,7 @@ class DotsFillPattern extends React.Component {
         let width = dim
         let height = dim
         let radius = 1
-        let fillColor = 'rgba(0,0,0,0.25)'
+        let fillColor = 'rgba(0,0,0,0.5)'
 
         // <path d="M-1,1 l2,-2
         //          M0,4 l4,-4
@@ -68,16 +68,12 @@ export class BrowserMockup extends React.Component {
 export class PhoneMockup extends React.Component {
 
     render = () => {
-        // let width = 800
-        // let height = 600
         let padding = 20
-        // let viewBox = `0 0 ${width} ${height}`
 
         let startX = 0
         let startY = 0
-        let phoneHeightToRadiusFactor = 12.67
-        let phoneHeight = 750 // 1570
-        let phoneWidth = 375 //780
+        let phoneHeight = 750
+        let phoneWidth = 375
         let phoneHeightToWidthFactor = phoneHeight / phoneWidth
         let phoneRadius = 44
         let framePath = `M${startX},${startY + phoneRadius}
@@ -94,7 +90,6 @@ export class PhoneMockup extends React.Component {
 
         let phoneBorder = 7
 
-        // let contentFrameFactor = 0.99
         let contentHeight = phoneHeight - phoneBorder
         phoneWidth = phoneWidth - phoneBorder
         phoneRadius = 40
@@ -102,7 +97,7 @@ export class PhoneMockup extends React.Component {
         let notchRadius = phoneRadius / 3
         let notchHeight = phoneHeight / 35
         let notchWidth = 185
-        let notchDist = 40
+        let notchDist = 41
 
         let contentPath = `M${startX + phoneBorder},${startY + phoneBorder + phoneRadius}
                          a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${-phoneRadius}
@@ -122,24 +117,29 @@ export class PhoneMockup extends React.Component {
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z`
 
 
-        let viewBox = `-1 -1 ${phoneWidth + 20} ${phoneHeight + 20}`
-        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#pattern2)'/>
 
+        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#pattern2)'/>
 
         let parentWidth = parseInt(this.props.parentWidth)
         let parentHeight = parseInt(this.props.parentHeight)
         let svgRealWidth = 0
         let svgRealHeight = 0
 
-        if (parentHeight / parentWidth >= phoneHeightToWidthFactor) {
-            svgRealWidth = parentWidth  //- padding * 2
-            svgRealHeight = phoneHeightToWidthFactor * svgRealWidth
+        let parentHWRatio = parentHeight / parentWidth
+        let myHWRatio = (phoneHeight) / phoneWidth
+
+        if (parentHWRatio >= myHWRatio) {
+            svgRealWidth = parentWidth
+            svgRealHeight = svgRealWidth * myHWRatio // parentHeight - padding * 2
         } else {
-            svgRealHeight = parentHeight - padding * 2
-            svgRealWidth = svgRealHeight / phoneHeightToWidthFactor
+            svgRealHeight = parentHeight // parentHeight - padding * 2
+            svgRealWidth = svgRealHeight / myHWRatio
         }
+
         let ww = (svgRealWidth) + 'px'
         let wh = (svgRealHeight) + 'px'
+        let viewBox = `0 0 ${phoneWidth + padding} ${phoneHeight}`
+
 
         return (
             <svg className="mkp-svg-phone mkp-svg"
@@ -161,81 +161,71 @@ export class PhoneMockup extends React.Component {
 export class WatchMockup extends React.Component {
 
     render = () => {
-        let width = 800
-        let height = 600
-        let padding = 2
-        let viewBox = `0 0 ${width} ${height}`
+        let padding = 20
 
-        let startX = 0
-        let startY = 100
-        let phoneHeightFactor = 2 //1.324
-        let phoneHeightToWidthFactor = 1.17
-        let phoneHeightToRadiusFactor = 12.67
-        let phoneHeight = height / phoneHeightFactor // 453.14
-        let phoneWidth = phoneHeight / phoneHeightToWidthFactor // 205.82
-        let phoneRadius = phoneHeight / phoneHeightToRadiusFactor // 35.76
-        let framePath = `M${startX},${startY + phoneRadius}
-                         a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${-phoneRadius}
-                         H${phoneWidth}
-                         a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${phoneRadius}
-                         V${phoneHeight + startY}
-                         a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${phoneRadius}
-                         H${startX + phoneRadius}
-                         a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z
-                        `
-        let frame = <path d={framePath} fill="none" stroke="black" strokeWidth="1"/>
+        let watchHeight = 550
+        let watchWidth = 470
+        let phoneHeightToWidthFactor = watchHeight / watchWidth
+        let phoneRadius = 100
+
+        let frame = <rect x="0" y="100" width={watchWidth} height={watchHeight} rx={phoneRadius} stroke="black" strokeWidth="1" fill="none" />
+        let innerFrame = <rect x="20" y="120" width="430" height="510" rx="80" stroke="gray" strokeWidth="1" fill="none" />
+        let content = <rect x="50" y="150" width="368" height="448" rx="70" stroke="black" strokeWidth="1" fill='url(#pattern2)'/>
 
 
-
-        startX = 20
-        startY = 102
-        let bigRadius = phoneRadius * 14
-        let beltHeight = 40
-        let beltLength = phoneWidth / 1.5
+        let startX = 80
+        let startY = 101
+        let bigRadius = phoneRadius * 6
+        let beltHeight = 65
+        let beltLength =  190
+        let beltRadius = 20
         let beltPath = `M${startX},${startY}
-                         a${phoneRadius},${phoneRadius},0,0,0,${phoneRadius},${-phoneRadius}
-                         V${startY - phoneRadius - beltHeight}
-                         a${bigRadius},${bigRadius},0,0,1,${startX + beltLength},${0}
-                         V${startY - phoneRadius}
-                         a${phoneRadius},${phoneRadius},0,0,0,${phoneRadius},${phoneRadius} z
+                        a${beltRadius},${beltRadius},0,0,0,${beltRadius},${-beltRadius}
+                        V${startY - beltRadius - beltHeight}
+                        a${bigRadius},${bigRadius},0,0,1,${startX + beltLength},${0}
+                        V${startY - beltRadius}
+                        a${beltRadius},${beltRadius},0,0,0,${beltRadius},${beltRadius}
                         `
+
         let belt = <path d={beltPath} fill="none" stroke="black" strokeWidth="1"/>
-
-        let bottomBelt = <path d={beltPath} fill="none" stroke="black" strokeWidth="1" transform={`scale(1,-1) translate(0, ${-phoneHeight*1.753})`}/>
-
-
-        let contentMargin = 10
-        startX = 0 + contentMargin
-        startY = 100 + contentMargin
-        let phoneBorder = 12
-
-        // let contentFrameFactor = 0.99
-        let contentHeight = phoneHeight - phoneBorder / 2
-        phoneWidth = contentHeight / phoneHeightToWidthFactor - phoneBorder/2
-        phoneRadius = contentHeight / phoneHeightToRadiusFactor
-
-        phoneRadius = 10
-
-        let contentPath = `M${startX + phoneBorder},${startY + phoneBorder + phoneRadius}
-                         a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${-phoneRadius}
-                         H${phoneWidth}
-                         a${phoneRadius},${phoneRadius},0,0,1,${phoneRadius},${phoneRadius}
-                         V${contentHeight + startY - phoneBorder}
-                         a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${phoneRadius}
-                         H${startX + phoneBorder + phoneRadius}
-                         a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z`
+        let bottomBelt = <path d={beltPath} fill="none" stroke="black" strokeWidth="1" transform={`scale(1,-1) translate(0, ${-watchHeight*1.365})`}/>
 
 
-        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#pattern3)'/>
 
-        // {content}
+        let parentWidth = parseInt(this.props.parentWidth)
+        let parentHeight = parseInt(this.props.parentHeight)
+        let svgRealWidth = 0
+        let svgRealHeight = 0
+
+        let widthRatio = parentWidth / watchWidth
+        let heightRatio = parentHeight / watchHeight
+        let parentHWRatio = parentHeight / parentWidth
+        let myHWRatio = (watchHeight + 2 * (beltHeight + beltRadius)) / watchWidth
+
+        if (parentHWRatio >= myHWRatio) {
+            svgRealWidth = parentWidth
+            svgRealHeight = svgRealWidth * myHWRatio // parentHeight - padding * 2
+        } else {
+            svgRealHeight = parentHeight // parentHeight - padding * 2
+            svgRealWidth = svgRealHeight / myHWRatio
+        }
+
+        let ww = (svgRealWidth) + 'px'
+        let wh = (svgRealHeight) + 'px'
+        let viewBox = `0 0 ${watchWidth + 5} ${watchHeight + 205 }`
+
         return (
-            <svg style={{width:'100%', height:'100%'}} viewBox={viewBox}>
-                <DotsFillPattern patternId="pattern3" dimension={15}/>
-                <g >
-                    {belt}
+            <svg className="mkp-svg-phone mkp-svg"
+                 type="mkp-svg-phone"
+                 style={{width:ww, height:wh}}
+                 viewBox={viewBox}
+                 preserveAspectRatio="xMidYMid meet">
+                <DotsFillPattern patternId="pattern2"/>
+                <g>
                     {frame}
+                    {innerFrame}
                     {content}
+                    {belt}
                     {bottomBelt}
                 </g>
             </svg>

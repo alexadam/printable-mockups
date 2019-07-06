@@ -5,7 +5,7 @@ const addSVG = (doc, paperData, svgData, pixelToMMFactor) => {
     let canvasElem = document.createElement('canvas')
     canvasElem.width  = svgData.size.width;
     canvasElem.height = svgData.size.height;
-    canvg(canvasElem, svgData.svgAsText);
+    canvg(canvasElem, svgData.svgAsText, {forceRedraw: () => true});
     let imgData = canvasElem.toDataURL("image/png");
 
     doc.addImage(imgData, 'PNG',

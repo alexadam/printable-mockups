@@ -42,15 +42,16 @@ class App extends React.Component {
             let type = svgElem.getAttribute('type')
 
             let size = null
-            let children = svgElem.children;
-            for (let child of children) {
-                if (child.tagName === 'g') {
-                    size = child.getBoundingClientRect()
-                    // TODO remove / test different heights
-                    // let tttt = svgElem.getBoundingClientRect()
-                    // console.log(size.height, tttt.height);
-                }
-            }
+            size = svgElem.getBoundingClientRect()
+
+            // let children = svgElem.children;
+            // for (let child of children) {
+            //     if (child.tagName === 'g') {
+            //         size = child.getBoundingClientRect()
+            //         // TODO remove / test different heights
+            //         // let tttt = svgElem.getBoundingClientRect()
+            //     }
+            // }
 
             let svgAsText = new XMLSerializer().serializeToString(svgElem);
             data.forms.push({

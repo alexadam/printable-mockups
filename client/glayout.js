@@ -108,10 +108,7 @@ class SVGElem1 extends React.Component {
     render = () => {
         return (
             <div className="svgWrapper">
-                <svg style={{backgroundColor:this.props.bgColor, width:'100%', height:'100%'}} viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                    <rect width="100" height="100" />
-                    <rect x="120" width="100" height="100" rx="15" />
-                </svg>
+                <WatchMockup parentWidth={this.props.width} parentHeight={this.props.height}/>
             </div>
         )
     }
@@ -266,7 +263,6 @@ export default class MyGoldenLayout extends React.PureComponent {
                 // component.instance._container.emit('bibi')
                 // layout.emit('bibi')
                 // console.log(component);
-                console.log('in comp resize !!!', component);
                 // component.config.props['value'] = component.config.props['value']+100
             });
         });
@@ -283,13 +279,13 @@ export default class MyGoldenLayout extends React.PureComponent {
     paperSizeChange = () => {
         let tmpEl = document.getElementById('layoutContainer')
         if (layoutContainer.style.width === '1000px') {
-            layoutContainer.style.width = '600px'
+            layoutContainer.style.width = '707px'
             layoutContainer.style.height = '1000px'
-            this.layout.updateSize(600, 1000)
+            this.layout.updateSize(707, 1000)
         } else {
             layoutContainer.style.width = '1000px'
-            layoutContainer.style.height = '600px'
-            this.layout.updateSize(1000, 600)
+            layoutContainer.style.height = '707px'
+            this.layout.updateSize(1000, 707)
         }
     }
 
