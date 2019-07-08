@@ -1,5 +1,15 @@
 
 
+@import url('https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display&display=swap');
+
+* {
+    font-family: 'DM Serif Display', serif;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Playfair Display', serif;
+}
+
 html, body {
     width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;
 
@@ -34,4 +44,105 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     justify-content: center;
     align-items: center;
     align-content: center;
+}
+
+.mkp-top-menu-container {
+    width: 100%; height: 100px;
+    display: flex; flex-direction: row;
+    line-height: 100px; vertical-align: middle;
+}
+.mkp-top-menu-buttons-container {
+    width: 100%; height: 100px;
+    display: flex; flex-direction: row;
+    // justify-content: center;
+    align-items: center;
+}
+
+.mkp-top-menu-logo {
+    font-size: 30px;
+    width: 450px;
+    padding-left: 10px;
+}
+
+
+
+///////
+///////
+///////
+///////
+
+.mkp-tm-group {
+    border-right: solid 1px gray;
+    height: 100%;
+    margin-right: 10px;
+    height: 50px;
+    width: auto;
+    display: flex; flex-direction: row;
+}
+
+
+.mkp-page-orientation-menu {
+    display: flex; flex-direction: row;
+    align-items: center;
+    padding: 2px;
+    padding-right: 8px;
+}
+
+.mkp-pom-item {
+    background-color: white;
+    margin: 5px;
+    cursor: pointer;
+    opacity: 0.25;
+}
+
+.mkp-pom-landscape {
+    width: 30px; height: 21px;
+}
+
+.mkp-pom-portrait {
+    width: 21px; height: 30px;
+}
+
+.mkp-pom-selected {
+    border: solid 1px black;
+    opacity: 1;
+}
+
+
+.mkp-edit-mode {
+    height: 100%;
+    display: flex; flex-direction: row;
+    align-items: center;
+    padding-right: 8px;
+    opacity: 0.2;
+    cursor: pointer;
+}
+.mkp-edit-selected {
+    opacity: 1;
+}
+
+.mkp-toggle-units {
+    height: 100%;
+    display: flex; flex-direction: row;
+    align-items: center;
+    padding-right: 8px;
+    opacity: 0.2;
+    cursor: pointer;
+
+    svg {
+        width: 30px; height: 30px;
+    }
+
+    select {
+        width: 45px;
+        font-size: 15px;
+        background-color: rgba(0,0,0,0);
+        border: 0;
+        outline: 0;
+    }
+
+}
+
+.mkp-menu-selected {
+    opacity: 1 !important;
 }
