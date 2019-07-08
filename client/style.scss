@@ -2,9 +2,27 @@
 
 html, body {
     width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;
-}
 
-.app {
+
+    // background: #E0EAFC;  /* fallback for old browsers */
+    // background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-25, Safari 5.1-6 */
+    // background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+//     background: #8e9eab;  /* fallback for old browsers */
+// background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+// background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    background: #757F9A;
+background: -webkit-linear-gradient(to right, #D7DDE8, #757F9A);
+background: linear-gradient(to right, #D7DDE8, #757F9A);
+
+}
+//
+// .app {
+//     width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;
+// }
+#app, .app {
     width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;
 }
 

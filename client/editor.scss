@@ -1,0 +1,40 @@
+
+
+.mkp-editor-container {
+     width: 100%;
+     // height: 100%;
+     flex-grow: 1;
+     box-sizing: border-box;
+     display: flex; flex-direction: row;
+     background-color: rgba(0,0,0,0);
+     // overflow: hidden;
+
+}
+
+.mkp-editor-menu-container {
+    width: 100px; height: 100%; box-sizing: border-box;
+    display: flex; flex-direction: column; align-content: center; justify-content: center; align-items: center;
+    background-color: rgba(0,0,0,0);
+}
+
+.mkp-editor-menu-item {
+    width: 100%; height: 100px;
+    background-color: rgba(0,0,0,0);
+}
+
+.mkp-layout-gl-container {
+    width: 100%; height: 100%; box-sizing: border-box;
+    display: flex; flex-direction: row; justify-content: center; align-items: center;
+
+}
+
+.paper {
+    box-shadow: 0 6px 12px -2px rgba(50,50,93,.25),0 3px 7px -3px rgba(0,0,0,.3);
+    box-shadow: 0 30px 60px -12px rgba(50,50,93,.25),0 18px 36px -18px rgba(0,0,0,.3),0 -12px 36px -8px rgba(0,0,0,.025);
+
+    background-color: white;
+    padding: 20px;
+
+    width: 1000px; height: 707px;
+    // width: 707px; height: 1000px;
+}

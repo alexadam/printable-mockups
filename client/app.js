@@ -54,7 +54,7 @@ class App extends React.Component {
             // }
 
             let qualityFactor = 1
-            
+
             let originalWidth = svgElem.style.width
             let originalHeight = svgElem.style.height
             svgElem.style.width = parseInt(svgElem.style.width) * qualityFactor + 'px'
@@ -92,9 +92,7 @@ class App extends React.Component {
 
         return (
             <div className="app">
-                <h1>Hello World</h1>
                 <button onClick={this.savePdf}>save</button>
-                <button onClick={this.getLayoutData}>Get Layout Data</button>
                 <MyGoldenLayout ref={this.GoldenLayout} />
             </div>
         )

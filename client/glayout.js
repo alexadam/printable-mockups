@@ -15,6 +15,7 @@ import './golden-layout/css/goldenlayout-base.css';
 import './golden-layout/css/goldenlayout-dark-theme.css';
 
 import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
+import './editor.scss'
 
 
 var config = {
@@ -132,7 +133,7 @@ class MenuItem1 extends React.Component {
     render = () => {
         // <SVGElem1 bgColor={this.state.bgColor} />
         return (
-            <div id="MenuItem1" style={{width:'200px', height:'100px', backgroundColor:'yellow'}}>
+            <div id="MenuItem1" className="mkp-editor-menu-item">
                 MENU 1
             </div>
         )
@@ -146,7 +147,7 @@ class MenuItem2 extends React.Component {
 
     render = () => {
         return (
-            <div id="MenuItem2" style={{width:'200px', height:'100px', backgroundColor:'yellow'}}>
+            <div id="MenuItem2" className="mkp-editor-menu-item">
                 MENU 2
             </div>
         )
@@ -300,14 +301,16 @@ export default class MyGoldenLayout extends React.PureComponent {
     }
 
     render() {
+        // <button onClick={this.paperSizeChange}>paper size</button>
         return (
-            <div style={{width: '100%', height: '100%'}} >
-                <button onClick={this.paperSizeChange}>paper size</button>
-                <div id="menuContainer" style={{display:'flex', flexDirection:'row', width:'1000px', height:'100px'}}>
+            <div className="mkp-editor-container">
+                <div className="mkp-editor-menu-container" >
                     <MenuItem1 />
                     <MenuItem2 />
                 </div>
-                <div id='layoutContainer' className='goldenLayout' ref={input => this.layout = input} style={{width: '1000px', height: '707px'}}/>
+                <div className="mkp-layout-gl-container">
+                    <div id='layoutContainer' className='goldenLayout paper' ref={input => this.layout = input} />
+                </div>
             </div>
         );
     }
