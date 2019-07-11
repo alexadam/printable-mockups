@@ -95,6 +95,8 @@ class Gigi extends React.Component {
             svgElem = <SVGElem1 bgColor="red" width={this.state.svgWidth} height={this.state.svgHeight} />
         } else if (this.props.glContainer._config.props['type'] === 'svgElem2') {
             svgElem = <SVGElem2 bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
+        } else if (this.props.glContainer._config.props['type'] === 'svgElem3') {
+            svgElem = <SVGElem3 bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
         }
 
         return (
@@ -107,18 +109,42 @@ class Gigi extends React.Component {
 
 class SVGElem1 extends React.Component {
     render = () => {
+        let asIcon = false
+        if (this.props.asIcon) {
+            asIcon = this.props.asIcon
+        }
+
         return (
             <div className="svgWrapper">
-                <WatchMockup parentWidth={this.props.width} parentHeight={this.props.height}/>
+                <WatchMockup parentWidth={this.props.width} parentHeight={this.props.height} asIcon={asIcon}/>
             </div>
         )
     }
 }
 class SVGElem2 extends React.Component {
     render = () => {
+        let asIcon = false
+        if (this.props.asIcon) {
+            asIcon = this.props.asIcon
+        }
+
         return (
             <div className="svgWrapper">
-                <PhoneMockup parentWidth={this.props.width} parentHeight={this.props.height}/>
+                <PhoneMockup parentWidth={this.props.width} parentHeight={this.props.height} asIcon={asIcon}/>
+            </div>
+        )
+    }
+}
+class SVGElem3 extends React.Component {
+    render = () => {
+        let asIcon = false
+        if (this.props.asIcon) {
+            asIcon = this.props.asIcon
+        }
+
+        return (
+            <div className="svgWrapper">
+                <BrowserMockup parentWidth={this.props.width} parentHeight={this.props.height} asIcon={asIcon}/>
             </div>
         )
     }
@@ -131,10 +157,9 @@ class MenuItem1 extends React.Component {
     }
 
     render = () => {
-        // <SVGElem1 bgColor={this.state.bgColor} />
         return (
-            <div id="MenuItem1" className="mkp-editor-menu-item">
-                MENU 1
+            <div id="MenuItem1" className="mkp-editor-src-menu-item">
+                <SVGElem2 bgColor={'white'} height={90} width={90} asIcon={true}/>
             </div>
         )
     }
@@ -147,8 +172,21 @@ class MenuItem2 extends React.Component {
 
     render = () => {
         return (
-            <div id="MenuItem2" className="mkp-editor-menu-item">
-                MENU 2
+            <div id="MenuItem2" className="mkp-editor-src-menu-item">
+                <SVGElem1 bgColor={'white'} height={90} width={90} asIcon={true}/>
+            </div>
+        )
+    }
+}
+class MenuItem3 extends React.Component {
+    state = {
+        bgColor: 'red'
+    }
+
+    render = () => {
+        return (
+            <div id="MenuItem3" className="mkp-editor-src-menu-item">
+                <SVGElem3 bgColor={'white'} height={90} width={90} asIcon={true}/>
             </div>
         )
     }
@@ -184,7 +222,7 @@ export default class MyGoldenLayout extends React.PureComponent {
                 content: [{
                     type: 'react-component',
                     component: 'TestComponentContainer',
-                    props: {value: 11, type: 'svgElem1'}
+                    props: {value: 11, type: 'svgElem3'}
                 },{
                     type: 'react-component',
                     component: 'IncrementButtonContainer',
@@ -233,17 +271,25 @@ export default class MyGoldenLayout extends React.PureComponent {
             title: 'title',
             type: 'react-component',
             component: 'IncrementButtonContainer',
-            props: { value: 88, type: 'svgElem1'}
+            props: { value: 88, type: 'svgElem2'}
         };
-
         layout.createDragSource(document.getElementById('MenuItem1'), newItemConfig );
+
         let newItemConfig2 = {
             title: 'title',
             type: 'react-component',
-            component: 'IncrementButtonContainer',
-            props: { value: 88, type: 'svgElem2'}
+            component: 'DecrementButtonContainer',
+            props: { value: 88, type: 'svgElem1'}
         };
         layout.createDragSource(document.getElementById('MenuItem2'), newItemConfig2 );
+
+        let newItemConfig3 = {
+            title: 'title',
+            type: 'react-component',
+            component: 'TestComponentContainer',
+            props: { value: 88, type: 'svgElem3'}
+        };
+        layout.createDragSource(document.getElementById('MenuItem3'), newItemConfig3 );
 
 
 
@@ -307,6 +353,7 @@ export default class MyGoldenLayout extends React.PureComponent {
                 <div className="mkp-editor-menu-container" >
                     <MenuItem1 />
                     <MenuItem2 />
+                    <MenuItem3 />
                 </div>
                 <div className="mkp-layout-gl-container">
                     <div id='layoutContainer' className='goldenLayout paper' ref={input => this.layout = input} />

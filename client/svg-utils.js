@@ -28,36 +28,73 @@ class DotsFillPattern extends React.Component {
 export class BrowserMockup extends React.Component {
 
     render = () => {
-        let width = 800
-        let height = 600
-        let padding = 2
-        let viewBox = `0 0 ${width} ${height}`
+        let padding = 20
 
-        let startX = 0
-        let startY = 0
-        let framePath = `M${startX},${startY}
-                         L${width - padding},${startY}
-                         L${width - padding},${height - padding}
-                         L${startX},${height - padding} z`
+        let watchWidth = 1920
+        let watchHeight = 1080
+        let phoneHeightToWidthFactor = watchHeight / watchWidth
+        let phoneRadius = 10
+        let strokeWidth = 1
+        if (this.props.asIcon) {
+            strokeWidth = 15
+        }
 
-        let frame = <path d={framePath} fill="none" stroke="black" strokeWidth="1"/>
+        let frame = <rect x="0" y="0" width={watchWidth} height={watchHeight} rx={phoneRadius} stroke="black" strokeWidth={strokeWidth} fill="none" />
+        let innerFrame = <rect x="0" y="0" width={watchWidth} height="98" stroke="gray" strokeWidth={strokeWidth} fill="none" />
+        let content = <rect x="0" y="100" width={watchWidth} height="980" rx="70" stroke="black" strokeWidth={strokeWidth} fill='url(#pattern2)'/>
 
-        startX = 0
-        startY = 50
-        let contentPath = `M${startX},${startY}
-                         L${width - padding},${startY}
-                         L${width - padding},${height - padding}
-                         L${startX},${height - padding} z`
-        let content = <path d={contentPath} fill="red" stroke="none" strokeWidth="0" fill='url(#pattern1)'/>
 
-        // TODO address bar
-        // TODO header
+        // let startX = 80
+        // let startY = 101
+        // let bigRadius = phoneRadius * 6
+        // let beltHeight = 65
+        // let beltLength =  190
+        // let beltRadius = 20
+        // let beltPath = `M${startX},${startY}
+        //                 a${beltRadius},${beltRadius},0,0,0,${beltRadius},${-beltRadius}
+        //                 V${startY - beltRadius - beltHeight}
+        //                 a${bigRadius},${bigRadius},0,0,1,${startX + beltLength},${0}
+        //                 V${startY - beltRadius}
+        //                 a${beltRadius},${beltRadius},0,0,0,${beltRadius},${beltRadius}
+        //                 `
+
+        // let belt = <path d={beltPath} fill="none" stroke="black" strokeWidth={strokeWidth}/>
+        // let bottomBelt = <path d={beltPath} fill="none" stroke="black" strokeWidth={strokeWidth} transform={`scale(1,-1) translate(0, ${-watchHeight*1.365})`}/>
+
+
+
+        let parentWidth = parseInt(this.props.parentWidth)
+        let parentHeight = parseInt(this.props.parentHeight)
+        let svgRealWidth = 0
+        let svgRealHeight = 0
+
+        let widthRatio = parentWidth / watchWidth
+        let heightRatio = parentHeight / watchHeight
+        let parentHWRatio = parentHeight / parentWidth
+        let myHWRatio = (watchHeight) / watchWidth
+
+        if (parentHWRatio >= myHWRatio) {
+            svgRealWidth = parentWidth
+            svgRealHeight = svgRealWidth * myHWRatio // parentHeight - padding * 2
+        } else {
+            svgRealHeight = parentHeight // parentHeight - padding * 2
+            svgRealWidth = svgRealHeight / myHWRatio
+        }
+
+        let ww = (svgRealWidth) + 'px'
+        let wh = (svgRealHeight) + 'px'
+        let viewBox = `0 0 ${watchWidth + 5} ${watchHeight + 205 }`
 
         return (
-            <svg style={{width:'100%', height:'100%'}} viewBox={viewBox}>
-                <DotsFillPattern patternId="pattern1"/>
-                <g >
+            <svg className="mkp-svg-browser mkp-svg"
+                 type="mkp-svg-browser"
+                 style={{width:ww, height:wh}}
+                 viewBox={viewBox}
+                 preserveAspectRatio="xMidYMid meet">
+                <DotsFillPattern patternId="pattern2"/>
+                <g>
                     {frame}
+                    {innerFrame}
                     {content}
                 </g>
             </svg>
@@ -69,6 +106,11 @@ export class PhoneMockup extends React.Component {
 
     render = () => {
         let padding = 20
+
+        let strokeWidth = 1
+        if (this.props.asIcon) {
+            strokeWidth = 5
+        }
 
         let startX = 0
         let startY = 0
@@ -86,7 +128,7 @@ export class PhoneMockup extends React.Component {
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z
                         `
 
-        let frame = <path d={framePath} fill="none" stroke="black" strokeWidth="1"/>
+        let frame = <path d={framePath} fill="none" stroke="black" strokeWidth={strokeWidth}/>
 
         let phoneBorder = 7
 
@@ -118,7 +160,7 @@ export class PhoneMockup extends React.Component {
 
 
 
-        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth="1" fill='url(#pattern2)'/>
+        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth={strokeWidth} fill='url(#pattern2)'/>
 
         let parentWidth = parseInt(this.props.parentWidth)
         let parentHeight = parseInt(this.props.parentHeight)
@@ -167,10 +209,14 @@ export class WatchMockup extends React.Component {
         let watchWidth = 470
         let phoneHeightToWidthFactor = watchHeight / watchWidth
         let phoneRadius = 100
+        let strokeWidth = 1
+        if (this.props.asIcon) {
+            strokeWidth = 5
+        }
 
-        let frame = <rect x="0" y="100" width={watchWidth} height={watchHeight} rx={phoneRadius} stroke="black" strokeWidth="1" fill="none" />
-        let innerFrame = <rect x="20" y="120" width="430" height="510" rx="80" stroke="gray" strokeWidth="1" fill="none" />
-        let content = <rect x="50" y="150" width="368" height="448" rx="70" stroke="black" strokeWidth="1" fill='url(#pattern2)'/>
+        let frame = <rect x="0" y="100" width={watchWidth} height={watchHeight} rx={phoneRadius} stroke="black" strokeWidth={strokeWidth} fill="none" />
+        let innerFrame = <rect x="20" y="120" width="430" height="510" rx="80" stroke="gray" strokeWidth={strokeWidth} fill="none" />
+        let content = <rect x="50" y="150" width="368" height="448" rx="70" stroke="black" strokeWidth={strokeWidth} fill='url(#pattern2)'/>
 
 
         let startX = 80
@@ -187,8 +233,8 @@ export class WatchMockup extends React.Component {
                         a${beltRadius},${beltRadius},0,0,0,${beltRadius},${beltRadius}
                         `
 
-        let belt = <path d={beltPath} fill="none" stroke="black" strokeWidth="1"/>
-        let bottomBelt = <path d={beltPath} fill="none" stroke="black" strokeWidth="1" transform={`scale(1,-1) translate(0, ${-watchHeight*1.365})`}/>
+        let belt = <path d={beltPath} fill="none" stroke="black" strokeWidth={strokeWidth}/>
+        let bottomBelt = <path d={beltPath} fill="none" stroke="black" strokeWidth={strokeWidth} transform={`scale(1,-1) translate(0, ${-watchHeight*1.365})`}/>
 
 
 

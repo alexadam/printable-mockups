@@ -12,19 +12,31 @@
 }
 
 .mkp-editor-menu-container {
-    width: 100px; height: 100%; box-sizing: border-box;
-    display: flex; flex-direction: column; align-content: center; justify-content: center; align-items: center;
-    background-color: rgba(0,0,0,0);
+    height: 100%; width: 20%; min-width: 100px;
+    display: flex; flex-direction: column;
+    // flex-shrink: 1;
+    align-items: center;
+}
+.mkp-editor-src-menu-item {
+    width: 100px; height: 100px; margin-bottom: 25px;
+    background-color: rgba(255,255,255,1);
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px -2px rgba(50,50,93,.25),0 3px 7px -3px rgba(0,0,0,.3);
+}
+.mkp-editor-src-menu-item:hover {
+    box-shadow: 0 6px 12px -2px rgba(50,50,93,.25),0 3px 7px -3px rgba(0,0,0,.3);
+    box-shadow: 0 30px 60px -12px rgba(50,50,93,.25),0 18px 36px -18px rgba(0,0,0,.3),0 -12px 36px -8px rgba(0,0,0,.025);
+
 }
 
-.mkp-editor-menu-item {
-    width: 100%; height: 100px;
-    background-color: rgba(0,0,0,0);
-}
 
 .mkp-layout-gl-container {
-    width: 100%; height: 100%; box-sizing: border-box;
-    display: flex; flex-direction: row; justify-content: center; align-items: center;
+    width: 80%; height: 100%; box-sizing: border-box;
+    display: flex; flex-direction: row; 
+    // justify-content: center; 
+    align-items: center;
 
 }
 
