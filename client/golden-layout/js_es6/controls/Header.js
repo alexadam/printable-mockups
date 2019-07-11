@@ -64,23 +64,48 @@ export default class Header extends EventEmitter {
     	// TODO: change buttons' UI
         // FIXME:
         //
-        	this.dragMeTemplate = '<button class="aaa-drag-me">Drag Me</button>'
+            this.dragMeTemplate = `<button class="mkp-header-btn-drag-me mkp-header-btn" title="Drag me">
+                                        <svg height="20px" width="20px" viewBox="0 0 32 32" >
+                                            <g>
+                                                <path d="M6,22V10l-6,6L6,22z M26,10v12l6-6L26,10z M10,6h12l-6-6L10,6z M16,32l6-6H10L16,32z"/>
+                                            </g>
+                                        </svg>
+                                    </button>`
         	this.dragMeElem = $(this.dragMeTemplate)
 
         	this._dragListener = new DragListener( this.dragMeElem );
         	this._dragListener.on( 'dragStart', this._onDragStart, this );
 
-        	this.dragCopyTemplate = '<button class="aaa-drag-copy">Drag Copy</button>'
+        	this.dragCopyTemplate = `<button class="mkp-header-btn-drag-copy mkp-header-btn" title="Drag a copy of me">
+                                        <svg height="20px" width="20px" viewBox="0 0 32 32" >
+                                            <g>
+                                            <path d="M6,22V10l-6,6L6,22z M26,10v12l6-6L26,10z M10,6h12l-6-6L10,6z M16,32l6-6H10L16,32z"/>
+                                            <rect x="10" y="10" width="10" height="10" fill="none" stroke-width="1" stroke="black" />
+                                            <rect x="13" y="13" width="10" height="10" fill="none" stroke-width="1" stroke="black" />
+                                            </g>
+                                        </svg>
+                                    </button>`
         	this.dragCopyElem = $(this.dragCopyTemplate)
 
-        	this.removeTemplate = '<button class="aaa-remove">Remove</button>'
+        	this.removeTemplate = `<button class="mkp-header-btn-remove mkp-header-btn" title="Remove me">
+                                        <svg height="20px" width="20px" viewBox="0 0 32 32" >
+                                            <g>
+                                             <line x1="7" y1="7" x2="25" y2="25" stroke="black" stroke-width="2" />
+                                             <line x1="25" y1="7" x2="7" y2="25" stroke="black" stroke-width="2" />
+                                            </g>
+                                        </svg>
+                                    </button>`
         	this.removeElem = $(this.removeTemplate)
         	var closeStack = fnBind( this.parent.remove, this.parent );
-        	this.removeElem.on( 'click touchstart', closeStack );
+            this.removeElem.on( 'click touchstart', closeStack );
+            
+            let btnContainer = $(`<div class="mkp-header-btn-container"></div>`)
 
-        	this.element.append( this.dragMeElem);
-        	this.element.append( this.dragCopyElem );
-        	this.element.append( this.removeElem );
+        	btnContainer.append( this.dragMeElem);
+        	btnContainer.append( this.dragCopyElem );
+            btnContainer.append( this.removeElem );
+            
+        	this.element.append( btnContainer );
 
 
 

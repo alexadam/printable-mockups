@@ -146,3 +146,31 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
 .mkp-menu-selected {
     opacity: 1 !important;
 }
+
+
+
+//////
+//////
+//////
+//////
+// .mkp-header-btn-container {
+//     width: 100%;
+//     display: flex; flex-direction: row;
+//     background-color: rgba(0,0,0,0.15);
+// }
+.mkp-header-btn {
+    width: 30px; height: 30px;
+    background: rgba(0,0,0,0);
+    border: 0;
+    outline: 0;
+    padding: 0; 
+    text-align: center;
+    cursor: pointer;
+}
+.mkp-header-btn:hover {
+    background: rgba(0,0,0,0.15);
+    border-radius: 10%;
+}
+.mkp-header-btn-remove:hover {
+    background-color: rgba(255,0,0,0.5);
+}

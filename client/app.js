@@ -232,6 +232,7 @@ class App extends React.Component {
         //     <WatchMockup />
         // </div>
 
+        // <EditModeMenu />
         return (
             <div className="app">
                 <div className="mkp-top-menu-container">
@@ -239,7 +240,6 @@ class App extends React.Component {
                         Printable Mockups
                     </div>
                     <div className="mkp-top-menu-buttons-container">
-                        <EditModeMenu />
                         <PageOrientationSelector />
                         <MasureUnitsMenu />
                         <button onClick={this.savePdf}>save</button>
