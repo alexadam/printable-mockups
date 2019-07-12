@@ -351,9 +351,9 @@ export default class MyGoldenLayout extends React.PureComponent {
         return (
             <div className="mkp-editor-container">
                 <div className="mkp-editor-menu-container" >
+                    <MenuItem3 />
                     <MenuItem1 />
                     <MenuItem2 />
-                    <MenuItem3 />
                 </div>
                 <div className="mkp-layout-gl-container">
                     <div id='layoutContainer' className='goldenLayout paper' ref={input => this.layout = input} />

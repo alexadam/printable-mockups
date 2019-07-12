@@ -30,60 +30,47 @@ export class BrowserMockup extends React.Component {
     render = () => {
         let padding = 20
 
-        let watchWidth = 1920
-        let watchHeight = 1080
-        let phoneHeightToWidthFactor = watchHeight / watchWidth
-        let phoneRadius = 10
+        let itemWidth = 1920
+        let itemHeight = 1200 // 1080
+        let topFrameHeight = 60
+        let contentHeight = itemHeight - topFrameHeight
         let strokeWidth = 1
         if (this.props.asIcon) {
             strokeWidth = 15
         }
 
-        let frame = <rect x="0" y="0" width={watchWidth} height={watchHeight} rx={phoneRadius} stroke="black" strokeWidth={strokeWidth} fill="none" />
-        let innerFrame = <rect x="0" y="0" width={watchWidth} height="98" stroke="gray" strokeWidth={strokeWidth} fill="none" />
-        let content = <rect x="0" y="100" width={watchWidth} height="980" rx="70" stroke="black" strokeWidth={strokeWidth} fill='url(#pattern2)'/>
-
-
-        // let startX = 80
-        // let startY = 101
-        // let bigRadius = phoneRadius * 6
-        // let beltHeight = 65
-        // let beltLength =  190
-        // let beltRadius = 20
-        // let beltPath = `M${startX},${startY}
-        //                 a${beltRadius},${beltRadius},0,0,0,${beltRadius},${-beltRadius}
-        //                 V${startY - beltRadius - beltHeight}
-        //                 a${bigRadius},${bigRadius},0,0,1,${startX + beltLength},${0}
-        //                 V${startY - beltRadius}
-        //                 a${beltRadius},${beltRadius},0,0,0,${beltRadius},${beltRadius}
-        //                 `
-
-        // let belt = <path d={beltPath} fill="none" stroke="black" strokeWidth={strokeWidth}/>
-        // let bottomBelt = <path d={beltPath} fill="none" stroke="black" strokeWidth={strokeWidth} transform={`scale(1,-1) translate(0, ${-watchHeight*1.365})`}/>
-
-
+        let topFrame = (
+            <g>
+                <rect x="0" y="1" width={itemWidth} height={topFrameHeight} stroke="black" strokeWidth={strokeWidth} fill="none" />
+                <rect x="160" y="10" width={itemWidth - 175} height={40} rx="10" stroke="black" strokeWidth={strokeWidth} fill="none" />
+                <circle cx="40" cy="30" r="10" fill="none" strokeWidth={strokeWidth} stroke="black"/>
+                <circle cx="80" cy="30" r="10" fill="none" strokeWidth={strokeWidth} stroke="black"/>
+                <circle cx="120" cy="30" r="10" fill="none" strokeWidth={strokeWidth} stroke="black"/>
+            </g>
+        )
+        
+        let content = <rect x="0" y={topFrameHeight + 1} width={itemWidth} height={contentHeight} stroke="black" strokeWidth={strokeWidth} fill='url(#pattern2)'/>
 
         let parentWidth = parseInt(this.props.parentWidth)
         let parentHeight = parseInt(this.props.parentHeight)
         let svgRealWidth = 0
         let svgRealHeight = 0
 
-        let widthRatio = parentWidth / watchWidth
-        let heightRatio = parentHeight / watchHeight
         let parentHWRatio = parentHeight / parentWidth
-        let myHWRatio = (watchHeight) / watchWidth
+        let myHWRatio = (itemHeight) / itemWidth
 
         if (parentHWRatio >= myHWRatio) {
             svgRealWidth = parentWidth
-            svgRealHeight = svgRealWidth * myHWRatio // parentHeight - padding * 2
+            svgRealHeight = svgRealWidth * myHWRatio
         } else {
-            svgRealHeight = parentHeight // parentHeight - padding * 2
+            svgRealHeight = parentHeight
             svgRealWidth = svgRealHeight / myHWRatio
         }
 
         let ww = (svgRealWidth) + 'px'
         let wh = (svgRealHeight) + 'px'
-        let viewBox = `0 0 ${watchWidth + 5} ${watchHeight + 205 }`
+        
+        let viewBox = `0 0 ${itemWidth + 10} ${itemHeight + 10}`
 
         return (
             <svg className="mkp-svg-browser mkp-svg"
@@ -93,8 +80,7 @@ export class BrowserMockup extends React.Component {
                  preserveAspectRatio="xMidYMid meet">
                 <DotsFillPattern patternId="pattern2"/>
                 <g>
-                    {frame}
-                    {innerFrame}
+                    {topFrame}
                     {content}
                 </g>
             </svg>
@@ -172,9 +158,9 @@ export class PhoneMockup extends React.Component {
 
         if (parentHWRatio >= myHWRatio) {
             svgRealWidth = parentWidth
-            svgRealHeight = svgRealWidth * myHWRatio // parentHeight - padding * 2
+            svgRealHeight = svgRealWidth * myHWRatio 
         } else {
-            svgRealHeight = parentHeight // parentHeight - padding * 2
+            svgRealHeight = parentHeight
             svgRealWidth = svgRealHeight / myHWRatio
         }
 
@@ -243,16 +229,15 @@ export class WatchMockup extends React.Component {
         let svgRealWidth = 0
         let svgRealHeight = 0
 
-        let widthRatio = parentWidth / watchWidth
-        let heightRatio = parentHeight / watchHeight
+
         let parentHWRatio = parentHeight / parentWidth
         let myHWRatio = (watchHeight + 2 * (beltHeight + beltRadius)) / watchWidth
 
         if (parentHWRatio >= myHWRatio) {
             svgRealWidth = parentWidth
-            svgRealHeight = svgRealWidth * myHWRatio // parentHeight - padding * 2
+            svgRealHeight = svgRealWidth * myHWRatio
         } else {
-            svgRealHeight = parentHeight // parentHeight - padding * 2
+            svgRealHeight = parentHeight
             svgRealWidth = svgRealHeight / myHWRatio
         }
 
