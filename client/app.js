@@ -111,7 +111,7 @@ class MasureUnitsMenu extends React.Component {
     }
 }
 
-class PageOrientationSelector extends React.Component {
+class PaperOrientationSelector extends React.Component {
 
     state = {
         orientation: 'landscape'
@@ -120,12 +120,12 @@ class PageOrientationSelector extends React.Component {
     chageToLandscape = () => {
         this.setState({
             orientation: 'landscape'
-        })
+        }, () => this.props.onPaperOrientationChange('landscape'))
     }
     chageToPortrait = () => {
         this.setState({
             orientation: 'portrait'
-        })
+        }, () => this.props.onPaperOrientationChange('portrait'))
     }
 
     render = () => {
@@ -156,6 +156,10 @@ class App extends React.Component {
         this.GoldenLayout = React.createRef();
     }
 
+    state = {
+        paperOrientation: 'landscape'
+    }
+
     getLayoutData = () => {
         let data = this.GoldenLayout.current.getLayoutData()
         let paperDim = this.GoldenLayout.current.getPaperDimensions()
@@ -170,7 +174,7 @@ class App extends React.Component {
 
         let data = {
             paper: {
-                orientation: 'landscape', // TODO
+                orientation: this.state.paperOrientation,
                 widthPixels: containerSize.width,
                 heightPixels: containerSize.height,
                 containerOffsetX: containerSize.left,
@@ -223,16 +227,16 @@ class App extends React.Component {
         PDFUtils.createTestPDF(data)
     }
 
+    onPaperOrientationChange = (newOrientation) => {
+        this.setState({
+            paperOrientation: newOrientation
+        }, () => this.GoldenLayout.current.paperSizeChange(newOrientation))
+    }
+
     render = () => {
 
-
-        // <div style={{width:'800px', height:'100%'}}>
-        //     <BrowserMockup />
-        //     <PhoneMockup parentWidth={460} parentHeight={1200} />
-        //     <WatchMockup />
-        // </div>
-
         // <EditModeMenu />
+        
         return (
             <div className="app">
                 <div className="mkp-top-menu-container">
@@ -240,7 +244,7 @@ class App extends React.Component {
                         Printable Mockups
                     </div>
                     <div className="mkp-top-menu-buttons-container">
-                        <PageOrientationSelector />
+                        <PaperOrientationSelector onPaperOrientationChange={this.onPaperOrientationChange} />
                         <MasureUnitsMenu />
                         <button onClick={this.savePdf}>save</button>
                     </div>

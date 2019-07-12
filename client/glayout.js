@@ -323,9 +323,8 @@ export default class MyGoldenLayout extends React.PureComponent {
         this.layout = layout
     }
 
-    paperSizeChange = () => {
-        let tmpEl = document.getElementById('layoutContainer')
-        if (layoutContainer.style.width === '1000px') {
+    paperSizeChange = (newOrientation) => {
+        if (newOrientation === 'portrait') {
             layoutContainer.style.width = '707px'
             layoutContainer.style.height = '1000px'
             this.layout.updateSize(707, 1000)

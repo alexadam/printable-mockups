@@ -20,8 +20,12 @@ const createTestPDF = (data) => {
 
     let A4_Width_MM = 297
     let A4_Height_MM = 210
+    if (data.paper.orientation === 'portrait') {
+        A4_Width_MM = 210
+        A4_Height_MM = 297
+    }
     let A4_widthToHeight = 1.414
-    let pixelToMMFactor = A4_Width_MM / data.paper.widthPixels
+    let pixelToMMFactor = A4_Width_MM / data.paper.widthPixels    
 
     let pdf = new jsPDF({
       orientation: data.paper.orientation,
