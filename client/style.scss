@@ -56,12 +56,13 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     display: flex; flex-direction: row;
     // justify-content: center;
     align-items: center;
+    
 }
 
 .mkp-top-menu-logo {
     font-size: 30px;
-    width: 450px;
-    padding-left: 10px;
+    width: 400px; min-width: 400px;
+    text-align: center;
 }
 
 
