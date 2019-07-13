@@ -18,31 +18,16 @@ import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
 import './mockup-editor.scss'
 
 
-var config = {
-  content: [{
-    type: 'row',
-    content: [
-       {
-        title: 'A react component',
-        type:'react-component',
-        component: 'testItem',
-        props: {value: 'I\'m on the left'}
-       },
-        {
-        title: 'Another react component',
-        type:'react-component',
-        component: 'testItem'
-       }
-    ]
-  }]
-};
-
-
 class MockupComponent extends React.Component {
     state = {
         svgWidth: '100%',
         svgHeight: '100%',
-        value: parseInt(this.props.glContainer._config.props.value)
+        value: parseInt(this.props.glContainer._config.props.value),
+        pageData: {
+            orientation: 'landscape',
+            width: 1000,
+            height: 707
+        }
     }
 
     constructor(props) {
@@ -54,8 +39,12 @@ class MockupComponent extends React.Component {
         // this.props.glEventHub.on('event', () => {
         // })
         this.setNodeDimensions()
+        this.setPageOrientation()
         this.props.glContainer.on('resize', () => {
             this.setNodeDimensions()
+        })
+        this.props.glEventHub.on('pageOrientationChanged', (data) => {
+            this.setPageOrientation(data)
         })
     }
 
@@ -68,6 +57,26 @@ class MockupComponent extends React.Component {
             svgWidth: parentNodeBBox.width,
             svgHeight: parentNodeBBox.height
         })
+    }
+
+    setPageOrientation = (data = {newOrientation: 'landscape'}) => {
+        if (data.newOrientation === 'landscape') {
+            this.setState({
+                pageData: {
+                    orientation: 'landscape',
+                    width: 1000,
+                    height: 707
+                }
+            })
+        } else {
+            this.setState({
+                pageData: {
+                    orientation: 'portrait',
+                    width: 707,
+                    height: 1000
+                }
+            })
+        }
     }
 
     componentWillUnmount() {
@@ -86,20 +95,22 @@ class MockupComponent extends React.Component {
         this.setState({value: this.state.value+1})
     }
 
-    render = () => {
+    render = () => {        
 
         let svgElem = null
         if (this.props.glContainer._config.props['type'] === 'watch-mockup') {
-            svgElem = <WatchMockupWrapper bgColor="red" width={this.state.svgWidth} height={this.state.svgHeight} />
+            svgElem = <WatchMockup parentWidth={this.state.svgWidth} parentHeight={this.state.svgHeight} pageData={this.state.pageData} asIcon={false}/>
         } else if (this.props.glContainer._config.props['type'] === 'phone-mockup') {
-            svgElem = <PhoneMockupWrapper bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
+            svgElem = <PhoneMockup parentWidth={this.state.svgWidth} parentHeight={this.state.svgHeight} pageData={this.state.pageData} asIcon={false}/>
         } else if (this.props.glContainer._config.props['type'] === 'browser-mockup') {
-            svgElem = <BrowserMockupWrapper bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
+            svgElem = <BrowserMockup parentWidth={this.state.svgWidth} parentHeight={this.state.svgHeight} pageData={this.state.pageData} asIcon={false}/>
         }
 
         return (
             <div style={{width: '100%', height: '100%'}} ref={this.myRef}>
-                {svgElem}
+                <div className="svg-wrapper">
+                    {svgElem}
+                </div>
             </div>
         )
     }
@@ -262,13 +273,13 @@ export default class MyGoldenLayout extends React.PureComponent {
         })
 
         layout.on('componentCreated', (component) => {
-            component.container.on('resize', () => {
+            // component.container.on('resize', () => {
                 // component.emit('event')
                 // component.trigger('event')
                 // component.container.emit('event')
                 // component.instance._container.emit('event')
                 // component.config.props['value'] = component.config.props['value']+100
-            });
+            // });
         });
 
 
@@ -290,6 +301,8 @@ export default class MyGoldenLayout extends React.PureComponent {
             layoutContainer.style.height = '707px'
             this.layout.updateSize(1000, 707)
         }
+
+        this.layout.eventHub.emit('pageOrientationChanged', {newOrientation: newOrientation})
     }
 
     getLayoutData = () => {

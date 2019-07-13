@@ -1,16 +1,42 @@
 import React from 'react';
 
+const generatePatternID = (rootName) => rootName + '_' + Math.floor(Math.random() * 1000000)
+
 class DotsFillPattern extends React.Component {
 
     render = () => {
-        let dim = 20
-        if (this.props.dimension) {
-            dim = parseInt(this.props.dimension)
-        }
-        let width = dim
-        let height = dim
+
+        let dimInMM = 5
+        let radiusInMM = 0.25
+        let dimInPixels = 20
         let radius = 1.5
-        let fillColor = 'rgba(0,0,0, 0.15)'
+
+        if (this.props.pageData) {
+            let A4_Width_MM = 297
+            let A4_Height_MM = 210
+            if (this.props.pageData.orientation === 'portrait') {
+                A4_Width_MM = 210
+                A4_Height_MM = 297
+            }
+            let A4_widthToHeight = 1.414
+            let pixelToMMFactor = A4_Width_MM / this.props.pageData.width
+
+            
+            dimInPixels = dimInMM * 1 / pixelToMMFactor
+            let radiusInPixels = radiusInMM * 1 / pixelToMMFactor
+
+            let mockupDimensions = this.props.mockupDimensions
+            if (mockupDimensions) {
+                let r = mockupDimensions.svgWidth / mockupDimensions.widthInPixels
+                dimInPixels = r * dimInPixels
+                radius = r * radiusInPixels     
+            }
+        }
+
+        let width = dimInPixels
+        let height = dimInPixels
+        
+        let fillColor = 'rgba(0,0,0, 0.25)'
 
         // <path d="M-1,1 l2,-2
         //          M0,4 l4,-4
@@ -18,7 +44,7 @@ class DotsFillPattern extends React.Component {
         //       stroke="black" strokeWidth="1" />
 
         return (
-            <pattern id={this.props.patternId} patternUnits="userSpaceOnUse" width={width} height={height}>
+            <pattern id={this.props.patternId} patternUnits="userSpaceOnUse" width={width} height={height} x={0} y={0}>
                 <circle cx={width-radius} cy={height-radius} r={radius} fill={fillColor}/>
             </pattern>
         )
@@ -28,6 +54,7 @@ class DotsFillPattern extends React.Component {
 export class BrowserMockup extends React.Component {
 
     render = () => {
+        let patternId = generatePatternID('browser')
         let padding = 20
 
         let itemWidth = 1920
@@ -49,7 +76,7 @@ export class BrowserMockup extends React.Component {
             </g>
         )
         
-        let content = <rect x="0" y={topFrameHeight + 1} width={itemWidth} height={contentHeight} stroke="black" strokeWidth={strokeWidth} fill='url(#pattern2)'/>
+        let content = <rect x="0" y={topFrameHeight + 1} width={itemWidth} height={contentHeight} stroke="black" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
 
         let parentWidth = parseInt(this.props.parentWidth)
         let parentHeight = parseInt(this.props.parentHeight)
@@ -72,13 +99,20 @@ export class BrowserMockup extends React.Component {
         
         let viewBox = `0 0 ${itemWidth + 10} ${itemHeight + 10}`
 
+        let mockupDimensions = {
+            widthInPixels: svgRealWidth,
+            heightInPixels: svgRealHeight,
+            svgWidth: itemWidth,
+            svgHeight: itemHeight
+        }
+
         return (
-            <svg className="mkp-svg-browser mkp-svg"
+            <svg className="mkp-svg-browser mkp-svg" 
                  type="mkp-svg-browser"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <DotsFillPattern patternId="pattern2"/>
+                <DotsFillPattern patternId={patternId} pageData={this.props.pageData} mockupDimensions={mockupDimensions}/>
                 <g>
                     {topFrame}
                     {content}
@@ -91,6 +125,7 @@ export class BrowserMockup extends React.Component {
 export class PhoneMockup extends React.Component {
 
     render = () => {
+        let patternId = generatePatternID('phone')
         let padding = 20
 
         let strokeWidth = 1
@@ -146,7 +181,7 @@ export class PhoneMockup extends React.Component {
 
 
 
-        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth={strokeWidth} fill='url(#pattern2)'/>
+        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
 
         let parentWidth = parseInt(this.props.parentWidth)
         let parentHeight = parseInt(this.props.parentHeight)
@@ -168,6 +203,12 @@ export class PhoneMockup extends React.Component {
         let wh = (svgRealHeight) + 'px'
         let viewBox = `0 0 ${phoneWidth + padding} ${phoneHeight}`
 
+        let mockupDimensions = {
+            widthInPixels: svgRealWidth,
+            heightInPixels: svgRealHeight,
+            svgWidth: phoneWidth,
+            svgHeight: phoneHeight
+        }
 
         return (
             <svg className="mkp-svg-phone mkp-svg"
@@ -175,7 +216,7 @@ export class PhoneMockup extends React.Component {
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <DotsFillPattern patternId="pattern2"/>
+                <DotsFillPattern patternId={patternId} pageData={this.props.pageData} mockupDimensions={mockupDimensions}/>
                 <g>
                     {frame}
                     {content}
@@ -189,6 +230,7 @@ export class PhoneMockup extends React.Component {
 export class WatchMockup extends React.Component {
 
     render = () => {
+        let patternId = generatePatternID('watch')
         let padding = 20
 
         let watchHeight = 550
@@ -202,7 +244,7 @@ export class WatchMockup extends React.Component {
 
         let frame = <rect x="0" y="100" width={watchWidth} height={watchHeight} rx={phoneRadius} stroke="black" strokeWidth={strokeWidth} fill="none" />
         let innerFrame = <rect x="20" y="120" width="430" height="510" rx="80" stroke="gray" strokeWidth={strokeWidth} fill="none" />
-        let content = <rect x="50" y="150" width="368" height="448" rx="70" stroke="black" strokeWidth={strokeWidth} fill='url(#pattern2)'/>
+        let content = <rect x="50" y="150" width="368" height="448" rx="70" stroke="black" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
 
 
         let startX = 80
@@ -245,13 +287,20 @@ export class WatchMockup extends React.Component {
         let wh = (svgRealHeight) + 'px'
         let viewBox = `0 0 ${watchWidth + 5} ${watchHeight + 205 }`
 
+        let mockupDimensions = {
+            widthInPixels: svgRealWidth,
+            heightInPixels: svgRealHeight,
+            svgWidth: watchWidth,
+            svgHeight: watchHeight
+        }
+
         return (
             <svg className="mkp-svg-phone mkp-svg"
                  type="mkp-svg-phone"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <DotsFillPattern patternId="pattern2"/>
+                <DotsFillPattern patternId={patternId} pageData={this.props.pageData} mockupDimensions={mockupDimensions}/>
                 <g>
                     {frame}
                     {innerFrame}
