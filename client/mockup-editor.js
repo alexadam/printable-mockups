@@ -15,7 +15,7 @@ import './golden-layout/css/goldenlayout-base.css';
 import './golden-layout/css/goldenlayout-dark-theme.css';
 
 import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
-import './editor.scss'
+import './mockup-editor.scss'
 
 
 var config = {
@@ -38,7 +38,7 @@ var config = {
 };
 
 
-class Gigi extends React.Component {
+class MockupComponent extends React.Component {
     state = {
         svgWidth: '100%',
         svgHeight: '100%',
@@ -51,8 +51,7 @@ class Gigi extends React.Component {
     }
 
     componentDidMount = () => {
-        // this.props.glEventHub.on('bibi', () => {
-        //     console.log('YUYUYUYUYUYUY');
+        // this.props.glEventHub.on('event', () => {
         // })
         this.setNodeDimensions()
         this.props.glContainer.on('resize', () => {
@@ -74,7 +73,6 @@ class Gigi extends React.Component {
     componentWillUnmount() {
      //    glEventHub.off('YourComponentProps', this.setState, this)
      //    this.props.glContainer.off('resize', () => {
-     //        console.log('YUYUYUYUYUYUY 222');
      //    })
      }
 
@@ -91,104 +89,69 @@ class Gigi extends React.Component {
     render = () => {
 
         let svgElem = null
-        if (this.props.glContainer._config.props['type'] === 'svgElem1') {
-            svgElem = <SVGElem1 bgColor="red" width={this.state.svgWidth} height={this.state.svgHeight} />
-        } else if (this.props.glContainer._config.props['type'] === 'svgElem2') {
-            svgElem = <SVGElem2 bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
-        } else if (this.props.glContainer._config.props['type'] === 'svgElem3') {
-            svgElem = <SVGElem3 bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
+        if (this.props.glContainer._config.props['type'] === 'watch-mockup') {
+            svgElem = <WatchMockupWrapper bgColor="red" width={this.state.svgWidth} height={this.state.svgHeight} />
+        } else if (this.props.glContainer._config.props['type'] === 'phone-mockup') {
+            svgElem = <PhoneMockupWrapper bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
+        } else if (this.props.glContainer._config.props['type'] === 'browser-mockup') {
+            svgElem = <BrowserMockupWrapper bgColor="yellow" width={this.state.svgWidth} height={this.state.svgHeight} />
         }
 
         return (
-            <div style={{color:'white', width: '100%', height: '100%'}} ref={this.myRef}>
+            <div style={{width: '100%', height: '100%'}} ref={this.myRef}>
                 {svgElem}
             </div>
         )
     }
 }
 
-class SVGElem1 extends React.Component {
-    render = () => {
-        let asIcon = false
-        if (this.props.asIcon) {
-            asIcon = this.props.asIcon
-        }
+const WatchMockupWrapper = (props) => (
+    <div className="svg-wrapper">
+        <WatchMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon}/>
+    </div>
+)
 
+const PhoneMockupWrapper = (props) => (
+    <div className="svg-wrapper">
+        <PhoneMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon} />
+    </div>
+)
+
+const BrowserMockupWrapper = (props) => (
+    <div className="svg-wrapper">
+        <BrowserMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon} />
+    </div>
+)
+
+const PhoneMockupMenuItem = (props) => (
+    <div id="PhoneMockupMenuItem" className="mkp-editor-src-menu-item">
+        <PhoneMockupWrapper height={90} width={90} asIcon={true} />
+    </div>
+)
+
+const WatchMockupMenuItem = (props) => (
+    <div id="WatchMockupMenuItem" className="mkp-editor-src-menu-item">
+        <WatchMockupWrapper height={90} width={90} asIcon={true} />
+    </div>
+)
+
+const BrowserMockupMenuItem = (props) => (
+    <div id="BrowserMockupMenuItem" className="mkp-editor-src-menu-item">
+        <BrowserMockupWrapper height={90} width={90} asIcon={true} />
+    </div>
+)
+
+class Wrapped22 extends React.Component {
+    render() {
+        // for Redux
+        // return (
+        //     <Provider store={store}>
+        //         <Component {...this.props}/>
+        //     </Provider>
+        // );
         return (
-            <div className="svgWrapper">
-                <WatchMockup parentWidth={this.props.width} parentHeight={this.props.height} asIcon={asIcon}/>
-            </div>
-        )
-    }
-}
-class SVGElem2 extends React.Component {
-    render = () => {
-        let asIcon = false
-        if (this.props.asIcon) {
-            asIcon = this.props.asIcon
-        }
-
-        return (
-            <div className="svgWrapper">
-                <PhoneMockup parentWidth={this.props.width} parentHeight={this.props.height} asIcon={asIcon}/>
-            </div>
-        )
-    }
-}
-class SVGElem3 extends React.Component {
-    render = () => {
-        let asIcon = false
-        if (this.props.asIcon) {
-            asIcon = this.props.asIcon
-        }
-
-        return (
-            <div className="svgWrapper">
-                <BrowserMockup parentWidth={this.props.width} parentHeight={this.props.height} asIcon={asIcon}/>
-            </div>
-        )
-    }
-}
-
-class MenuItem1 extends React.Component {
-
-    state = {
-        bgColor: 'blue'
-    }
-
-    render = () => {
-        return (
-            <div id="MenuItem1" className="mkp-editor-src-menu-item">
-                <SVGElem2 bgColor={'white'} height={90} width={90} asIcon={true}/>
-            </div>
-        )
-    }
-}
-
-class MenuItem2 extends React.Component {
-    state = {
-        bgColor: 'red'
-    }
-
-    render = () => {
-        return (
-            <div id="MenuItem2" className="mkp-editor-src-menu-item">
-                <SVGElem1 bgColor={'white'} height={90} width={90} asIcon={true}/>
-            </div>
-        )
-    }
-}
-class MenuItem3 extends React.Component {
-    state = {
-        bgColor: 'red'
-    }
-
-    render = () => {
-        return (
-            <div id="MenuItem3" className="mkp-editor-src-menu-item">
-                <SVGElem3 bgColor={'white'} height={90} width={90} asIcon={true}/>
-            </div>
-        )
+            <MockupComponent {...this.props}/>
+        );
     }
 }
 
@@ -221,30 +184,33 @@ export default class MyGoldenLayout extends React.PureComponent {
                 type: 'row',
                 content: [{
                     type: 'react-component',
-                    component: 'TestComponentContainer',
-                    props: {value: 11, type: 'svgElem3'}
+                    component: 'BrowserMockupComponent',
+                    props: {type: 'browser-mockup'}
                 },{
                     type: 'react-component',
-                    component: 'IncrementButtonContainer',
-                    props: {value: 22, type: 'svgElem2'}
+                    component: 'PhoneMockupComponent',
+                    props: {type: 'phone-mockup'}
                 },{
                     type: 'react-component',
-                    component: 'DecrementButtonContainer',
-                    props: {value: 33, type: 'svgElem1'}
+                    component: 'WatchMockupComponent',
+                    props: {type: 'watch-mockup'}
                 }]
             }]
         };
 
-        function wrapComponent(Component, store) {
+        // func def for Redux
+        // function wrapComponent(Component, store) {
+        function wrapComponent() {
             class Wrapped extends React.Component {
                 render() {
+                    // for Redux
                     // return (
                     //     <Provider store={store}>
                     //         <Component {...this.props}/>
                     //     </Provider>
                     // );
                     return (
-                        <Gigi {...this.props}/>
+                        <MockupComponent {...this.props}/>
                     );
                 }
             }
@@ -252,51 +218,44 @@ export default class MyGoldenLayout extends React.PureComponent {
         };
 
         var layout = new GoldenLayout(config, this.layout);
-        layout.registerComponent('IncrementButtonContainer',
-                                 wrapComponent('IncrementButtonContainer', 'this.context.store')
-        );
-        layout.registerComponent('DecrementButtonContainer',
-                                 wrapComponent('DecrementButtonContainer', 'this.context.store')
-        );
-        layout.registerComponent('TestComponentContainer',
-                                 wrapComponent('TestComponentContainer', 'this.context.store')
-        );
+
+        // Redux example
+        //wrapComponent('PhoneMockupComponent', 'this.context.store')
+        layout.registerComponent('PhoneMockupComponent', wrapComponent());
+        layout.registerComponent('WatchMockupComponent', wrapComponent());
+        layout.registerComponent('BrowserMockupComponent', wrapComponent());
 
         layout.init();
 
 
 
+        layout.createDragSource(document.getElementById('PhoneMockupMenuItem'), 
+            {
+                type: 'react-component',
+                component: 'PhoneMockupComponent',
+                props: {type: 'phone-mockup'}
+            } 
+        );
 
-        let newItemConfig = {
-            title: 'title',
-            type: 'react-component',
-            component: 'IncrementButtonContainer',
-            props: { value: 88, type: 'svgElem2'}
-        };
-        layout.createDragSource(document.getElementById('MenuItem1'), newItemConfig );
+        layout.createDragSource(document.getElementById('WatchMockupMenuItem'), 
+            {
+                type: 'react-component',
+                component: 'WatchMockupComponent',
+                props: {type: 'watch-mockup'}
+            }
+        );
 
-        let newItemConfig2 = {
-            title: 'title',
-            type: 'react-component',
-            component: 'DecrementButtonContainer',
-            props: { value: 88, type: 'svgElem1'}
-        };
-        layout.createDragSource(document.getElementById('MenuItem2'), newItemConfig2 );
-
-        let newItemConfig3 = {
-            title: 'title',
-            type: 'react-component',
-            component: 'TestComponentContainer',
-            props: { value: 88, type: 'svgElem3'}
-        };
-        layout.createDragSource(document.getElementById('MenuItem3'), newItemConfig3 );
-
-
+        layout.createDragSource(document.getElementById('BrowserMockupMenuItem'), 
+            {
+                type: 'react-component',
+                component: 'BrowserMockupComponent',
+                props: {type: 'browser-mockup'}
+            }
+        );
 
 
 
         layout.on('stateChanged', (e) => {
-            // console.log('state stateChanged', e);
             // var state = JSON.stringify( myLayout.toConfig() );
             // myLayout = new GoldenLayout( JSON.parse( state ) );
             // myLayout.init()
@@ -304,12 +263,10 @@ export default class MyGoldenLayout extends React.PureComponent {
 
         layout.on('componentCreated', (component) => {
             component.container.on('resize', () => {
-                // component.emit('bibi')
-                // component.trigger('bibi')
-                // component.container.emit('bibi')
-                // component.instance._container.emit('bibi')
-                // layout.emit('bibi')
-                // console.log(component);
+                // component.emit('event')
+                // component.trigger('event')
+                // component.container.emit('event')
+                // component.instance._container.emit('event')
                 // component.config.props['value'] = component.config.props['value']+100
             });
         });
@@ -341,18 +298,16 @@ export default class MyGoldenLayout extends React.PureComponent {
 
     getPaperDimensions = () => {
         let elem = document.getElementById('layoutContainer')
-        let elemBBox = elem.getBoundingClientRect()
-        return elemBBox
+        return elem.getBoundingClientRect()
     }
 
     render() {
-        // <button onClick={this.paperSizeChange}>paper size</button>
         return (
             <div className="mkp-editor-container">
                 <div className="mkp-editor-menu-container" >
-                    <MenuItem3 />
-                    <MenuItem1 />
-                    <MenuItem2 />
+                    <BrowserMockupMenuItem />
+                    <PhoneMockupMenuItem />
+                    <WatchMockupMenuItem />
                 </div>
                 <div className="mkp-layout-gl-container">
                     <div id='layoutContainer' className='goldenLayout paper' ref={input => this.layout = input} />

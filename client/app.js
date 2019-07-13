@@ -5,7 +5,7 @@ import './style.scss';
 import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
 import * as PDFUtils from './svg-pdf'
 
-import MyGoldenLayout from './glayout'
+import MyGoldenLayout from './mockup-editor'
 
 class EditModeMenu extends React.Component {
 
