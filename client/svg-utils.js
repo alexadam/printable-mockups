@@ -2,6 +2,95 @@ import React from 'react';
 
 const generatePatternID = (rootName) => rootName + '_' + Math.floor(Math.random() * 1000000)
 
+class SquaresFillPattern extends React.Component {
+
+    render = () => {
+
+        let dimInMM = 5
+        let strokeWidthInMM = 0.25
+        let dimInPixels = 20
+        let strokeWidthPixels = 1
+
+        if (this.props.pageData) {
+            let A4_Width_MM = 297
+            let A4_Height_MM = 210
+            if (this.props.pageData.orientation === 'portrait') {
+                A4_Width_MM = 210
+                A4_Height_MM = 297
+            }
+            let A4_widthToHeight = 1.414
+            let pixelToMMFactor = A4_Width_MM / this.props.pageData.width
+
+            
+            dimInPixels = dimInMM * 1 / pixelToMMFactor
+            let radiusInPixels = strokeWidthInMM * 1 / pixelToMMFactor
+
+            let mockupDimensions = this.props.mockupDimensions
+            if (mockupDimensions) {
+                let r = mockupDimensions.svgWidth / mockupDimensions.widthInPixels
+                dimInPixels = r * dimInPixels
+                strokeWidthPixels = r * radiusInPixels     
+            }
+        }
+
+        let width = dimInPixels
+        let height = dimInPixels
+        
+        let fillColor = 'rgba(0,0,0, 0.25)'
+
+        return (
+            <pattern id={this.props.patternId} patternUnits="userSpaceOnUse" width={width} height={height} x={0} y={0}>
+                <line x1={0} y1={height} x2={width} y2={height} stroke={fillColor} strokeWidth={strokeWidthPixels} />
+                <line x1={width} y1={0} x2={width} y2={height} stroke={fillColor} strokeWidth={strokeWidthPixels} />
+            </pattern>
+        )
+    }
+}
+
+class LinesFillPattern extends React.Component {
+
+    render = () => {
+
+        let dimInMM = 5
+        let strokeWidthInMM = 0.25
+        let dimInPixels = 20
+        let strokeWidthPixels = 1
+
+        if (this.props.pageData) {
+            let A4_Width_MM = 297
+            let A4_Height_MM = 210
+            if (this.props.pageData.orientation === 'portrait') {
+                A4_Width_MM = 210
+                A4_Height_MM = 297
+            }
+            let A4_widthToHeight = 1.414
+            let pixelToMMFactor = A4_Width_MM / this.props.pageData.width
+
+            
+            dimInPixels = dimInMM * 1 / pixelToMMFactor
+            let radiusInPixels = strokeWidthInMM * 1 / pixelToMMFactor
+
+            let mockupDimensions = this.props.mockupDimensions
+            if (mockupDimensions) {
+                let r = mockupDimensions.svgWidth / mockupDimensions.widthInPixels
+                dimInPixels = r * dimInPixels
+                strokeWidthPixels = r * radiusInPixels     
+            }
+        }
+
+        let width = dimInPixels
+        let height = dimInPixels
+        
+        let fillColor = 'rgba(0,0,0, 0.25)'
+
+        return (
+            <pattern id={this.props.patternId} patternUnits="userSpaceOnUse" width={width} height={height} x={0} y={0}>
+                <line x1={0} y1={height} x2={width} y2={height} stroke={fillColor} strokeWidth={strokeWidthPixels} />
+            </pattern>
+        )
+    }
+}
+
 class DotsFillPattern extends React.Component {
 
     render = () => {
@@ -216,7 +305,7 @@ export class PhoneMockup extends React.Component {
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <DotsFillPattern patternId={patternId} pageData={this.props.pageData} mockupDimensions={mockupDimensions}/>
+                <SquaresFillPattern patternId={patternId} pageData={this.props.pageData} mockupDimensions={mockupDimensions}/>
                 <g>
                     {frame}
                     {content}
