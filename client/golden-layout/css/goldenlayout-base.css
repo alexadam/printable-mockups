@@ -64,7 +64,8 @@
 	user-select: none;
     /* added by me */
     background-color: rgba(0, 0, 0, 0);
-    position: absolute;
+	position: absolute;
+	width: 100%;
 }
 
 .lm_header.lm_selectable {

@@ -100,10 +100,14 @@ export default class Header extends EventEmitter {
             this.removeElem.on( 'click touchstart', closeStack );
             
             let btnContainer = $(`<div class="mkp-header-btn-container"></div>`)
+            let otherBtnContainer = $(`<div class="mkp-header-other-btn-container"></div>`)
+            let removeBtnContainer = $(`<div class="mkp-header-remove-btn-container"></div>`)
 
-        	btnContainer.append( this.dragMeElem);
-        	btnContainer.append( this.dragCopyElem );
-            btnContainer.append( this.removeElem );
+        	otherBtnContainer.append(this.dragMeElem);
+        	otherBtnContainer.append(this.dragCopyElem);
+            removeBtnContainer.append(this.removeElem);
+            btnContainer.append(otherBtnContainer);
+            btnContainer.append(removeBtnContainer);
             
         	this.element.append( btnContainer );
 
