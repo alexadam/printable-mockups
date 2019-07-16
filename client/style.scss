@@ -148,6 +148,19 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     opacity: 1 !important;
 }
 
+.mkp-save-menu {
+    display: flex; flex-direction: row;
+    line-height: 50px; vertical-align: middle;
+}
+.mkp-save-menu-button {
+    border: 0;
+    background-color: rgba(0,0,0,0);
+    cursor: pointer;
+    font-size: 15px;
+    height: 50px; width: 100px;
+    margin-left: -10px;
+}
+
 
 
 //////

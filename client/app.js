@@ -141,11 +141,28 @@ class PaperOrientationSelector extends React.Component {
 
         return (
             <div className="mkp-page-orientation-menu mkp-tm-group">
-                <div className={lClass} onClick={this.chageToLandscape}></div>
-                <div className={pClass} onClick={this.chageToPortrait}></div>
+                <div className={lClass} onClick={this.chageToLandscape} title="Landscape"></div>
+                <div className={pClass} onClick={this.chageToPortrait} title="Portrait"></div>
             </div>
         )
 
+    }
+}
+
+class SaveMenu extends React.Component {
+
+    /**
+     * 
+     * <button className="mkp-save-menu-button save-as-svg-button" onClick={this.props.saveSvg}>SVG</button>
+                <button className="mkp-save-menu-button save-as-json-button" onClick={this.props.saveJson}>JSON</button>
+     */
+
+    render = () => {
+        return (
+            <diV className="mkp-save-menu mkp-tm-group">
+                <button className="mkp-save-menu-button save-as-pdf-button" onClick={this.props.savePdf} title="Save as PDF">Save as PDF</button>
+            </diV>
+        )
     }
 }
 
@@ -246,7 +263,7 @@ class App extends React.Component {
                     <div className="mkp-top-menu-buttons-container">
                         <PaperOrientationSelector onPaperOrientationChange={this.onPaperOrientationChange} />
                         <MasureUnitsMenu />
-                        <button onClick={this.savePdf}>save</button>
+                        <SaveMenu savePdf={this.savePdf}/>
                     </div>
                 </div>
                 <MyGoldenLayout ref={this.GoldenLayout} />
