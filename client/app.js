@@ -149,19 +149,39 @@ class PaperOrientationSelector extends React.Component {
     }
 }
 
-class SaveMenu extends React.Component {
+class SettingsMenu extends React.Component {
 
-    /**
-     * 
-     * <button className="mkp-save-menu-button save-as-svg-button" onClick={this.props.saveSvg}>SVG</button>
-                <button className="mkp-save-menu-button save-as-json-button" onClick={this.props.saveJson}>JSON</button>
-     */
+    state = {
+        isVisible: false
+    }
+
+    toggleSettingsMenu = () => {
+        this.setState({
+            isVisible: !this.state.isVisible
+        })
+    }
 
     render = () => {
+
+        let menu = null
+        if (this.state.isVisible) {
+            menu = (
+                <div className="mkp-settings-menu-container">
+                    <button className="mkp-settings-menu-button">Save as SVG</button>
+                    <button className="mkp-settings-menu-button">Save as JSON</button>
+                    <div className="mkp-settings-menu-separator"></div>
+                    <button className="mkp-settings-menu-button">Import JSON</button>
+                    <div className="mkp-settings-menu-separator"></div>
+                </div>
+            )
+        }
+
         return (
-            <diV className="mkp-save-menu mkp-tm-group">
+            <div className="mkp-settings-menu">
                 <button className="mkp-save-menu-button save-as-pdf-button" onClick={this.props.savePdf} title="Save as PDF">Save as PDF</button>
-            </diV>
+                <button className="mkp-settings-menu-toggle-button" onClick={this.toggleSettingsMenu} title="More Settings">&#8964;</button>
+                {menu}
+            </div>
         )
     }
 }
@@ -263,7 +283,7 @@ class App extends React.Component {
                     <div className="mkp-top-menu-buttons-container">
                         <PaperOrientationSelector onPaperOrientationChange={this.onPaperOrientationChange} />
                         <MasureUnitsMenu />
-                        <SaveMenu savePdf={this.savePdf}/>
+                        <SettingsMenu savePdf={this.savePdf}/>
                     </div>
                 </div>
                 <MyGoldenLayout ref={this.GoldenLayout} />
