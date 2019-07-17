@@ -52,3 +52,50 @@
     width: 1000px; height: 707px;
     // width: 707px; height: 1000px;
 }
+
+
+
+.ReactModal__Content, .ReactModal__Content--after-open {
+    z-index: 9999;
+    width: 300px;
+    height: 300px;
+    opacity: 1;
+    box-shadow: 0 6px 12px -2px rgba(50,50,93,.25),0 3px 7px -3px rgba(0,0,0,.3);
+}
+
+.ReactModal__Overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute !important;
+    background-color: rgba(0,0,0,0.3) !important;
+    z-index: 9999 !important;
+}
+
+
+
+
+.mkp-prop-menu-row {
+    width: 100%;
+    display: flex; flex-flow: row;
+    align-items: center;
+    padding: 5px 0;
+    margin-bottom: 10px;
+}
+.mkp-prop-menu-title {
+    font-size: 20px;
+    // padding: 5px 0;
+}
+.mkp-prop-menu-label {
+    padding: 0 5px;
+    margin-right: 5px;
+}
+.mkp-prop-menu-input {
+    width: 50px;
+    font-size: 15px;
+    padding-left: 5px;
+    padding-top: 0;
+    // padding: 3px;
+}
+.mkp-prop-menu-list-item {
+    margin-right: 10px;
+}

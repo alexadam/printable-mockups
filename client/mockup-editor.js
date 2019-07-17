@@ -2,6 +2,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 
 import {$,jQuery} from 'jquery'
 // export for others scripts to use
@@ -18,6 +19,45 @@ import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
 import './mockup-editor.scss'
 
 
+class PropertiesMenu extends React.Component {
+
+    state = {
+        patternType: '',
+        patternDimensionInMM: 5
+    }
+
+    onPatternDimChange = (e) => {
+        let newVal = e.target.value
+        this.setState({
+            patternDimensionInMM: parseInt(newVal)
+        })
+    }
+
+    render = () => {
+        return (
+            <div className="mkp-prop-menu-container">
+                <div className="mkp-prop-menu-row">
+                    <div className="mkp-prop-menu-title">
+                        Set Background Pattern
+                            </div>
+                </div>
+                <div className="mkp-prop-menu-row">
+                    <div className="mkp-prop-menu-label">Dimension:</div>
+                    <input className="mkp-prop-menu-input" type="number" name="quantity" min="1" max="999" value={this.state.patternDimensionInMM} onChange={this.onPatternDimChange}/>
+                    <div className="mkp-prop-menu-label">mm</div>
+                </div>
+                <div className="mkp-prop-menu-row">
+                    <div className="mkp-prop-menu-label">Type:</div>
+                    <div className="mkp-prop-menu-list-item"><PhoneMockupMenuItem /></div>
+                    <div className="mkp-prop-menu-list-item"><PhoneMockupMenuItem /></div>
+                    <div className="mkp-prop-menu-list-item"><PhoneMockupMenuItem /></div>
+                </div>
+            </div>
+        )
+    }
+}
+
+
 class MockupComponent extends React.Component {
     state = {
         svgWidth: '100%',
@@ -28,6 +68,7 @@ class MockupComponent extends React.Component {
             width: 1000,
             height: 707
         },
+        isPropertiesMenuVisible: false,
         testValue: parseInt(this.props.glContainer._config.props.testValue)
     }
 
@@ -44,9 +85,26 @@ class MockupComponent extends React.Component {
         this.props.glContainer.on('resize', () => {
             this.setNodeDimensions()
         })
+
+        this.props.glContainer.on('show', () => {
+            this.props.glContainer.parent.parent.header.on('toggle_properties', () => {
+                this.setState({
+                    isPropertiesMenuVisible: !this.state.isPropertiesMenuVisible
+                })
+            })
+        })
+        if (this.props.glContainer.parent && this.props.glContainer.parent.parent) {
+            this.props.glContainer.parent.parent.header.on('toggle_properties', () => {
+                this.setState({
+                    isPropertiesMenuVisible: !this.state.isPropertiesMenuVisible
+                })
+            })
+        }
+
         this.props.glEventHub.on('pageOrientationChanged', (data) => {
             this.setPageOrientation(data)
         })
+        
     }
 
     setNodeDimensions = () => {
@@ -105,7 +163,13 @@ class MockupComponent extends React.Component {
         this.setState({value: this.state.value+1})
     }
 
-    render = () => {        
+    onClosePropertiesModal = () => {
+        this.setState({
+            isPropertiesMenuVisible: false
+        })
+    }
+
+    render = () => {  
 
         let svgElem = null
         if (this.props.glContainer._config.props['type'] === 'watch-mockup') {
@@ -133,11 +197,35 @@ class MockupComponent extends React.Component {
                 </div>
          */
 
+        const customStyles = {
+            content : {
+              top                   : '50%',
+              left                  : '50%',
+              right                 : 'auto',
+              bottom                : 'auto',
+              marginRight           : '-50%',
+              transform             : 'translate(-50%, -50%)',
+              width: '500px',
+              height: '500px',
+              zIndex: '9999'
+            }
+        };
+
         return (
-            <div style={{width: '100%', height: '100%', position: 'relative'}} ref={this.myRef}>
+            <div style={{width: '100%', height: '100%'}} ref={this.myRef}>
                 <div className="svg-wrapper">
                     {svgElem}
                 </div>
+                <Modal
+                    isOpen={this.state.isPropertiesMenuVisible}
+                    onRequestClose={this.onClosePropertiesModal}
+                    style={customStyles}
+                    >
+                    <button onClick={this.onClosePropertiesModal}>close</button>
+
+                    <PropertiesMenu />
+                    
+                </Modal>
             </div>
         )
     }

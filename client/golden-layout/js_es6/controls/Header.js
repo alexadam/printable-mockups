@@ -64,10 +64,12 @@ export default class Header extends EventEmitter {
     	// TODO: change buttons' UI
         // FIXME:
         //
+        // icons from https://ionicons.com/
+        let opacity = 0.65
             this.dragMeTemplate = `<button class="mkp-header-btn-drag-me mkp-header-btn" title="Drag me">
-                                        <svg height="20px" width="20px" viewBox="0 0 32 32" >
-                                            <g>
-                                                <path d="M6,22V10l-6,6L6,22z M26,10v12l6-6L26,10z M10,6h12l-6-6L10,6z M16,32l6-6H10L16,32z"/>
+                                        <svg height="20px" width="20px" viewBox="0 0 512 512" >
+                                            <g fill="rgba(0,0,0,${opacity})">
+                                                <path d="M475.9 246.2l-79.4-79.4c-5.4-5.4-14.2-5.4-19.6 0l-.2.2c-5.4 5.4-5.4 14.2 0 19.6l54.9 54.9-161.8.5.5-161.8 54.9 54.9c5.4 5.4 14.2 5.4 19.6 0l.2-.2c5.4-5.4 5.4-14.2 0-19.6l-79.4-79.4c-5.4-5.4-14.2-5.4-19.6 0l-79.4 79.4c-5.4 5.4-5.4 14.2 0 19.6l.2.2c5.4 5.4 14.2 5.4 19.6 0l54.9-54.9.5 161.8-161.8-.5 54.9-54.9c5.4-5.4 5.4-14.2 0-19.6l-.2-.2c-5.4-5.4-14.2-5.4-19.6 0l-79.4 79.4c-5.4 5.4-5.4 14.2 0 19.6l79.4 79.4c5.4 5.4 14.2 5.4 19.6 0l.2-.2c5.4-5.4 5.4-14.2 0-19.6L80 270.5l161.8-.5-.5 161.8-54.9-54.9c-5.4-5.4-14.2-5.4-19.6 0l-.2.2c-5.4 5.4-5.4 14.2 0 19.6l79.4 79.4c5.4 5.4 14.2 5.4 19.6 0l79.4-79.4c5.4-5.4 5.4-14.2 0-19.6l-.2-.2c-5.4-5.4-14.2-5.4-19.6 0l-54.9 54.9-.5-161.8 161.8.5-54.9 54.9c-5.4 5.4-5.4 14.2 0 19.6l.2.2c5.4 5.4 14.2 5.4 19.6 0l79.4-79.4c5.5-5.4 5.5-14.2 0-19.6z"/>
                                             </g>
                                         </svg>
                                     </button>`
@@ -77,21 +79,41 @@ export default class Header extends EventEmitter {
         	this._dragListener.on( 'dragStart', this._onDragStart, this );
 
         	this.dragCopyTemplate = `<button class="mkp-header-btn-drag-copy mkp-header-btn" title="Drag a copy of me">
-                                        <svg height="20px" width="20px" viewBox="0 0 32 32" >
-                                            <g>
-                                            <path d="M6,22V10l-6,6L6,22z M26,10v12l6-6L26,10z M10,6h12l-6-6L10,6z M16,32l6-6H10L16,32z"/>
-                                            <rect x="10" y="10" width="10" height="10" fill="none" stroke-width="1" stroke="black" />
-                                            <rect x="13" y="13" width="10" height="10" fill="none" stroke-width="1" stroke="black" />
+                                        <svg height="20px" width="20px" viewBox="0 0 512 512" >
+                                            <g fill="rgba(0,0,0,${opacity})" stroke="rgba(0,0,0,${opacity})">
+                                                <path d="M475.9 246.2l-79.4-79.4c-5.4-5.4-14.2-5.4-19.6 0l-.2.2c-5.4 5.4-5.4 14.2 0 19.6l54.9 54.9-161.8.5.5-161.8 54.9 54.9c5.4 5.4 14.2 5.4 19.6 0l.2-.2c5.4-5.4 5.4-14.2 0-19.6l-79.4-79.4c-5.4-5.4-14.2-5.4-19.6 0l-79.4 79.4c-5.4 5.4-5.4 14.2 0 19.6l.2.2c5.4 5.4 14.2 5.4 19.6 0l54.9-54.9.5 161.8-161.8-.5 54.9-54.9c5.4-5.4 5.4-14.2 0-19.6l-.2-.2c-5.4-5.4-14.2-5.4-19.6 0l-79.4 79.4c-5.4 5.4-5.4 14.2 0 19.6l79.4 79.4c5.4 5.4 14.2 5.4 19.6 0l.2-.2c5.4-5.4 5.4-14.2 0-19.6L80 270.5l161.8-.5-.5 161.8-54.9-54.9c-5.4-5.4-14.2-5.4-19.6 0l-.2.2c-5.4 5.4-5.4 14.2 0 19.6l79.4 79.4c5.4 5.4 14.2 5.4 19.6 0l79.4-79.4c5.4-5.4 5.4-14.2 0-19.6l-.2-.2c-5.4-5.4-14.2-5.4-19.6 0l-54.9 54.9-.5-161.8 161.8.5-54.9 54.9c-5.4 5.4-5.4 14.2 0 19.6l.2.2c5.4 5.4 14.2 5.4 19.6 0l79.4-79.4c5.5-5.4 5.5-14.2 0-19.6z"/>
+                                                <rect x="180" y="180" width="150" height="150" fill="none" stroke-width="25" />
                                             </g>
                                         </svg>
                                     </button>`
-        	this.dragCopyElem = $(this.dragCopyTemplate)
+            this.dragCopyElem = $(this.dragCopyTemplate)
+            
+            // icon from https://ionicons.com/
+        	this.propertiesTemplate = `<button class="mkp-header-btn-properties mkp-header-btn" title="Properties">
+                                        <svg height="20px" width="20px" viewBox="0 0 512 512" >
+                                        <g fill="rgba(0,0,0,${opacity})">
+                                            <path d="M32 384h272v32H32zM400 384h80v32h-80zM384 447.5c0 17.949-14.327 32.5-32 32.5-17.673 0-32-14.551-32-32.5v-95c0-17.949 14.327-32.5 32-32.5 17.673 0 32 14.551 32 32.5v95z"/>
+                                            <path d="M32 240h80v32H32zM208 240h272v32H208zM192 303.5c0 17.949-14.327 32.5-32 32.5-17.673 0-32-14.551-32-32.5v-95c0-17.949 14.327-32.5 32-32.5 17.673 0 32 14.551 32 32.5v95z"/>
+                                            <path d="M32 96h272v32H32zM400 96h80v32h-80zM384 159.5c0 17.949-14.327 32.5-32 32.5-17.673 0-32-14.551-32-32.5v-95c0-17.949 14.327-32.5 32-32.5 17.673 0 32 14.551 32 32.5v95z"/>
+                                        </g>    
+                                        </svg>
+                                    </button>`
+            this.propertiesElem = $(this.propertiesTemplate)
+            this.propertiesElem.on('click', () => {
+                /**
+                 * To listen to this event inside a React Component, use this:
+                 * this.props.glContainer.parent.parent.header.on('toggle_properties', () => {
+                        console.log('Toggle 2');
+                    })
+                 */
+                this.emit('toggle_properties')
+            })
 
         	this.removeTemplate = `<button class="mkp-header-btn-remove mkp-header-btn" title="Remove me">
                                         <svg height="20px" width="20px" viewBox="0 0 32 32" >
-                                            <g>
-                                             <line x1="7" y1="7" x2="25" y2="25" stroke="black" stroke-width="2" />
-                                             <line x1="25" y1="7" x2="7" y2="25" stroke="black" stroke-width="2" />
+                                            <g stroke="rgba(0,0,0,0.5)">
+                                             <line x1="7" y1="7" x2="25" y2="25" stroke-width="2" />
+                                             <line x1="25" y1="7" x2="7" y2="25" stroke-width="2" />
                                             </g>
                                         </svg>
                                     </button>`
@@ -105,6 +127,7 @@ export default class Header extends EventEmitter {
 
         	otherBtnContainer.append(this.dragMeElem);
         	otherBtnContainer.append(this.dragCopyElem);
+        	otherBtnContainer.append(this.propertiesElem);
             removeBtnContainer.append(this.removeElem);
             btnContainer.append(otherBtnContainer);
             btnContainer.append(removeBtnContainer);

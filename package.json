@@ -10,7 +10,8 @@
     "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-modal": "^3.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
