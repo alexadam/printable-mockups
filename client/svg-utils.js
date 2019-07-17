@@ -195,8 +195,13 @@ export class BrowserMockup extends React.Component {
             svgHeight: itemHeight
         }
 
+        let classNames = "mkp-svg-browser mkp-svg" 
+        if (this.props.asIcon) {
+            classNames = "mkp-svg-browser mkp-svg-icon"
+        }
+
         return (
-            <svg className="mkp-svg-browser mkp-svg" 
+            <svg className={classNames} 
                  type="mkp-svg-browser"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
@@ -299,13 +304,35 @@ export class PhoneMockup extends React.Component {
             svgHeight: phoneHeight
         }
 
+
+
+        ////
+        ////
+        /**
+         * 
+         *       <defs>
+                    <filter x="0" y="0" width="1" height="1" id="solid">
+                        <feFlood floodColor="black"/>
+                        <feComposite in="SourceGraphic" operator="xor" />
+                    </filter>
+                </defs>
+         */
+
+        ////
+
+        let classNames = "mkp-svg-browser mkp-svg" 
+        if (this.props.asIcon) {
+            classNames = "mkp-svg-browser mkp-svg-icon"
+        }
+
         return (
-            <svg className="mkp-svg-phone mkp-svg"
+            <svg className={classNames} 
                  type="mkp-svg-phone"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
                 <SquaresFillPattern patternId={patternId} pageData={this.props.pageData} mockupDimensions={mockupDimensions}/>
+
                 <g>
                     {frame}
                     {content}
@@ -383,8 +410,13 @@ export class WatchMockup extends React.Component {
             svgHeight: watchHeight
         }
 
+        let classNames = "mkp-svg-browser mkp-svg" 
+        if (this.props.asIcon) {
+            classNames = "mkp-svg-browser mkp-svg-icon"
+        }
+
         return (
-            <svg className="mkp-svg-phone mkp-svg"
+            <svg className={classNames} 
                  type="mkp-svg-phone"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}

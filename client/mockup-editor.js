@@ -27,7 +27,8 @@ class MockupComponent extends React.Component {
             orientation: 'landscape',
             width: 1000,
             height: 707
-        }
+        },
+        testValue: parseInt(this.props.glContainer._config.props.testValue)
     }
 
     constructor(props) {
@@ -57,6 +58,15 @@ class MockupComponent extends React.Component {
             svgWidth: parentNodeBBox.width,
             svgHeight: parentNodeBBox.height
         })
+
+        /////
+        /////
+        /////
+        /////
+        this.props.glContainer._config.props['testValue'] = this.state.testValue + 1
+        this.props.glContainer.extendState({
+            testValue: this.state.testValue + 1
+        });
     }
 
     setPageOrientation = (data = {newOrientation: 'landscape'}) => {
@@ -99,11 +109,20 @@ class MockupComponent extends React.Component {
 
         let svgElem = null
         if (this.props.glContainer._config.props['type'] === 'watch-mockup') {
-            svgElem = <WatchMockup parentWidth={this.state.svgWidth} parentHeight={this.state.svgHeight} pageData={this.state.pageData} asIcon={false}/>
+            svgElem = <WatchMockup parentWidth={this.state.svgWidth} 
+                                   parentHeight={this.state.svgHeight} 
+                                   pageData={this.state.pageData} 
+                                   asIcon={false}/>
         } else if (this.props.glContainer._config.props['type'] === 'phone-mockup') {
-            svgElem = <PhoneMockup parentWidth={this.state.svgWidth} parentHeight={this.state.svgHeight} pageData={this.state.pageData} asIcon={false}/>
+            svgElem = <PhoneMockup parentWidth={this.state.svgWidth} 
+                                   parentHeight={this.state.svgHeight} 
+                                   pageData={this.state.pageData} 
+                                   asIcon={false}/>
         } else if (this.props.glContainer._config.props['type'] === 'browser-mockup') {
-            svgElem = <BrowserMockup parentWidth={this.state.svgWidth} parentHeight={this.state.svgHeight} pageData={this.state.pageData} asIcon={false}/>
+            svgElem = <BrowserMockup parentWidth={this.state.svgWidth} 
+                                     parentHeight={this.state.svgHeight} 
+                                     pageData={this.state.pageData} 
+                                     asIcon={false}/>
         }
 
         return (
