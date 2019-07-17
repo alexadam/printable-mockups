@@ -155,7 +155,24 @@ class SettingsMenu extends React.Component {
         isVisible: false
     }
 
-    toggleSettingsMenu = () => {
+    componentDidMount = () => {
+        document.onkeydown = (evt) => {
+            evt = evt || window.event;
+            var isEscape = false;
+            if ("key" in evt) {
+                isEscape = (evt.key === "Escape" || evt.key === "Esc");
+            } else {
+                isEscape = (evt.keyCode === 27);
+            }
+            if (isEscape) {
+                if (this.state.isVisible) {
+                    this.toggleSettingsMenu()
+                }
+            }
+        };
+    }
+
+    toggleSettingsMenu = (e) => {
         this.setState({
             isVisible: !this.state.isVisible
         })
@@ -166,12 +183,14 @@ class SettingsMenu extends React.Component {
         let menu = null
         if (this.state.isVisible) {
             menu = (
-                <div className="mkp-settings-menu-container">
-                    <button className="mkp-settings-menu-button">Save as SVG</button>
-                    <button className="mkp-settings-menu-button">Save as JSON</button>
-                    <div className="mkp-settings-menu-separator"></div>
-                    <button className="mkp-settings-menu-button">Import JSON</button>
-                    <div className="mkp-settings-menu-separator"></div>
+                <div className="mkp-settings-menu-bg" onClick={this.toggleSettingsMenu}>
+                     <div className="mkp-settings-menu-container">
+                        <button className="mkp-settings-menu-button">Save as SVG</button>
+                        <button className="mkp-settings-menu-button">Save as JSON</button>
+                        <div className="mkp-settings-menu-separator"></div>
+                        <button className="mkp-settings-menu-button">Import JSON</button>
+                        <div className="mkp-settings-menu-separator"></div>
+                    </div>
                 </div>
             )
         }

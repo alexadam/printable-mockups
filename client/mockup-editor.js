@@ -125,8 +125,16 @@ class MockupComponent extends React.Component {
                                      asIcon={false}/>
         }
 
+        /**
+         * 
+         * <div style={{position:'absolute', width:'100px', height:'100px', top:this.state.svgHeight/2-50, left:this.state.svgWidth/2-50, backgroundColor:'black', color:'white'}}>
+                    <div>Width:</div>
+                    <div>Height:</div>
+                </div>
+         */
+
         return (
-            <div style={{width: '100%', height: '100%'}} ref={this.myRef}>
+            <div style={{width: '100%', height: '100%', position: 'relative'}} ref={this.myRef}>
                 <div className="svg-wrapper">
                     {svgElem}
                 </div>
