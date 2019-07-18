@@ -2,11 +2,89 @@ import React from 'react';
 
 const generatePatternID = (rootName) => rootName + '_' + Math.floor(Math.random() * 1000000)
 
+export class PatternSelectorIcon extends React.Component {
+
+    render = () => {
+        let patternId = generatePatternID('example')
+        let pattern = null
+        let patternDim = 20
+
+        if (this.props.type === 'dots') {
+            pattern = (
+                <pattern id={patternId} patternUnits="userSpaceOnUse" width={patternDim} height={patternDim} x={0} y={0}>
+                    <circle cx={patternDim/2} cy={patternDim/2} r={1} fill="black"/>
+                </pattern>
+            )
+        } else if (this.props.type === 'lines') {
+            pattern = (
+                <pattern id={patternId} patternUnits="userSpaceOnUse" width={patternDim} height={patternDim} x={0} y={0}>
+                    <line x1={0} y1={patternDim} x2={patternDim} y2={patternDim} stroke="black" strokeWidth={1} />
+                </pattern>
+            )
+        } else if (this.props.type === 'squares') {
+            pattern = (
+                <pattern id={patternId} patternUnits="userSpaceOnUse" width={patternDim} height={patternDim} x={0} y={0}>
+                    <line x1={0} y1={patternDim} x2={patternDim} y2={patternDim} stroke="black" strokeWidth={1} />
+                    <line x1={patternDim} y1={0} x2={patternDim} y2={patternDim} stroke="black" strokeWidth={1} />
+                </pattern>
+            )
+        }
+
+        let dim = 100
+        return (
+            <svg 
+                 type="mkp-svg-pattern-example"
+                 style={{width: dim +'px', height: dim + 'px'}}
+                 viewBox={"0 0 " + dim + " " + dim}
+                 preserveAspectRatio="xMidYMid meet">
+                 {pattern}
+                <g>
+                    <rect x="0" y={0} width={dim} height={dim} stroke="black" strokeWidth={1} fill={`url(#${patternId})`}/>
+                </g>
+            </svg>
+        )
+    }
+}
+
+class BackgroundPattern extends React.Component {
+
+    render = () => {        
+
+        if (!this.props.backgroundData) {
+            return null
+        }
+
+        let pattern = null
+        if (this.props.backgroundData.patternType === 'dots') {
+            return <DotsFillPattern patternId={this.props.patternId} 
+                                pageData={this.props.pageData} 
+                                mockupDimensions={this.props.mockupDimensions} 
+                                patternDimensionInMM={this.props.backgroundData.patternDimensionInMM}/>
+        } 
+        
+        if (this.props.backgroundData.patternType === 'squares') {
+            return <SquaresFillPattern patternId={this.props.patternId} 
+                                    pageData={this.props.pageData} 
+                                    mockupDimensions={this.props.mockupDimensions} 
+                                    patternDimensionInMM={this.props.backgroundData.patternDimensionInMM}/>
+        }
+        
+        if (this.props.backgroundData.patternType === 'lines') {
+            return <LinesFillPattern patternId={this.props.patternId} 
+                                pageData={this.props.pageData} 
+                                mockupDimensions={this.props.mockupDimensions} 
+                                patternDimensionInMM={this.props.backgroundData.patternDimensionInMM}/>
+        }
+
+        return null
+    }
+}
+
 class SquaresFillPattern extends React.Component {
 
     render = () => {
 
-        let dimInMM = 5
+        let dimInMM = this.props.patternDimensionInMM
         let strokeWidthInMM = 0.25
         let dimInPixels = 20
         let strokeWidthPixels = 1
@@ -51,7 +129,7 @@ class LinesFillPattern extends React.Component {
 
     render = () => {
 
-        let dimInMM = 5
+        let dimInMM = this.props.patternDimensionInMM
         let strokeWidthInMM = 0.25
         let dimInPixels = 20
         let strokeWidthPixels = 1
@@ -95,7 +173,7 @@ class DotsFillPattern extends React.Component {
 
     render = () => {
 
-        let dimInMM = 5
+        let dimInMM = this.props.patternDimensionInMM
         let radiusInMM = 0.25
         let dimInPixels = 20
         let radius = 1.5
@@ -206,7 +284,10 @@ export class BrowserMockup extends React.Component {
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <DotsFillPattern patternId={patternId} pageData={this.props.pageData} mockupDimensions={mockupDimensions}/>
+                <BackgroundPattern patternId={patternId} 
+                                pageData={this.props.pageData} 
+                                mockupDimensions={mockupDimensions} 
+                                backgroundData={this.props.backgroundData}/>
                 <g>
                     {topFrame}
                     {content}
@@ -331,7 +412,10 @@ export class PhoneMockup extends React.Component {
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <SquaresFillPattern patternId={patternId} pageData={this.props.pageData} mockupDimensions={mockupDimensions}/>
+                <BackgroundPattern patternId={patternId} 
+                                pageData={this.props.pageData} 
+                                mockupDimensions={mockupDimensions} 
+                                backgroundData={this.props.backgroundData}/>
 
                 <g>
                     {frame}
@@ -421,7 +505,10 @@ export class WatchMockup extends React.Component {
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <DotsFillPattern patternId={patternId} pageData={this.props.pageData} mockupDimensions={mockupDimensions}/>
+                <BackgroundPattern patternId={patternId} 
+                                pageData={this.props.pageData} 
+                                mockupDimensions={mockupDimensions} 
+                                backgroundData={this.props.backgroundData}/>
                 <g>
                     {frame}
                     {innerFrame}

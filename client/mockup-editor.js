@@ -15,15 +15,15 @@ import  GoldenLayout from './golden-layout/js_es6/LayoutManager';
 import './golden-layout/css/goldenlayout-base.css';
 import './golden-layout/css/goldenlayout-dark-theme.css';
 
-import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
+import {BrowserMockup, PhoneMockup, WatchMockup, PatternSelectorIcon} from './svg-utils'
 import './mockup-editor.scss'
 
 
 class PropertiesMenu extends React.Component {
 
     state = {
-        patternType: '',
-        patternDimensionInMM: 5
+        patternType: this.props.currentPattern.patternType,
+        patternDimensionInMM: parseInt(this.props.currentPattern.patternDimensionInMM)
     }
 
     onPatternDimChange = (e) => {
@@ -33,13 +33,34 @@ class PropertiesMenu extends React.Component {
         })
     }
 
+    onSave = () => {
+        this.props.onSave({backgroundData: this.state})
+    }
+
     render = () => {
+
+        let patternTypes = ['dots', 'lines', 'squares']
+        let patternElements = []
+
+        let index = 0
+        for (const pType of patternTypes) {
+            let className = "mkp-prop-menu-list-item"
+            if (this.state.patternType === pType) {
+                className += ' mkp-selected-pattern'
+            }
+            patternElements.push(
+                <div className={className} onClick={()=>this.setState({patternType: pType})} key={index++}>
+                    <PatternSelectorIcon type={pType}  />
+                </div>
+            )
+        }
+
         return (
             <div className="mkp-prop-menu-container">
                 <div className="mkp-prop-menu-row">
                     <div className="mkp-prop-menu-title">
                         Set Background Pattern
-                            </div>
+                    </div>
                 </div>
                 <div className="mkp-prop-menu-row">
                     <div className="mkp-prop-menu-label">Dimension:</div>
@@ -48,9 +69,11 @@ class PropertiesMenu extends React.Component {
                 </div>
                 <div className="mkp-prop-menu-row">
                     <div className="mkp-prop-menu-label">Type:</div>
-                    <div className="mkp-prop-menu-list-item"><PhoneMockupMenuItem /></div>
-                    <div className="mkp-prop-menu-list-item"><PhoneMockupMenuItem /></div>
-                    <div className="mkp-prop-menu-list-item"><PhoneMockupMenuItem /></div>
+                    {patternElements}
+                </div>
+                <div className="mkp-prop-menu-footer">
+                    <button className="mkp-prop-menu-btn" onClick={this.props.onClose}>Cancel</button>
+                    <button className="mkp-prop-menu-btn mkp-prop-menu-btn-save" onClick={this.onSave}>Save</button>
                 </div>
             </div>
         )
@@ -69,6 +92,7 @@ class MockupComponent extends React.Component {
             height: 707
         },
         isPropertiesMenuVisible: false,
+        backgroundData: this.props.glContainer._config.props.backgroundData,
         testValue: parseInt(this.props.glContainer._config.props.testValue)
     }
 
@@ -169,6 +193,19 @@ class MockupComponent extends React.Component {
         })
     }
 
+    onNewProperties = (newProps) => {
+        this.setState({
+            isPropertiesMenuVisible: false,
+            backgroundData: newProps.backgroundData
+        }, () => {
+            // update GoldenLayout state
+            this.props.glContainer._config.props['backgroundData'] = JSON.parse(JSON.stringify(this.state.backgroundData))
+            this.props.glContainer.extendState({
+                backgroundData: JSON.parse(JSON.stringify(this.state.backgroundData))
+            });
+        })
+    }
+
     render = () => {  
 
         let svgElem = null
@@ -176,16 +213,19 @@ class MockupComponent extends React.Component {
             svgElem = <WatchMockup parentWidth={this.state.svgWidth} 
                                    parentHeight={this.state.svgHeight} 
                                    pageData={this.state.pageData} 
+                                   backgroundData={this.state.backgroundData}
                                    asIcon={false}/>
         } else if (this.props.glContainer._config.props['type'] === 'phone-mockup') {
             svgElem = <PhoneMockup parentWidth={this.state.svgWidth} 
                                    parentHeight={this.state.svgHeight} 
                                    pageData={this.state.pageData} 
+                                   backgroundData={this.state.backgroundData}
                                    asIcon={false}/>
         } else if (this.props.glContainer._config.props['type'] === 'browser-mockup') {
             svgElem = <BrowserMockup parentWidth={this.state.svgWidth} 
                                      parentHeight={this.state.svgHeight} 
                                      pageData={this.state.pageData} 
+                                     backgroundData={this.state.backgroundData}
                                      asIcon={false}/>
         }
 
@@ -206,7 +246,7 @@ class MockupComponent extends React.Component {
               marginRight           : '-50%',
               transform             : 'translate(-50%, -50%)',
               width: '500px',
-              height: '500px',
+              height: '360px',
               zIndex: '9999'
             }
         };
@@ -221,10 +261,7 @@ class MockupComponent extends React.Component {
                     onRequestClose={this.onClosePropertiesModal}
                     style={customStyles}
                     >
-                    <button onClick={this.onClosePropertiesModal}>close</button>
-
-                    <PropertiesMenu />
-                    
+                    <PropertiesMenu currentPattern={this.state.backgroundData} onClose={this.onClosePropertiesModal} onSave={this.onNewProperties}/>
                 </Modal>
             </div>
         )
@@ -311,15 +348,33 @@ export default class MyGoldenLayout extends React.PureComponent {
                 content: [{
                     type: 'react-component',
                     component: 'BrowserMockupComponent',
-                    props: {type: 'browser-mockup'}
+                    props: {
+                        type: 'browser-mockup',
+                        backgroundData: {
+                            patternType: 'dots',
+                            patternDimensionInMM: 5
+                        }
+                    }
                 },{
                     type: 'react-component',
                     component: 'PhoneMockupComponent',
-                    props: {type: 'phone-mockup'}
+                    props: {
+                        type: 'phone-mockup',
+                        backgroundData: {
+                            patternType: 'dots',
+                            patternDimensionInMM: 5
+                        }
+                    }
                 },{
                     type: 'react-component',
                     component: 'WatchMockupComponent',
-                    props: {type: 'watch-mockup'}
+                    props: {
+                        type: 'watch-mockup',
+                        backgroundData: {
+                            patternType: 'dots',
+                            patternDimensionInMM: 5
+                        }
+                    }
                 }]
             }]
         };
@@ -359,7 +414,13 @@ export default class MyGoldenLayout extends React.PureComponent {
             {
                 type: 'react-component',
                 component: 'PhoneMockupComponent',
-                props: {type: 'phone-mockup'}
+                props: {
+                    type: 'phone-mockup',
+                    backgroundData: {
+                        patternType: 'dots',
+                        patternDimensionInMM: 5
+                    }
+                }
             } 
         );
 
@@ -367,7 +428,13 @@ export default class MyGoldenLayout extends React.PureComponent {
             {
                 type: 'react-component',
                 component: 'WatchMockupComponent',
-                props: {type: 'watch-mockup'}
+                props: {
+                    type: 'watch-mockup',
+                    backgroundData: {
+                        patternType: 'dots',
+                        patternDimensionInMM: 5
+                    }
+                }
             }
         );
 
@@ -375,7 +442,13 @@ export default class MyGoldenLayout extends React.PureComponent {
             {
                 type: 'react-component',
                 component: 'BrowserMockupComponent',
-                props: {type: 'browser-mockup'}
+                props: {
+                    type: 'browser-mockup',
+                    backgroundData: {
+                        patternType: 'dots',
+                        patternDimensionInMM: 5
+                    }
+                }
             }
         );
 
