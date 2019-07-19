@@ -134,3 +134,12 @@
 .mkp-prop-menu-btn-save {
     background-color: rgb(255, 215, 0);
 }
+
+
+
+
+@media only screen and (max-device-width : 1500px) {
+    .mkp-editor-menu-container {
+        width: 200px; min-width: 200px;
+    }
+}

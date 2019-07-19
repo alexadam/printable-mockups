@@ -205,14 +205,9 @@ class DotsFillPattern extends React.Component {
         
         let fillColor = 'rgba(0,0,0, 0.25)'
 
-        // <path d="M-1,1 l2,-2
-        //          M0,4 l4,-4
-        //          M3,5 l2,-2"
-        //       stroke="black" strokeWidth="1" />
-
         return (
             <pattern id={this.props.patternId} patternUnits="userSpaceOnUse" width={width} height={height} x={0} y={0}>
-                <circle cx={width-radius} cy={height-radius} r={radius} fill={fillColor}/>
+                <circle cx={width / 2 - radius} cy={height / 2 - radius} r={radius} fill={fillColor}/>
             </pattern>
         )
     }

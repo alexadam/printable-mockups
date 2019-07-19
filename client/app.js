@@ -178,6 +178,32 @@ class SettingsMenu extends React.Component {
         })
     }
 
+    saveAsSVG = () => {
+        alert("Not implemented yet! Work in progress...")
+        // let allSVGElems = document.getElementsByClassName('mkp-svg')
+        // let result = '<svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg">'
+
+        // TODO see SVG Symbols https://css-tricks.com/svg-symbol-good-choice-icons/
+        // and https://developer.mozilla.org/en-US/docs/Web/SVG/Element/symbol
+
+        // for (const svgElem of allSVGElems) {
+        //     let bbox = svgElem.getBoundingClientRect()
+        //     let viewBox = 
+        //     let svgContent = 
+        // }
+
+
+        // result += '</svg>'
+    }
+
+    saveAsJSON = () => {
+        alert("Not implemented yet! Work in progress...")
+    }
+
+    importJSON = () => {
+        alert("Not implemented yet! Work in progress...")
+    }
+
     render = () => {
 
         let menu = null
@@ -185,11 +211,10 @@ class SettingsMenu extends React.Component {
             menu = (
                 <div className="mkp-settings-menu-bg" onClick={this.toggleSettingsMenu}>
                      <div className="mkp-settings-menu-container">
-                        <button className="mkp-settings-menu-button">Save as SVG</button>
-                        <button className="mkp-settings-menu-button">Save as JSON</button>
+                        <button className="mkp-settings-menu-button" onClick={this.saveAsSVG}>Save as SVG</button>
+                        <button className="mkp-settings-menu-button" onClick={this.saveAsJSON}>Save as JSON</button>
                         <div className="mkp-settings-menu-separator"></div>
-                        <button className="mkp-settings-menu-button">Import JSON</button>
-                        <div className="mkp-settings-menu-separator"></div>
+                        <button className="mkp-settings-menu-button" onClick={this.importJSON}>Import JSON</button>
                     </div>
                 </div>
             )

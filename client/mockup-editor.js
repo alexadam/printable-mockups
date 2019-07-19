@@ -73,7 +73,7 @@ class PropertiesMenu extends React.Component {
                 </div>
                 <div className="mkp-prop-menu-footer">
                     <button className="mkp-prop-menu-btn" onClick={this.props.onClose}>Cancel</button>
-                    <button className="mkp-prop-menu-btn mkp-prop-menu-btn-save" onClick={this.onSave}>Save</button>
+                    <button className="mkp-prop-menu-btn mkp-prop-menu-btn-save" onClick={this.onSave}>Apply</button>
                 </div>
             </div>
         )

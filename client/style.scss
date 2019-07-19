@@ -167,10 +167,11 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     width: auto;
     display: flex; flex-direction: row; align-items: center;
     z-index: 1000;
-
+    // margin-left: 760px;
 }
 .mkp-settings-menu-container {
     position: absolute;
+    // top: 70px; left: 1360px;
     top: 70px; left: 600px;
     width: 150px; height: auto;
     background-color: white;
@@ -280,4 +281,21 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
 }
 .mkp-header-btn-remove:hover {
     background-color: rgba(255,0,0,0.5);
+}
+
+
+
+
+@media only screen and (max-device-width : 1500px) {
+    .mkp-settings-menu {
+        margin-left: 0px;
+    }
+    .mkp-settings-menu-container {
+        top: 70px; left: 400px;
+    }
+    .mkp-top-menu-logo {
+        font-size: 20px;
+        width: 200px; min-width: 200px;
+        word-wrap: break-word;
+    }
 }
