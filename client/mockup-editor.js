@@ -15,7 +15,7 @@ import  GoldenLayout from './golden-layout/js_es6/LayoutManager';
 import './golden-layout/css/goldenlayout-base.css';
 import './golden-layout/css/goldenlayout-dark-theme.css';
 
-import {BrowserMockup, PhoneMockup, WatchMockup, PatternSelectorIcon} from './svg-utils'
+import {BrowserMockup, TabletMockup, PhoneMockup, WatchMockup, PatternSelectorIcon} from './svg-utils'
 import './mockup-editor.scss'
 
 
@@ -227,6 +227,12 @@ class MockupComponent extends React.Component {
                                      pageData={this.state.pageData} 
                                      backgroundData={this.state.backgroundData}
                                      asIcon={false}/>
+        } else if (this.props.glContainer._config.props['type'] === 'tablet-mockup') {
+            svgElem = <TabletMockup parentWidth={this.state.svgWidth} 
+                                     parentHeight={this.state.svgHeight} 
+                                     pageData={this.state.pageData} 
+                                     backgroundData={this.state.backgroundData}
+                                     asIcon={false}/>
         }
 
         /**
@@ -286,21 +292,34 @@ const BrowserMockupWrapper = (props) => (
     </div>
 )
 
+const TabletMockupWrapper = (props) => (
+    <div className="svg-wrapper">
+        <TabletMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon} />
+    </div>
+)
+
+
 const PhoneMockupMenuItem = (props) => (
-    <div id="PhoneMockupMenuItem" className="mkp-editor-src-menu-item">
+    <div id="PhoneMockupMenuItem" className="mkp-editor-src-menu-item" title="Phone Mockup">
         <PhoneMockupWrapper height={90} width={90} asIcon={true} />
     </div>
 )
 
 const WatchMockupMenuItem = (props) => (
-    <div id="WatchMockupMenuItem" className="mkp-editor-src-menu-item">
+    <div id="WatchMockupMenuItem" className="mkp-editor-src-menu-item" title="Watch Mockup">
         <WatchMockupWrapper height={90} width={90} asIcon={true} />
     </div>
 )
 
 const BrowserMockupMenuItem = (props) => (
-    <div id="BrowserMockupMenuItem" className="mkp-editor-src-menu-item">
+    <div id="BrowserMockupMenuItem" className="mkp-editor-src-menu-item" title="Browser Mockup">
         <BrowserMockupWrapper height={90} width={90} asIcon={true} />
+    </div>
+)
+
+const TabletMockupMenuItem = (props) => (
+    <div id="TabletMockupMenuItem" className="mkp-editor-src-menu-item" title="Tablet Mockup">
+        <TabletMockupWrapper height={90} width={90} asIcon={true} />
     </div>
 )
 
@@ -405,6 +424,7 @@ export default class MyGoldenLayout extends React.PureComponent {
         layout.registerComponent('PhoneMockupComponent', wrapComponent());
         layout.registerComponent('WatchMockupComponent', wrapComponent());
         layout.registerComponent('BrowserMockupComponent', wrapComponent());
+        layout.registerComponent('TabletMockupComponent', wrapComponent());
 
         layout.init();
 
@@ -444,6 +464,20 @@ export default class MyGoldenLayout extends React.PureComponent {
                 component: 'BrowserMockupComponent',
                 props: {
                     type: 'browser-mockup',
+                    backgroundData: {
+                        patternType: 'dots',
+                        patternDimensionInMM: 5
+                    }
+                }
+            }
+        );
+
+        layout.createDragSource(document.getElementById('TabletMockupMenuItem'), 
+            {
+                type: 'react-component',
+                component: 'TabletMockupComponent',
+                props: {
+                    type: 'tablet-mockup',
                     backgroundData: {
                         patternType: 'dots',
                         patternDimensionInMM: 5
@@ -507,6 +541,7 @@ export default class MyGoldenLayout extends React.PureComponent {
             <div className="mkp-editor-container">
                 <div className="mkp-editor-menu-container" >
                     <BrowserMockupMenuItem />
+                    <TabletMockupMenuItem />
                     <PhoneMockupMenuItem />
                     <WatchMockupMenuItem />
                 </div>

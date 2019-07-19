@@ -292,6 +292,86 @@ export class BrowserMockup extends React.Component {
     }
 }
 
+export class TabletMockup extends React.Component {
+
+    render = () => {
+        let patternId = generatePatternID('tablet')
+        let padding = 12
+        if (this.props.asIcon) {
+            padding = 24
+        }
+
+        let itemWidth = 560
+        let itemHeight = 430
+        let topFrameHeight = 60
+        let contentHeight = itemHeight - topFrameHeight
+        let strokeWidth = 1
+        if (this.props.asIcon) {
+            strokeWidth = 5
+        }
+
+        let content = <rect x="0" y={0} width={itemWidth} height={itemHeight} rx="20" fill="none" stroke="black" strokeWidth={strokeWidth} />
+        let innerFrame = <rect x={padding} y={padding} 
+                            width={itemWidth - 2 * padding} 
+                            height={itemHeight - 2 * padding}
+                            rx="10" stroke="black" 
+                            strokeWidth={strokeWidth} fill={`url(#${patternId})`} 
+                            />
+
+        let parentWidth = parseInt(this.props.parentWidth)
+        let parentHeight = parseInt(this.props.parentHeight)
+        let svgRealWidth = 0
+        let svgRealHeight = 0
+
+        let parentHWRatio = parentHeight / parentWidth
+        let myHWRatio = (itemHeight) / itemWidth
+
+        if (parentHWRatio >= myHWRatio) {
+            svgRealWidth = parentWidth
+            svgRealHeight = svgRealWidth * myHWRatio
+        } else {
+            svgRealHeight = parentHeight
+            svgRealWidth = svgRealHeight / myHWRatio
+        }
+
+        let ww = (svgRealWidth) + 'px'
+        let wh = (svgRealHeight) + 'px'
+        
+        let viewBox = `-1 -1 ${itemWidth + 10} ${itemHeight + 10}`
+
+        let mockupDimensions = {
+            widthInPixels: svgRealWidth,
+            heightInPixels: svgRealHeight,
+            svgWidth: itemWidth,
+            svgHeight: itemHeight
+        }
+
+        let classNames = "mkp-svg-tablet mkp-svg" 
+        if (this.props.asIcon) {
+            classNames = "mkp-svg-tablet mkp-svg-icon"
+        }
+
+        
+
+        return (
+            <svg className={classNames} 
+                 type="mkp-svg-tablet"
+                 style={{width:ww, height:wh}}
+                 viewBox={viewBox}
+                 preserveAspectRatio="xMidYMid meet">
+                <BackgroundPattern patternId={patternId} 
+                                pageData={this.props.pageData} 
+                                mockupDimensions={mockupDimensions} 
+                                backgroundData={this.props.backgroundData}/>
+                <g>
+                    {content}
+                    {innerFrame}
+                </g>
+            </svg>
+        )
+    }
+}
+
 export class PhoneMockup extends React.Component {
 
     render = () => {
@@ -371,7 +451,7 @@ export class PhoneMockup extends React.Component {
 
         let ww = (svgRealWidth) + 'px'
         let wh = (svgRealHeight) + 'px'
-        let viewBox = `0 0 ${phoneWidth + padding} ${phoneHeight}`
+        let viewBox = `-1 -1 ${phoneWidth + padding} ${phoneHeight}`
 
         let mockupDimensions = {
             widthInPixels: svgRealWidth,
@@ -480,7 +560,7 @@ export class WatchMockup extends React.Component {
 
         let ww = (svgRealWidth) + 'px'
         let wh = (svgRealHeight) + 'px'
-        let viewBox = `0 0 ${watchWidth + 5} ${watchHeight + 205 }`
+        let viewBox = `-1 -1 ${watchWidth + 5} ${watchHeight + 205 }`
 
         let mockupDimensions = {
             widthInPixels: svgRealWidth,
