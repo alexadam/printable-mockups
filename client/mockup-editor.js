@@ -18,6 +18,8 @@ import './golden-layout/css/goldenlayout-dark-theme.css';
 import {BrowserMockup, TabletMockup, PhoneMockup, WatchMockup, PatternSelectorIcon} from './svg-utils'
 import './mockup-editor.scss'
 
+import * as Utils from './utils'
+
 
 class PropertiesMenu extends React.Component {
 
@@ -327,7 +329,20 @@ export default class MyGoldenLayout extends React.PureComponent {
 
     state = {
         pageWidth: 1000,
-        pageHeight: 707
+        pageHeight: 707,
+        pageOrientation: 'landscape',
+        pagePaddingMM: {
+            top: 5,
+            right: 5,
+            bottom: 5,
+            left: 5,
+        },
+        pagePaddingPixels: {
+            top: Utils.mmToPixels(5),
+            right: Utils.mmToPixels(5),
+            bottom: Utils.mmToPixels(5),
+            left: Utils.mmToPixels(5),
+        }
     }
 
     componentDidMount() {
@@ -504,13 +519,12 @@ export default class MyGoldenLayout extends React.PureComponent {
         this.layout = layout
     }
 
-    paperSizeChange = (newOrientation) => {
-        console.log('this lay', this.layout);
-        
+    paperSizeChange = (newOrientation) => {        
         if (newOrientation === 'portrait') {
             this.setState({
                 pageWidth: 707,
-                pageHeight: 1000
+                pageHeight: 1000,
+                pageOrientation: 'portrait'
             }, () => {
                 // TODO fix: updateSize(707, 1000) vs updateSize()
                 // this.layout.updateSize(707, 1000)
@@ -520,7 +534,8 @@ export default class MyGoldenLayout extends React.PureComponent {
         } else {
             this.setState({
                 pageWidth: 1000,
-                pageHeight: 707
+                pageHeight: 707,
+                pageOrientation: 'landscape'
             }, () => {
                 // TODO - see above
                 // this.layout.updateSize(1000, 707)
@@ -543,7 +558,7 @@ export default class MyGoldenLayout extends React.PureComponent {
 
     render() {
 
-        // ref={input => this.layout = input}
+        // ref={input => this.layout = input}        
 
         return (
             <div className="mkp-editor-container">
@@ -557,10 +572,10 @@ export default class MyGoldenLayout extends React.PureComponent {
                     <div id='layoutContainer' 
                         className='goldenLayout paper' 
                         style={{
-                            paddingTop: '20px',
-                            paddingRight: '20px',
-                            paddingBottom: '20px',
-                            paddingLeft: '20px',
+                            paddingTop: this.state.pagePaddingPixels.top + 'px',
+                            paddingRight: this.state.pagePaddingPixels.right + 'px',
+                            paddingBottom: this.state.pagePaddingPixels.bottom + 'px',
+                            paddingLeft: this.state.pagePaddingPixels.left + 'px',
                             width: this.state.pageWidth + 'px',
                             height: this.state.pageHeight + 'px',
                         }}
