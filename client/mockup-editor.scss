@@ -43,14 +43,11 @@
 }
 
 .paper {
-    box-shadow: 0 6px 12px -2px rgba(50,50,93,.25),0 3px 7px -3px rgba(0,0,0,.3);
     box-shadow: 0 30px 60px -12px rgba(50,50,93,.25),0 18px 36px -18px rgba(0,0,0,.3),0 -12px 36px -8px rgba(0,0,0,.025);
-
     background-color: white;
-    padding: 20px;
-
+    margin: 10px;
     width: 1000px; height: 707px;
-    // width: 707px; height: 1000px;
+    box-sizing: border-box;
 }
 
 

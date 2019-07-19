@@ -323,24 +323,15 @@ const TabletMockupMenuItem = (props) => (
     </div>
 )
 
-class Wrapped22 extends React.Component {
-    render() {
-        // for Redux
-        // return (
-        //     <Provider store={store}>
-        //         <Component {...this.props}/>
-        //     </Provider>
-        // );
-        return (
-            <MockupComponent {...this.props}/>
-        );
-    }
-}
-
 export default class MyGoldenLayout extends React.PureComponent {
 
-  componentDidMount() {
-        // Build basic golden-layout config
+    state = {
+        pageWidth: 1000,
+        pageHeight: 707
+    }
+
+    componentDidMount() {
+        
         const config = {
             settings: {
                 hasHeaders: true,
@@ -417,7 +408,8 @@ export default class MyGoldenLayout extends React.PureComponent {
             return Wrapped;
         };
 
-        var layout = new GoldenLayout(config, this.layout);
+        // this.layout = React.createRef()        
+        let layout = new GoldenLayout(config, document.getElementById('layoutContainer'));
 
         // Redux example
         //wrapComponent('PhoneMockupComponent', 'this.context.store')
@@ -508,23 +500,36 @@ export default class MyGoldenLayout extends React.PureComponent {
         window.addEventListener('resize', () => {
             layout.updateSize();
         });
-
-
+        
         this.layout = layout
     }
 
     paperSizeChange = (newOrientation) => {
+        console.log('this lay', this.layout);
+        
         if (newOrientation === 'portrait') {
-            layoutContainer.style.width = '707px'
-            layoutContainer.style.height = '1000px'
-            this.layout.updateSize(707, 1000)
+            this.setState({
+                pageWidth: 707,
+                pageHeight: 1000
+            }, () => {
+                // TODO fix: updateSize(707, 1000) vs updateSize()
+                // this.layout.updateSize(707, 1000)
+                this.layout.updateSize()
+                this.layout.eventHub.emit('pageOrientationChanged', {newOrientation: newOrientation})
+            })
         } else {
-            layoutContainer.style.width = '1000px'
-            layoutContainer.style.height = '707px'
-            this.layout.updateSize(1000, 707)
+            this.setState({
+                pageWidth: 1000,
+                pageHeight: 707
+            }, () => {
+                // TODO - see above
+                // this.layout.updateSize(1000, 707)
+                this.layout.updateSize()
+                this.layout.eventHub.emit('pageOrientationChanged', {newOrientation: newOrientation})
+            })
         }
 
-        this.layout.eventHub.emit('pageOrientationChanged', {newOrientation: newOrientation})
+        
     }
 
     getLayoutData = () => {
@@ -537,6 +542,9 @@ export default class MyGoldenLayout extends React.PureComponent {
     }
 
     render() {
+
+        // ref={input => this.layout = input}
+
         return (
             <div className="mkp-editor-container">
                 <div className="mkp-editor-menu-container" >
@@ -546,7 +554,17 @@ export default class MyGoldenLayout extends React.PureComponent {
                     <WatchMockupMenuItem />
                 </div>
                 <div className="mkp-layout-gl-container">
-                    <div id='layoutContainer' className='goldenLayout paper' ref={input => this.layout = input} />
+                    <div id='layoutContainer' 
+                        className='goldenLayout paper' 
+                        style={{
+                            paddingTop: '20px',
+                            paddingRight: '20px',
+                            paddingBottom: '20px',
+                            paddingLeft: '20px',
+                            width: this.state.pageWidth + 'px',
+                            height: this.state.pageHeight + 'px',
+                        }}
+                    />
                 </div>
             </div>
         );
