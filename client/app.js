@@ -470,7 +470,7 @@ class App extends React.Component {
             <div className="app">
                 <div className="mkp-top-menu-container">
                     <div className="mkp-top-menu-logo">
-                        Printable Mockups
+                        <a className="mkp-top-menu-logo-link" href="https://github.com/alexadam/printable-mockups">Printable Mockups</a>
                     </div>
                     <div className="mkp-top-menu-buttons-container">
                         <PaperOrientationSelector onPaperOrientationChange={this.onPaperOrientationChange} />
