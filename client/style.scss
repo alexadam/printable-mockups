@@ -284,6 +284,23 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
 }
 
 
+.mkp-page-margins-menu {
+    display: flex; flex-flow: row;
+    align-content: center; align-items: center;
+    width: 40px;
+}
+.mkp-page-margins-menu-btn {
+    display: flex; flex-flow: row;
+    width: 30px; height: 21px;
+    // border: solid 1px black;
+    cursor: pointer;
+    background-color: rgba(255,255,255, 0.5);
+}
+.mkp-page-margins-menu-btn:hover {
+    background-color: rgba(255,255,255, 1);
+}
+
+
 
 
 @media only screen and (max-device-width : 1500px) {

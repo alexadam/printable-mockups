@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 import './style.scss';
+import './properties-menu.scss'
 
 import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
 import * as PDFUtils from './svg-pdf'
@@ -230,6 +232,140 @@ class SettingsMenu extends React.Component {
     }
 }
 
+class PaperMarginMenu extends React.Component {
+
+    state = {
+        isPageMarginsMenuVisible: false,
+        marginsInMM: this.props.currentMarginsInMM
+    }
+
+    togglePageMarginsMenu = () => this.setState({isPageMarginsMenuVisible: !this.state.isPageMarginsMenuVisible})
+
+    onLeftMarginChange = (e) => {
+        let newValue = parseInt(e.target.value)
+        let newMargins = {...this.state.marginsInMM, left: newValue}
+        this.setState({
+            marginsInMM: newMargins
+        })
+    }
+
+    onMarginChange = (e, location) => {
+        let newValue = parseInt(e.target.value)
+        let newMargins = {...this.state.marginsInMM}
+        newMargins[location] = newValue
+        this.setState({
+            marginsInMM: newMargins
+        })
+    }
+
+    onApply = () => {
+        this.setState({
+            isPageMarginsMenuVisible: false
+        }, () => this.props.onNewMargins(this.state.marginsInMM))
+    }
+
+    onClose = () => this.setState({isPageMarginsMenuVisible: false})
+
+    render = () => {
+
+        const customStyles = {
+            content : {
+              top                   : '50%',
+              left                  : '50%',
+              right                 : 'auto',
+              bottom                : 'auto',
+              marginRight           : '-50%',
+              transform             : 'translate(-50%, -50%)',
+              width: '500px',
+              height: '380px',
+              zIndex: '9999'
+            }
+        }
+
+        let paperOrientationComp = (
+            <div style={{ width: '150px', height: '100px' }}>
+                <svg viewBox="0 0 300 220" style={{ width: '100%', height: '100%' }} preserveAspectRatio="xMidYMid meet">
+                    <rect x="1" y="1" width="297" height="210" stroke="black" strokeWidth="2" fill="white"></rect>
+                </svg>
+            </div>
+        )
+        if (this.props.paperOrientation === 'portrait') {
+            paperOrientationComp = (
+                <div style={{ width: '150px', height: '100px' }}>
+                    <svg viewBox="0 0 220 300" style={{ width: '100%', height: '100%' }} preserveAspectRatio="xMidYMid meet">
+                        <rect x="1" y="1" height="297" width="210" stroke="black" strokeWidth="2" fill="white"></rect>
+                    </svg>
+                </div>
+            )
+        }
+
+        // icon from https://feathericons.com
+        return (
+            <div className="mkp-page-margins-menu mkp-tm-group">
+                <div className="mkp-page-margins-menu-btn" onClick={this.togglePageMarginsMenu} title="Paper Margins">
+                    <svg style={{width:'100%', height:'100%'}} viewBox="-1 -1 103 73">
+                        <rect x="0" y="0" width="100" height="70" stroke="black" fill="none" strokeWidth="3"></rect>
+                        <rect x="10" y="10" width="80" height="50" stroke="black" fill="none" strokeWidth="1"></rect>
+                        <g transform="translate(25, 10) scale(2)">
+                            <polyline points="15 3 21 3 21 9" stroke="black" strokeWidth="1" fill="none"></polyline>
+                            <polyline points="9 21 3 21 3 15" stroke="black" strokeWidth="1" fill="none"></polyline>
+                            <line x1="21" y1="3" x2="14" y2="10" stroke="black" strokeWidth="1"></line>
+                            <line x1="3" y1="21" x2="10" y2="14" stroke="black" strokeWidth="1"></line>
+                        </g>
+                        
+                    </svg>
+                </div>
+                <Modal
+                    isOpen={this.state.isPageMarginsMenuVisible}
+                    onRequestClose={this.togglePageMarginsMenu}
+                    style={customStyles}
+                    >
+                    <div className="mkp-prop-menu-container">
+                        <div className="mkp-prop-menu-row">
+                            <div className="mkp-prop-menu-title">
+                                Set Page Margins
+                            </div>
+                        </div>
+                        <div className="mkp-prop-menu-row" style={{justifyContent:'center'}}>
+                            <div className="mkp-prop-menu-label">Top:</div>
+                            <input className="mkp-prop-menu-input" type="number" name="quantity" min="1" max="999" 
+                                    value={this.state.marginsInMM.top} 
+                                    onChange={(e) => this.onMarginChange(e, 'top')}/>
+                            <div className="mkp-prop-menu-label">mm</div>
+                        </div>
+                        <div className="mkp-prop-menu-row" style={{justifyContent:'center'}}>
+                            <div className="mkp-prop-menu-label">Left:</div>
+                            <input className="mkp-prop-menu-input" type="number" name="quantity" min="1" max="999" 
+                                    value={this.state.marginsInMM.left} 
+                                    onChange={(e) => this.onMarginChange(e, 'left')}/>
+                            <div className="mkp-prop-menu-label">mm</div>
+
+                            {paperOrientationComp}                           
+
+                            <div className="mkp-prop-menu-label">Right:</div>
+                            <input className="mkp-prop-menu-input" type="number" name="quantity" min="1" max="999" 
+                                    value={this.state.marginsInMM.right} 
+                                    onChange={(e) => this.onMarginChange(e, 'right')}/>
+                            <div className="mkp-prop-menu-label">mm</div>
+                        </div>
+                        <div className="mkp-prop-menu-row" style={{justifyContent:'center'}}>
+                            <div className="mkp-prop-menu-label">Bottom:</div>
+                            <input className="mkp-prop-menu-input" type="number" name="quantity" min="1" max="999" 
+                                    value={this.state.marginsInMM.bottom} 
+                                    onChange={(e) => this.onMarginChange(e, 'bottom')}/>
+                            <div className="mkp-prop-menu-label">mm</div>
+                        </div>
+                        <div className="mkp-prop-menu-footer">
+                            <button className="mkp-prop-menu-btn" onClick={this.onClose}>Cancel</button>
+                            <button className="mkp-prop-menu-btn mkp-prop-menu-btn-save" onClick={this.onApply}>Apply</button>
+                        </div>
+                    </div>
+                </Modal>
+            </div>
+        )
+    }
+}
+
 class App extends React.Component {
 
     constructor(props) {
@@ -238,7 +374,13 @@ class App extends React.Component {
     }
 
     state = {
-        paperOrientation: 'landscape'
+        paperOrientation: 'landscape',
+        currentMarginsInMM: {
+            top: 5,
+            right: 5,
+            bottom: 5,
+            left: 5
+        }
     }
 
     getLayoutData = () => {
@@ -314,6 +456,12 @@ class App extends React.Component {
         }, () => this.GoldenLayout.current.paperSizeChange(newOrientation))
     }
 
+    onNewMargins = (newMargins) => {
+        this.setState({
+            currentMarginsInMM: newMargins,
+        }, () => this.GoldenLayout.current.setPageMarginsInMM(newMargins))
+    }
+
     render = () => {
 
         // <EditModeMenu />
@@ -326,6 +474,9 @@ class App extends React.Component {
                     </div>
                     <div className="mkp-top-menu-buttons-container">
                         <PaperOrientationSelector onPaperOrientationChange={this.onPaperOrientationChange} />
+                        <PaperMarginMenu currentMarginsInMM={this.state.currentMarginsInMM} 
+                                    onNewMargins={this.onNewMargins} 
+                                    paperOrientation={this.state.paperOrientation} />
                         <MasureUnitsMenu />
                         <SettingsMenu savePdf={this.savePdf}/>
                     </div>

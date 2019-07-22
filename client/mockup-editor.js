@@ -17,6 +17,7 @@ import './golden-layout/css/goldenlayout-dark-theme.css';
 
 import {BrowserMockup, TabletMockup, PhoneMockup, WatchMockup, PatternSelectorIcon} from './svg-utils'
 import './mockup-editor.scss'
+import './properties-menu.scss'
 
 import * as Utils from './utils'
 
@@ -519,6 +520,23 @@ export default class MyGoldenLayout extends React.PureComponent {
         this.layout = layout
     }
 
+    setPageMarginsInMM = (newValue) => {
+        this.setState({
+            pagePaddingMM: {
+                top: newValue.top,
+                right: newValue.right,
+                bottom: newValue.bottom,
+                left: newValue.left,
+            },
+            pagePaddingPixels: {
+                top: Utils.mmToPixels(newValue.top),
+                right: Utils.mmToPixels(newValue.right),
+                bottom: Utils.mmToPixels(newValue.bottom),
+                left: Utils.mmToPixels(newValue.left),
+            },
+        }, () => this.layout.updateSize())
+    }
+
     paperSizeChange = (newOrientation) => {        
         if (newOrientation === 'portrait') {
             this.setState({
@@ -543,8 +561,6 @@ export default class MyGoldenLayout extends React.PureComponent {
                 this.layout.eventHub.emit('pageOrientationChanged', {newOrientation: newOrientation})
             })
         }
-
-        
     }
 
     getLayoutData = () => {
