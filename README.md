@@ -32,10 +32,10 @@ Create printable UI mockups
 
   2. Open a terminal and run:
 
-    ```
-        yarn install
-        yarn dev
-    ```
+```
+yarn install
+yarn dev
+```
 
   3. Open a Web Browser and go to *localhost:8080*
 
