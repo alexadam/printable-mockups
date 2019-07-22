@@ -373,9 +373,9 @@ export default class MyGoldenLayout extends React.PureComponent {
                 type: 'row',
                 content: [{
                     type: 'react-component',
-                    component: 'BrowserMockupComponent',
+                    component: 'PhoneMockupComponent',
                     props: {
-                        type: 'browser-mockup',
+                        type: 'phone-mockup',
                         backgroundData: {
                             patternType: 'dots',
                             patternDimensionInMM: 5
@@ -392,15 +392,28 @@ export default class MyGoldenLayout extends React.PureComponent {
                         }
                     }
                 },{
-                    type: 'react-component',
-                    component: 'WatchMockupComponent',
-                    props: {
-                        type: 'watch-mockup',
-                        backgroundData: {
-                            patternType: 'dots',
-                            patternDimensionInMM: 5
+                    type: 'column',
+                    content: [{
+                        type: 'react-component',
+                        component: 'WatchMockupComponent',
+                        props: {
+                            type: 'watch-mockup',
+                            backgroundData: {
+                                patternType: 'dots',
+                                patternDimensionInMM: 5
+                            }
                         }
-                    }
+                    },{
+                        type: 'react-component',
+                        component: 'WatchMockupComponent',
+                        props: {
+                            type: 'watch-mockup',
+                            backgroundData: {
+                                patternType: 'dots',
+                                patternDimensionInMM: 5
+                            }
+                        }
+                    }]
                 }]
             }]
         };
