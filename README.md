@@ -30,18 +30,13 @@ Create printable UI mockups
 
   1. Download or clone this repository
 
-  2. Open a terminal and execute:
+  2. Open a terminal and run:
 
     ```
         yarn install
-    ```
-
-    and then:
-    
-    ```
         yarn dev
     ```
-    
+
   3. Open a Web Browser and go to *localhost:8080*
 
 ## Credits
