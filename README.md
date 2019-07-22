@@ -26,6 +26,24 @@ Create printable UI mockups
  - Add option to set background pattern's color, stroke width & opacity
  - Add more mockups and background patterns
 
+ ## How to run it on your machine
+
+  1. Download or clone this repository
+
+  2. Open a terminal and execute:
+
+    ```
+        yarn install
+    ```
+
+    and then:
+    
+    ```
+        yarn dev
+    ```
+    
+  3. Open a Web Browser and go to *localhost:8080*
+
 ## Credits
 
  - [GoldenLayout](https://golden-layout.com/)
@@ -33,3 +51,4 @@ Create printable UI mockups
  - [jsPDF](https://github.com/MrRio/jsPDF)
  - [React-Modal](https://github.com/reactjs/react-modal)
  - [Icons](https://ionicons.com/)
+ - Animation made with [GIPHY Capture](https://giphy.com/apps/giphycapture) and [ezgif](https://ezgif.com/)
