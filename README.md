@@ -4,6 +4,8 @@ Create printable UI mockups
 
 ## Try it: [Demo]()
 
+<img src="https://github.com/alexadam/printable-mockups/blob/master/imgs/ex.gif?raw=true" width="800">
+
 <img src="https://github.com/alexadam/printable-mockups/blob/master/imgs/ex1.png?raw=true" width="800">
 
 <img src="https://github.com/alexadam/printable-mockups/blob/master/imgs/ex3.png?raw=true" width="800">
@@ -29,4 +31,5 @@ Create printable UI mockups
  - [GoldenLayout](https://golden-layout.com/)
  - [Canvg](https://github.com/canvg/canvg)
  - [jsPDF](https://github.com/MrRio/jsPDF)
+ - [React-Modal](https://github.com/reactjs/react-modal)
  - [Icons](https://ionicons.com/)
