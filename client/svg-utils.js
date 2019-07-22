@@ -107,14 +107,14 @@ class SquaresFillPattern extends React.Component {
             if (mockupDimensions) {
                 let r = mockupDimensions.svgWidth / mockupDimensions.widthInPixels
                 dimInPixels = r * dimInPixels
-                strokeWidthPixels = r * radiusInPixels     
+                strokeWidthPixels = r * radiusInPixels + 1
             }
         }
 
         let width = dimInPixels
         let height = dimInPixels
         
-        let fillColor = 'rgba(0,0,0, 0.25)'
+        let fillColor = 'rgba(0,0,0,0.25)'
 
         return (
             <pattern id={this.props.patternId} patternUnits="userSpaceOnUse" width={width} height={height} x={0} y={0}>
@@ -152,7 +152,7 @@ class LinesFillPattern extends React.Component {
             if (mockupDimensions) {
                 let r = mockupDimensions.svgWidth / mockupDimensions.widthInPixels
                 dimInPixels = r * dimInPixels
-                strokeWidthPixels = r * radiusInPixels     
+                strokeWidthPixels = r * radiusInPixels + 1
             }
         }
 
@@ -196,14 +196,14 @@ class DotsFillPattern extends React.Component {
             if (mockupDimensions) {
                 let r = mockupDimensions.svgWidth / mockupDimensions.widthInPixels
                 dimInPixels = r * dimInPixels
-                radius = r * radiusInPixels     
+                radius = r * radiusInPixels 
             }
         }
 
         let width = dimInPixels
         let height = dimInPixels
         
-        let fillColor = 'rgba(0,0,0, 0.25)'
+        let fillColor = 'rgba(0,0,0,0.25)'
 
         return (
             <pattern id={this.props.patternId} patternUnits="userSpaceOnUse" width={width} height={height} x={0} y={0}>
@@ -359,10 +359,13 @@ export class TabletMockup extends React.Component {
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <BackgroundPattern patternId={patternId} 
+                <defs>
+                    <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
                                 backgroundData={this.props.backgroundData}/>
+                </defs>
+                 
                 <g>
                     {content}
                     {innerFrame}
@@ -487,10 +490,12 @@ export class PhoneMockup extends React.Component {
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <BackgroundPattern patternId={patternId} 
+                <defs>
+                    <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
                                 backgroundData={this.props.backgroundData}/>
+                </defs>
 
                 <g>
                     {frame}
@@ -580,10 +585,12 @@ export class WatchMockup extends React.Component {
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <BackgroundPattern patternId={patternId} 
+                <defs>
+                    <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
                                 backgroundData={this.props.backgroundData}/>
+                </defs>
                 <g>
                     {frame}
                     {innerFrame}
