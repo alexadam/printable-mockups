@@ -465,6 +465,7 @@ class App extends React.Component {
     render = () => {
 
         // <EditModeMenu />
+        // <MasureUnitsMenu />
         
         return (
             <div className="app">
@@ -477,7 +478,6 @@ class App extends React.Component {
                         <PaperMarginMenu currentMarginsInMM={this.state.currentMarginsInMM} 
                                     onNewMargins={this.onNewMargins} 
                                     paperOrientation={this.state.paperOrientation} />
-                        <MasureUnitsMenu />
                         <SettingsMenu savePdf={this.savePdf}/>
                     </div>
                 </div>
