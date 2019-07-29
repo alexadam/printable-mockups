@@ -18,6 +18,14 @@
 
 
 
+.mkp-prop-menu-container {
+    display: flex; flex-flow: column;
+}
+
+.mkp-prop-menu-component {
+    display: flex; flex-flow: column;
+}
+
 .mkp-prop-menu-row {
     width: 100%;
     display: flex; flex-flow: row;
@@ -60,7 +68,7 @@
 .mkp-prop-menu-footer {
     width: 100%;
     display: flex; flex-flow: row; justify-content: space-between;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 .mkp-prop-menu-btn {
     font-size: 15px;
