@@ -77,7 +77,7 @@ class BackgroundPatternMenu extends React.Component {
 
     render = () => {
 
-        let patternTypes = ['dots', 'lines', 'squares']
+        let patternTypes = ['empty', 'dots', 'lines', 'squares']
         let patternElements = []
 
         let index = 0

@@ -7,7 +7,7 @@ export class PatternSelectorIcon extends React.Component {
     render = () => {
         let patternId = generatePatternID('example')
         let pattern = null
-        let patternDim = 20
+        let patternDim = 15
 
         if (this.props.type === 'dots') {
             pattern = (
@@ -30,7 +30,7 @@ export class PatternSelectorIcon extends React.Component {
             )
         }
 
-        let dim = 100
+        let dim = 75
         return (
             <svg 
                  type="mkp-svg-pattern-example"
@@ -228,6 +228,11 @@ export class BrowserMockup extends React.Component {
             strokeWidth = 15
         }
 
+        let bgFill = `url(#${patternId})`
+        if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
+            bgFill = 'rgba(0,0,0,0)'
+        }
+
         let topFrame = (
             <g>
                 <rect x="0" y="1" width={itemWidth} height={topFrameHeight} stroke="black" strokeWidth={strokeWidth} fill="none" />
@@ -238,7 +243,7 @@ export class BrowserMockup extends React.Component {
             </g>
         )
         
-        let content = <rect x="0" y={topFrameHeight + 1} width={itemWidth} height={contentHeight} stroke="black" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
+        let content = <rect x="0" y={topFrameHeight + 1} width={itemWidth} height={contentHeight} stroke="black" strokeWidth={strokeWidth} fill={bgFill}/>
 
         let parentWidth = parseInt(this.props.parentWidth)
         let parentHeight = parseInt(this.props.parentHeight)
@@ -317,12 +322,17 @@ export class TabletMockup extends React.Component {
             strokeWidth = 5
         }
 
+        let bgFill = `url(#${patternId})`
+        if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
+            bgFill = 'rgba(0,0,0,0)'
+        }
+
         let content = <rect x="0" y={0} width={itemWidth} height={itemHeight} rx="20" fill="none" stroke="black" strokeWidth={strokeWidth} />
         let innerFrame = <rect x={padding} y={padding} 
                             width={itemWidth - 2 * padding} 
                             height={itemHeight - 2 * padding}
                             rx="10" stroke="black" 
-                            strokeWidth={strokeWidth} fill={`url(#${patternId})`} 
+                            strokeWidth={strokeWidth} fill={bgFill} 
                             />
 
         let parentWidth = parseInt(this.props.parentWidth)
@@ -396,6 +406,11 @@ export class PhoneMockup extends React.Component {
             strokeWidth = 5
         }
 
+        let bgFill = `url(#${patternId})`
+        if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
+            bgFill = 'rgba(0,0,0,0)'
+        }
+
         let startX = 0
         let startY = 0
         let phoneHeight = 750
@@ -444,7 +459,7 @@ export class PhoneMockup extends React.Component {
 
 
 
-        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
+        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth={strokeWidth} fill={bgFill}/>
 
         let parentWidth = parseInt(this.props.parentWidth)
         let parentHeight = parseInt(this.props.parentHeight)
@@ -537,9 +552,14 @@ export class WatchMockup extends React.Component {
             strokeWidth = 5
         }
 
+        let bgFill = `url(#${patternId})`
+        if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
+            bgFill = 'rgba(0,0,0,0)'
+        }
+
         let frame = <rect x="0" y="100" width={watchWidth} height={watchHeight} rx={phoneRadius} stroke="black" strokeWidth={strokeWidth} fill="none" />
         let innerFrame = <rect x="20" y="120" width="430" height="510" rx="80" stroke="gray" strokeWidth={strokeWidth} fill="none" />
-        let content = <rect x="50" y="150" width="368" height="448" rx="70" stroke="black" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
+        let content = <rect x="50" y="150" width="368" height="448" rx="70" stroke="black" strokeWidth={strokeWidth} fill={bgFill}/>
 
 
         let startX = 80
@@ -648,15 +668,20 @@ export class NotesMockup extends React.Component {
             stroke = 'rgba(0,0,0, 0.75)'
         }
 
+        let bgFill = `url(#${patternId})`
+        if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
+            bgFill = 'rgba(0,0,0,0)'
+        }
+
         let content =( 
                 <g>
-                    <rect x="1" y="1" width={itemWidth} height={itemHeight} stroke={stroke} strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
+                    <rect x="1" y="1" width={itemWidth} height={itemHeight} stroke={stroke} strokeWidth={strokeWidth} fill={bgFill}/>
                 </g>)
 
         if (this.props.asIcon) {
             content =( 
                 <g>
-                    <rect x="1" y="1" width={itemWidth} height={itemHeight} stroke="black" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
+                    <rect x="1" y="1" width={itemWidth} height={itemHeight} stroke="black" strokeWidth={strokeWidth} fill={bgFill}/>
                     <text x="10" y="55" fontSize="28">Notes</text>
                 </g>)
         }
