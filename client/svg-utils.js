@@ -279,10 +279,12 @@ export class BrowserMockup extends React.Component {
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
                  preserveAspectRatio="xMidYMid meet">
-                <BackgroundPattern patternId={patternId} 
+                <defs>
+                    <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
                                 backgroundData={this.props.backgroundData}/>
+                </defs>
                 <g>
                     {topFrame}
                     {content}
@@ -597,6 +599,85 @@ export class WatchMockup extends React.Component {
                     {content}
                     {belt}
                     {bottomBelt}
+                </g>
+            </svg>
+        )
+    }
+}
+
+export class NotesMockup extends React.Component {
+
+    render = () => {
+        let patternId = generatePatternID('notes')
+        let padding = 20
+
+        let parentWidth = parseInt(this.props.parentWidth)
+        let parentHeight = parseInt(this.props.parentHeight)
+
+        let itemWidth = parentWidth
+        let itemHeight = parentHeight
+        let topFrameHeight = 60
+        let contentHeight = itemHeight - topFrameHeight
+        let strokeWidth = 1
+
+        let content =( 
+                <g>
+                    <rect x="1" y="1" width={itemWidth} height={itemHeight} stroke="none" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
+                </g>)
+
+        if (this.props.asIcon) {
+            content =( 
+                <g>
+                    <rect x="1" y="1" width={itemWidth} height={itemHeight} stroke="black" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
+                    <text x="10" y="55" fontSize="28">Notes</text>
+                </g>)
+        }
+        
+        let svgRealWidth = 0
+        let svgRealHeight = 0
+
+        let parentHWRatio = parentHeight / parentWidth
+        let myHWRatio = (itemHeight) / itemWidth
+
+        if (parentHWRatio >= myHWRatio) {
+            svgRealWidth = parentWidth
+            svgRealHeight = svgRealWidth * myHWRatio
+        } else {
+            svgRealHeight = parentHeight
+            svgRealWidth = svgRealHeight / myHWRatio
+        }
+
+        let ww = (svgRealWidth) + 'px'
+        let wh = (svgRealHeight) + 'px'
+        
+        let viewBox = `0 0 ${itemWidth + 10} ${itemHeight + 10}`
+
+        let mockupDimensions = {
+            widthInPixels: svgRealWidth,
+            heightInPixels: svgRealHeight,
+            svgWidth: itemWidth,
+            svgHeight: itemHeight
+        }
+
+        let classNames = "mkp-svg-notes mkp-svg" 
+        if (this.props.asIcon) {
+            classNames = "mkp-svg-notes mkp-svg-icon"
+        }
+
+        return (
+            <svg className={classNames} 
+                 type="mkp-svg-notes"
+                 style={{width:ww, height:wh}}
+                 viewBox={viewBox}
+                 preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <BackgroundPattern patternId={patternId} 
+                                pageData={this.props.pageData} 
+                                mockupDimensions={mockupDimensions} 
+                                backgroundData={this.props.backgroundData}/>
+                </defs>
+                <g>
+                    {content}
                 </g>
             </svg>
         )

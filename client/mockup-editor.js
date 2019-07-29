@@ -15,7 +15,7 @@ import  GoldenLayout from './golden-layout/js_es6/LayoutManager';
 import './golden-layout/css/goldenlayout-base.css';
 import './golden-layout/css/goldenlayout-dark-theme.css';
 
-import {BrowserMockup, TabletMockup, PhoneMockup, WatchMockup, PatternSelectorIcon} from './svg-utils'
+import {BrowserMockup, TabletMockup, PhoneMockup, WatchMockup, NotesMockup, PatternSelectorIcon} from './svg-utils'
 import './mockup-editor.scss'
 import './properties-menu.scss'
 
@@ -236,6 +236,12 @@ class MockupComponent extends React.Component {
                                      pageData={this.state.pageData} 
                                      backgroundData={this.state.backgroundData}
                                      asIcon={false}/>
+        } else if (this.props.glContainer._config.props['type'] === 'notes-mockup') {
+            svgElem = <NotesMockup parentWidth={this.state.svgWidth} 
+                                     parentHeight={this.state.svgHeight} 
+                                     pageData={this.state.pageData} 
+                                     backgroundData={this.state.backgroundData}
+                                     asIcon={false}/>
         }
 
         /**
@@ -301,6 +307,12 @@ const TabletMockupWrapper = (props) => (
     </div>
 )
 
+const NotesMockupWrapper = (props) => (
+    <div className="svg-wrapper">
+        <NotesMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon} />
+    </div>
+)
+
 
 const PhoneMockupMenuItem = (props) => (
     <div id="PhoneMockupMenuItem" className="mkp-editor-src-menu-item" title="Phone Mockup">
@@ -323,6 +335,12 @@ const BrowserMockupMenuItem = (props) => (
 const TabletMockupMenuItem = (props) => (
     <div id="TabletMockupMenuItem" className="mkp-editor-src-menu-item" title="Tablet Mockup">
         <TabletMockupWrapper height={90} width={90} asIcon={true} />
+    </div>
+)
+
+const NotesMockupMenuItem = (props) => (
+    <div id="NotesMockupMenuItem" className="mkp-editor-src-menu-item" title="Notes Mockup">
+        <NotesMockupWrapper height={90} width={90} asIcon={true} />
     </div>
 )
 
@@ -446,6 +464,7 @@ export default class MyGoldenLayout extends React.PureComponent {
         layout.registerComponent('WatchMockupComponent', wrapComponent());
         layout.registerComponent('BrowserMockupComponent', wrapComponent());
         layout.registerComponent('TabletMockupComponent', wrapComponent());
+        layout.registerComponent('NotesMockupComponent', wrapComponent());
 
         layout.init();
 
@@ -502,6 +521,20 @@ export default class MyGoldenLayout extends React.PureComponent {
                     backgroundData: {
                         patternType: 'dots',
                         patternDimensionInMM: 5
+                    }
+                }
+            }
+        );
+
+        layout.createDragSource(document.getElementById('NotesMockupMenuItem'), 
+            {
+                type: 'react-component',
+                component: 'NotesMockupComponent',
+                props: {
+                    type: 'notes-mockup',
+                    backgroundData: {
+                        patternType: 'lines',
+                        patternDimensionInMM: 7
                     }
                 }
             }
@@ -596,6 +629,7 @@ export default class MyGoldenLayout extends React.PureComponent {
                     <TabletMockupMenuItem />
                     <PhoneMockupMenuItem />
                     <WatchMockupMenuItem />
+                    <NotesMockupMenuItem />
                 </div>
                 <div className="mkp-layout-gl-container">
                     <div id='layoutContainer' 
