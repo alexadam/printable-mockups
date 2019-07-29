@@ -273,6 +273,11 @@ export class BrowserMockup extends React.Component {
             classNames = "mkp-svg-browser mkp-svg-icon"
         }
 
+        let backgroundData = null
+        if (this.props.properties) {
+            backgroundData = this.props.properties.backgroundData
+        }
+
         return (
             <svg className={classNames} 
                  type="mkp-svg-browser"
@@ -283,7 +288,7 @@ export class BrowserMockup extends React.Component {
                     <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
-                                backgroundData={this.props.backgroundData}/>
+                                backgroundData={backgroundData}/>
                 </defs>
                 <g>
                     {topFrame}
@@ -353,7 +358,10 @@ export class TabletMockup extends React.Component {
             classNames = "mkp-svg-tablet mkp-svg-icon"
         }
 
-        
+        let backgroundData = null
+        if (this.props.properties) {
+            backgroundData = this.props.properties.backgroundData
+        }
 
         return (
             <svg className={classNames} 
@@ -365,7 +373,7 @@ export class TabletMockup extends React.Component {
                     <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
-                                backgroundData={this.props.backgroundData}/>
+                                backgroundData={backgroundData}/>
                 </defs>
                  
                 <g>
@@ -486,6 +494,11 @@ export class PhoneMockup extends React.Component {
             classNames = "mkp-svg-browser mkp-svg-icon"
         }
 
+        let backgroundData = null
+        if (this.props.properties) {
+            backgroundData = this.props.properties.backgroundData
+        }
+
         return (
             <svg className={classNames} 
                  type="mkp-svg-phone"
@@ -496,7 +509,7 @@ export class PhoneMockup extends React.Component {
                     <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
-                                backgroundData={this.props.backgroundData}/>
+                                backgroundData={backgroundData}/>
                 </defs>
 
                 <g>
@@ -581,6 +594,11 @@ export class WatchMockup extends React.Component {
             classNames = "mkp-svg-browser mkp-svg-icon"
         }
 
+        let backgroundData = null
+        if (this.props.properties) {
+            backgroundData = this.props.properties.backgroundData
+        }
+
         return (
             <svg className={classNames} 
                  type="mkp-svg-phone"
@@ -591,7 +609,7 @@ export class WatchMockup extends React.Component {
                     <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
-                                backgroundData={this.props.backgroundData}/>
+                                backgroundData={backgroundData}/>
                 </defs>
                 <g>
                     {frame}
@@ -620,9 +638,19 @@ export class NotesMockup extends React.Component {
         let contentHeight = itemHeight - topFrameHeight
         let strokeWidth = 1
 
+        let displayBorder = false
+        if (this.props.properties && this.props.properties.border) {
+            displayBorder = this.props.properties.border.isBorderVisible
+        }
+
+        let stroke = 'none'
+        if (displayBorder) {
+            stroke = 'rgba(0,0,0, 0.75)'
+        }
+
         let content =( 
                 <g>
-                    <rect x="1" y="1" width={itemWidth} height={itemHeight} stroke="none" strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
+                    <rect x="1" y="1" width={itemWidth} height={itemHeight} stroke={stroke} strokeWidth={strokeWidth} fill={`url(#${patternId})`}/>
                 </g>)
 
         if (this.props.asIcon) {
@@ -664,6 +692,11 @@ export class NotesMockup extends React.Component {
             classNames = "mkp-svg-notes mkp-svg-icon"
         }
 
+        let backgroundData = null
+        if (this.props.properties) {
+            backgroundData = this.props.properties.backgroundData
+        }
+
         return (
             <svg className={classNames} 
                  type="mkp-svg-notes"
@@ -674,7 +707,7 @@ export class NotesMockup extends React.Component {
                     <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
-                                backgroundData={this.props.backgroundData}/>
+                                backgroundData={backgroundData}/>
                 </defs>
                 <g>
                     {content}

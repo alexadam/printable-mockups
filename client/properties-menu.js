@@ -33,7 +33,7 @@ class BorderPropertiesMenu extends React.Component {
             <div className="mkp-prop-menu-component">
                 <div className="mkp-prop-menu-row">
                     <div className="mkp-prop-menu-label">Display border:</div>
-                    <input className="mkp-prop-menu-input" type="checkbox" name="Is border visible" 
+                    <input className="mkp-prop-menu-checkbox" type="checkbox" name="Is border visible" 
                             checked={this.state.isBorderVisible} onChange={this.onBorderVisibleChange}/>
                 </div>
             </div>

@@ -160,31 +160,31 @@ class MockupComponent extends React.Component {
             svgElem = <WatchMockup parentWidth={this.state.svgWidth} 
                                    parentHeight={this.state.svgHeight} 
                                    pageData={this.state.pageData} 
-                                   backgroundData={this.state.properties.backgroundData}
+                                   properties={this.state.properties}
                                    asIcon={false}/>
         } else if (componentType === 'phone-mockup') {
             svgElem = <PhoneMockup parentWidth={this.state.svgWidth} 
                                    parentHeight={this.state.svgHeight} 
                                    pageData={this.state.pageData} 
-                                   backgroundData={this.state.properties.backgroundData}
+                                   properties={this.state.properties}
                                    asIcon={false}/>
         } else if (componentType === 'browser-mockup') {
             svgElem = <BrowserMockup parentWidth={this.state.svgWidth} 
                                      parentHeight={this.state.svgHeight} 
                                      pageData={this.state.pageData} 
-                                     backgroundData={this.state.properties.backgroundData}
+                                     properties={this.state.properties}
                                      asIcon={false}/>
         } else if (componentType === 'tablet-mockup') {
             svgElem = <TabletMockup parentWidth={this.state.svgWidth} 
                                      parentHeight={this.state.svgHeight} 
                                      pageData={this.state.pageData} 
-                                     backgroundData={this.state.properties.backgroundData}
+                                     properties={this.state.properties}
                                      asIcon={false}/>
         } else if (componentType === 'notes-mockup') {
             svgElem = <NotesMockup parentWidth={this.state.svgWidth} 
                                      parentHeight={this.state.svgHeight} 
                                      pageData={this.state.pageData} 
-                                     backgroundData={this.state.properties.backgroundData}
+                                     properties={this.state.properties}
                                      asIcon={false}/>
         }
 
