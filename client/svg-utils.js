@@ -230,16 +230,19 @@ export class BrowserMockup extends React.Component {
 
         let bgFill = `url(#${patternId})`
         if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
-            bgFill = 'rgba(0,0,0,0)'
+            bgFill = 'white'
+        }
+        if (this.props.asIcon) {
+            bgFill = 'white'
         }
 
         let topFrame = (
             <g>
-                <rect x="0" y="1" width={itemWidth} height={topFrameHeight} stroke="black" strokeWidth={strokeWidth} fill="none" />
-                <rect x="160" y="10" width={itemWidth - 175} height={40} rx="10" stroke="black" strokeWidth={strokeWidth} fill="none" />
-                <circle cx="40" cy="30" r="10" fill="none" strokeWidth={strokeWidth} stroke="black"/>
-                <circle cx="80" cy="30" r="10" fill="none" strokeWidth={strokeWidth} stroke="black"/>
-                <circle cx="120" cy="30" r="10" fill="none" strokeWidth={strokeWidth} stroke="black"/>
+                <rect x="0" y="1" width={itemWidth} height={topFrameHeight} stroke="black" strokeWidth={strokeWidth} fill="white" />
+                <rect x="160" y="10" width={itemWidth - 175} height={40} rx="10" stroke="black" strokeWidth={strokeWidth} fill="white" />
+                <circle cx="40" cy="30" r="10" fill="white" strokeWidth={strokeWidth} stroke="black"/>
+                <circle cx="80" cy="30" r="10" fill="white" strokeWidth={strokeWidth} stroke="black"/>
+                <circle cx="120" cy="30" r="10" fill="white" strokeWidth={strokeWidth} stroke="black"/>
             </g>
         )
         
@@ -295,6 +298,7 @@ export class BrowserMockup extends React.Component {
                                 mockupDimensions={mockupDimensions} 
                                 backgroundData={backgroundData}/>
                 </defs>
+                <rect x={-itemWidth / 2} y={-itemHeight / 2} width={(itemWidth * 2)} height={(itemHeight * 2)} fill="white"/>
                 <g>
                     {topFrame}
                     {content}
@@ -324,10 +328,13 @@ export class TabletMockup extends React.Component {
 
         let bgFill = `url(#${patternId})`
         if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
-            bgFill = 'rgba(0,0,0,0)'
+            bgFill = 'white'
+        }
+        if (this.props.asIcon) {
+            bgFill = 'white'
         }
 
-        let content = <rect x="0" y={0} width={itemWidth} height={itemHeight} rx="20" fill="none" stroke="black" strokeWidth={strokeWidth} />
+        let content = <rect x="0" y={0} width={itemWidth} height={itemHeight} rx="20" fill="white" stroke="black" strokeWidth={strokeWidth} />
         let innerFrame = <rect x={padding} y={padding} 
                             width={itemWidth - 2 * padding} 
                             height={itemHeight - 2 * padding}
@@ -385,7 +392,7 @@ export class TabletMockup extends React.Component {
                                 mockupDimensions={mockupDimensions} 
                                 backgroundData={backgroundData}/>
                 </defs>
-                 
+                <rect x={-itemWidth / 2} y={-itemHeight / 2} width={(itemWidth * 2)} height={(itemHeight * 2)} fill="white"/>
                 <g>
                     {content}
                     {innerFrame}
@@ -408,7 +415,10 @@ export class PhoneMockup extends React.Component {
 
         let bgFill = `url(#${patternId})`
         if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
-            bgFill = 'rgba(0,0,0,0)'
+            bgFill = 'white'
+        }
+        if (this.props.asIcon) {
+            bgFill = 'white'
         }
 
         let startX = 0
@@ -427,7 +437,7 @@ export class PhoneMockup extends React.Component {
                          a${phoneRadius},${phoneRadius},0,0,1,${-phoneRadius},${-phoneRadius} z
                         `
 
-        let frame = <path d={framePath} fill="none" stroke="black" strokeWidth={strokeWidth}/>
+        let frame = <path d={framePath} fill="white" stroke="black" strokeWidth={strokeWidth}/>
 
         let phoneBorder = 7
 
@@ -459,7 +469,7 @@ export class PhoneMockup extends React.Component {
 
 
 
-        let content = <path d={contentPath} fill="none" stroke="black" strokeWidth={strokeWidth} fill={bgFill}/>
+        let content = <path d={contentPath} fill="white" stroke="black" strokeWidth={strokeWidth} fill={bgFill}/>
 
         let parentWidth = parseInt(this.props.parentWidth)
         let parentHeight = parseInt(this.props.parentHeight)
@@ -519,18 +529,20 @@ export class PhoneMockup extends React.Component {
                  type="mkp-svg-phone"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
-                 preserveAspectRatio="xMidYMid meet">
+                 preserveAspectRatio="xMidYMid meet"
+                 >
                 <defs>
                     <BackgroundPattern patternId={patternId} 
                                 pageData={this.props.pageData} 
                                 mockupDimensions={mockupDimensions} 
                                 backgroundData={backgroundData}/>
                 </defs>
-
+                <rect x={-phoneWidth / 2} y={-phoneHeight / 2} width={(phoneWidth * 2)} height={(phoneHeight * 2)} fill="white"/>
                 <g>
                     {frame}
                     {content}
                 </g>
+                
             </svg>
         )
     }
@@ -554,16 +566,19 @@ export class WatchMockup extends React.Component {
 
         let bgFill = `url(#${patternId})`
         if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
-            bgFill = 'rgba(0,0,0,0)'
+            bgFill = 'white'
+        }
+        if (this.props.asIcon) {
+            bgFill = 'white'
         }
 
-        let frame = <rect x="0" y="100" width={watchWidth} height={watchHeight} rx={phoneRadius} stroke="black" strokeWidth={strokeWidth} fill="none" />
-        let innerFrame = <rect x="20" y="120" width="430" height="510" rx="80" stroke="gray" strokeWidth={strokeWidth} fill="none" />
+        let frame = <rect x="0" y="100" width={watchWidth} height={watchHeight} rx={phoneRadius} stroke="black" strokeWidth={strokeWidth} fill="white" />
+        let innerFrame = <rect x="20" y="120" width="430" height="510" rx="80" stroke="gray" strokeWidth={strokeWidth} fill="white" />
         let content = <rect x="50" y="150" width="368" height="448" rx="70" stroke="black" strokeWidth={strokeWidth} fill={bgFill}/>
 
 
         let startX = 80
-        let startY = 101
+        let startY = 100
         let bigRadius = phoneRadius * 6
         let beltHeight = 65
         let beltLength =  190
@@ -576,8 +591,8 @@ export class WatchMockup extends React.Component {
                         a${beltRadius},${beltRadius},0,0,0,${beltRadius},${beltRadius}
                         `
 
-        let belt = <path d={beltPath} fill="none" stroke="black" strokeWidth={strokeWidth}/>
-        let bottomBelt = <path d={beltPath} fill="none" stroke="black" strokeWidth={strokeWidth} transform={`scale(1,-1) translate(0, ${-watchHeight*1.365})`}/>
+        let belt = <path d={beltPath} fill="white" stroke="black" strokeWidth={strokeWidth}/>
+        let bottomBelt = <path d={beltPath} fill="white" stroke="black" strokeWidth={strokeWidth} transform={`scale(1,-1) translate(0, ${-watchHeight*1.365})`}/>
 
 
 
@@ -631,6 +646,7 @@ export class WatchMockup extends React.Component {
                                 mockupDimensions={mockupDimensions} 
                                 backgroundData={backgroundData}/>
                 </defs>
+                <rect x={-watchWidth / 2} y={-watchHeight / 2} width={(watchWidth * 2) + 'px'} height={(watchHeight * 2) + 'px'} fill="white"/>
                 <g>
                     {frame}
                     {innerFrame}
@@ -663,14 +679,17 @@ export class NotesMockup extends React.Component {
             displayBorder = this.props.properties.border.isBorderVisible
         }
 
-        let stroke = 'none'
+        let stroke = 'white'
         if (displayBorder) {
             stroke = 'rgba(0,0,0, 0.75)'
         }
 
         let bgFill = `url(#${patternId})`
         if (this.props.properties && this.props.properties.backgroundData.patternType === 'empty') {
-            bgFill = 'rgba(0,0,0,0)'
+            bgFill = 'white'
+        }
+        if (this.props.asIcon) {
+            bgFill = 'white'
         }
 
         let content =( 
@@ -734,6 +753,7 @@ export class NotesMockup extends React.Component {
                                 mockupDimensions={mockupDimensions} 
                                 backgroundData={backgroundData}/>
                 </defs>
+                <rect x={-itemWidth / 2} y={-itemHeight / 2} width={(itemWidth * 2)} height={(itemHeight * 2)} fill="white"/>
                 <g>
                     {content}
                 </g>

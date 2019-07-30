@@ -422,7 +422,7 @@ class App extends React.Component {
             //     }
             // }
 
-            let qualityFactor = 1
+            let qualityFactor = 2.5
 
             let originalWidth = svgElem.style.width
             let originalHeight = svgElem.style.height

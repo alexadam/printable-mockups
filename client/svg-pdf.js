@@ -5,13 +5,20 @@ const addSVG = (doc, paperData, svgData, pixelToMMFactor) => {
     let canvasElem = document.createElement('canvas')
     canvasElem.width  = svgData.size.width;
     canvasElem.height = svgData.size.height;
-    canvg(canvasElem, svgData.svgAsText, {forceRedraw: () => true});
-    let imgData = canvasElem.toDataURL("image/png");
+
+    canvg(canvasElem, svgData.svgAsText, {
+        // ignoreClear: true,
+        // ignoreDimensions: true,
+        // scaleWidth: canvasElem.width  ,
+        // scaleHeight: canvasElem.height  ,
+        // forceRedraw: () => true
+    });
+    let imgData = canvasElem.toDataURL("image/jpeg", 1);
 
     doc.addImage(imgData, 'PNG',
         (svgData.size.left - paperData.containerOffsetX) * pixelToMMFactor,
         (svgData.size.top - paperData.containerOffsetY) * pixelToMMFactor,
-        svgData.size.width * pixelToMMFactor,
+        svgData.size.width  * pixelToMMFactor,
         svgData.size.height * pixelToMMFactor
     );
 }
