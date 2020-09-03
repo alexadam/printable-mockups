@@ -47,3 +47,4 @@ yarn dev
  - [React-Modal](https://github.com/reactjs/react-modal)
  - [Icons](https://ionicons.com/)
  - Animation made with [GIPHY Capture](https://giphy.com/apps/giphycapture) and [ezgif](https://ezgif.com/)
+ - Thanks to [Paresh Deshpande](https://www.linkedin.com/in/paresh-deshpande-78303756/) for feedback and ideas.
