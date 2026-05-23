@@ -1,5 +1,5 @@
 import React from 'react'
-import {PatternSelectorIcon} from './svg-utils'
+import {PatternSelectorIcon} from './svg-utils.jsx'
 
 
 const parseBoolean = (val) => {
@@ -15,7 +15,7 @@ class BorderPropertiesMenu extends React.Component {
         isBorderVisible: parseBoolean(this.props.properties.border.isBorderVisible)
     }
 
-    onBorderVisibleChange = (e) => {
+    onBorderVisibleChange = () => {
         this.setState({
             isBorderVisible: !this.state.isBorderVisible
         }, () => {            

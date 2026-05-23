@@ -15,12 +15,12 @@ import  GoldenLayout from './golden-layout/js_es6/LayoutManager';
 import './golden-layout/css/goldenlayout-base.css';
 import './golden-layout/css/goldenlayout-dark-theme.css';
 
-import {BrowserMockup, TabletMockup, PhoneMockup, WatchMockup, NotesMockup} from './svg-utils'
-import './mockup-editor.scss'
-import './properties-menu.scss'
+import {BrowserMockup, TabletMockup, PhoneMockup, WatchMockup, NotesMockup} from './svg-utils.jsx'
+import './mockup-editor.css'
+import './properties-menu.css'
 
 import * as Utils from './utils'
-import PropertiesMenu from './properties-menu'
+import PropertiesMenu from './properties-menu.jsx'
 
 
 
@@ -260,31 +260,31 @@ const NotesMockupWrapper = (props) => (
 )
 
 
-const PhoneMockupMenuItem = (props) => (
+const PhoneMockupMenuItem = () => (
     <div id="PhoneMockupMenuItem" className="mkp-editor-src-menu-item" title="Phone Mockup">
         <PhoneMockupWrapper height={90} width={90} asIcon={true} />
     </div>
 )
 
-const WatchMockupMenuItem = (props) => (
+const WatchMockupMenuItem = () => (
     <div id="WatchMockupMenuItem" className="mkp-editor-src-menu-item" title="Watch Mockup">
         <WatchMockupWrapper height={90} width={90} asIcon={true} />
     </div>
 )
 
-const BrowserMockupMenuItem = (props) => (
+const BrowserMockupMenuItem = () => (
     <div id="BrowserMockupMenuItem" className="mkp-editor-src-menu-item" title="Browser Mockup">
         <BrowserMockupWrapper height={90} width={90} asIcon={true} />
     </div>
 )
 
-const TabletMockupMenuItem = (props) => (
+const TabletMockupMenuItem = () => (
     <div id="TabletMockupMenuItem" className="mkp-editor-src-menu-item" title="Tablet Mockup">
         <TabletMockupWrapper height={90} width={90} asIcon={true} />
     </div>
 )
 
-const NotesMockupMenuItem = (props) => (
+const NotesMockupMenuItem = () => (
     <div id="NotesMockupMenuItem" className="mkp-editor-src-menu-item" title="Notes Mockup">
         <NotesMockupWrapper height={90} width={90} asIcon={true} />
     </div>
@@ -509,13 +509,13 @@ export default class MyGoldenLayout extends React.PureComponent {
 
 
 
-        layout.on('stateChanged', (e) => {
+        layout.on('stateChanged', () => {
             // var state = JSON.stringify( myLayout.toConfig() );
             // myLayout = new GoldenLayout( JSON.parse( state ) );
             // myLayout.init()
         })
 
-        layout.on('componentCreated', (component) => {
+        layout.on('componentCreated', () => {
             // component.container.on('resize', () => {
                 // component.emit('event')
                 // component.trigger('event')

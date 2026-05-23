@@ -12,26 +12,12 @@
 
 html, body {
     width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;
-
-
-    // background: #E0EAFC;  /* fallback for old browsers */
-    // background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-25, Safari 5.1-6 */
-    // background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
-//     background: #8e9eab;  /* fallback for old browsers */
-// background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
-// background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
     background: #757F9A;
 background: -webkit-linear-gradient(to right, #D7DDE8, #757F9A);
 background: linear-gradient(to right, #D7DDE8, #757F9A);
 
 }
-//
-// .app {
-//     width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;
-// }
+
 #app, .app {
     width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;
 }
@@ -39,7 +25,7 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
 .svg-wrapper {
     width: 100%;
     height: 100%;
-    padding: 2px; // TODO ?
+    padding: 2px;
     display: flex; flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -54,7 +40,7 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
 .mkp-top-menu-buttons-container {
     width: 100%; height: 100px;
     display: flex; flex-direction: row;
-    // justify-content: center;
+   
     align-items: center;
     
 }
@@ -70,12 +56,6 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     text-decoration: none;
 }
 
-
-
-///////
-///////
-///////
-///////
 
 .mkp-tm-group {
     border-right: solid 1px gray;
@@ -153,11 +133,6 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     opacity: 1 !important;
 }
 
-
-////
-////
-////
-////
 .mkp-settings-menu-bg {
     width: 100%; height: 100%;
     position: absolute;
@@ -172,11 +147,9 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     width: auto;
     display: flex; flex-direction: row; align-items: center;
     z-index: 1000;
-    // margin-left: 760px;
 }
 .mkp-settings-menu-container {
     position: absolute;
-    // top: 70px; left: 1360px;
     top: 70px; left: 600px;
     width: 150px; height: auto;
     background-color: white;
@@ -201,7 +174,6 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     width: 100%; 
     height: 40px;
     background-color: rgba(0,0,0,0.15);
-    // display: flex; flex-direction: row;
 }
 .mkp-settings-menu-separator {
     width: 100%; height: 0;
@@ -220,8 +192,6 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     border-radius: 0;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    // margin-left: -10px;
-    // border-bottom: solid 2px white;
     box-shadow: 0 6px 12px -2px rgba(50,50,93,.25),0 3px 7px -3px rgba(0,0,0,.3);
 
 }
@@ -229,14 +199,12 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     box-shadow: 0 30px 60px -12px rgba(50,50,93,.25),0 18px 36px -18px rgba(0,0,0,.3),0 -12px 36px -8px rgba(0,0,0,.025);
 }
 .mkp-settings-menu-toggle-button {
-    width: 30px; height: 40px; 
-    // margin-left: 2px;
+    width: 30px; height: 40px;
     z-index: 1;
     background-color: rgba(255, 215, 0,0);
     border: solid 2px rgb(255, 215, 0);
     border-left: 0;
     outline: 0;
-    // border: 0;
     cursor: pointer;
     border-radius: 0;
     border-top-right-radius: 5px;
@@ -250,19 +218,11 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
 }
 .mkp-settings-menu-toggle-button:hover {
     box-shadow: 0 30px 60px -12px rgba(50,50,93,.25),0 18px 36px -18px rgba(0,0,0,.3),0 -12px 36px -8px rgba(0,0,0,.025);
-        // box-shadow: 0 6px 12px -2px rgba(50,50,93,.25),0 3px 7px -3px rgba(0,0,0,.3);
-
 }
 
-
-//////
-//////
-//////
-//////
 .mkp-header-btn-container {
     width: 100%;
     display: flex; flex-direction: row;
-    // background-color: rgba(0,0,0,0.05);
 }
 .mkp-header-other-btn-container {
     width: 100%;
@@ -297,7 +257,7 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
 .mkp-page-margins-menu-btn {
     display: flex; flex-flow: row;
     width: 30px; height: 21px;
-    // border: solid 1px black;
+   
     cursor: pointer;
     background-color: rgba(255,255,255, 0.5);
 }

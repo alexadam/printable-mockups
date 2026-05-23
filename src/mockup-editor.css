@@ -2,13 +2,11 @@
 
 .mkp-editor-container {
      width: 100%;
-    //  height: 100%;
      flex-grow: 1;
      box-sizing: border-box;
      display: flex; flex-direction: row;
      background-color: rgba(0,0,0,0);
-    //  overflow: auto;
-    
+
 }
 
 .mkp-editor-menu-container {
@@ -17,8 +15,6 @@
     width: 400px; min-width: 400px;
     display: flex; flex-direction: column;
     align-items: center;
-    // align-content: center;
-    // justify-content: center;
 }
 .mkp-editor-src-menu-item {
     width: 100px; height: 100px; margin-bottom: 25px;
@@ -36,10 +32,7 @@
 
 .mkp-layout-gl-container {
     width: 100%; height: 100%; box-sizing: border-box;
-    display: flex; flex-direction: row; 
-    // justify-content: center; 
-    // align-items: center;
-    // flex-shrink: 1;
+    display: flex; flex-direction: row;
 }
 
 .paper {

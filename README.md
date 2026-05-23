@@ -32,12 +32,19 @@ Create printable UI mockups/wireframes templates
 
   2. Open a terminal and run:
 
-```
+```bash
 yarn install
 yarn dev
 ```
 
-  3. Open a Web Browser and go to *localhost:8080*
+Or:
+
+```bash
+npm install
+npm run dev
+```
+
+  3. Open a Web Browser and go to *http://localhost:5173/*
 
 ## Credits
 

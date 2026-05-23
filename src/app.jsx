@@ -1,13 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Modal from 'react-modal';
-import './style.scss';
-import './properties-menu.scss'
+import './style.css';
+import './properties-menu.css'
 
-import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils'
+import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils.jsx'
 import * as PDFUtils from './svg-pdf'
 
-import MyGoldenLayout from './mockup-editor'
+import MyGoldenLayout from './mockup-editor.jsx'
 
 class EditModeMenu extends React.Component {
 
@@ -160,6 +160,7 @@ class SettingsMenu extends React.Component {
     componentDidMount = () => {
         document.onkeydown = (evt) => {
             evt = evt || window.event;
+            // eslint-disable-next-line no-useless-assignment
             var isEscape = false;
             if ("key" in evt) {
                 isEscape = (evt.key === "Escape" || evt.key === "Esc");
@@ -445,9 +446,9 @@ class App extends React.Component {
         return data
     }
 
-    savePdf = () => {
+    savePdf = async () => {
         let data = this.prepareSVGData()
-        PDFUtils.createTestPDF(data)
+        await PDFUtils.createTestPDF(data)
     }
 
     onPaperOrientationChange = (newOrientation) => {
@@ -487,6 +488,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render((
-    <App/>
-), document.getElementById('app'));
+createRoot(document.getElementById('root')).render(<App/>);

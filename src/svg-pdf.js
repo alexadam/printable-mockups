@@ -1,18 +1,15 @@
-import * as jsPDF from 'jspdf'
-import canvg from 'canvg'
+import { jsPDF } from 'jspdf'
+import { Canvg } from 'canvg'
 
-const addSVG = (doc, paperData, svgData, pixelToMMFactor) => {
+const addSVG = async (doc, paperData, svgData, pixelToMMFactor) => {
     let canvasElem = document.createElement('canvas')
     canvasElem.width  = svgData.size.width;
     canvasElem.height = svgData.size.height;
 
-    canvg(canvasElem, svgData.svgAsText, {
-        // ignoreClear: true,
-        // ignoreDimensions: true,
-        // scaleWidth: canvasElem.width  ,
-        // scaleHeight: canvasElem.height  ,
-        // forceRedraw: () => true
-    });
+    const ctx = canvasElem.getContext('2d');
+    const v = await Canvg.from(ctx, svgData.svgAsText);
+    await v.render();
+
     let imgData = canvasElem.toDataURL("image/jpeg", 1);
 
     doc.addImage(imgData, 'PNG',
@@ -23,7 +20,7 @@ const addSVG = (doc, paperData, svgData, pixelToMMFactor) => {
     );
 }
 
-const createTestPDF = (data) => {
+const createTestPDF = async (data) => {
 
     let A4_Width_MM = 297
     let A4_Height_MM = 210
@@ -41,10 +38,16 @@ const createTestPDF = (data) => {
     })
 
     for (let form of data.forms) {
-        addSVG(pdf, data.paper, form, pixelToMMFactor)
+        await addSVG(pdf, data.paper, form, pixelToMMFactor)
     }
 
-    pdf.save('mockup.pdf')
+    if (data.paper.orientation === 'portrait') {
+        pdf.text("Made with https://www.printablemockups.com/", 50, 294, { angle: 0 });
+    } else {
+        pdf.text("Made with https://www.printablemockups.com/", 100, 209, { angle: 0 });
+    }
+
+    pdf.save('printable-mockups.pdf')
 }
 
 export {createTestPDF}

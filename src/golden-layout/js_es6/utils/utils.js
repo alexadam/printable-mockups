@@ -198,5 +198,5 @@ export function filterXss(input, keepTags) {
  * @returns {String} input without tags
  */
 export function stripTags(input) {
-    return $.trim(input.replace(/(<([^>]+)>)/ig, ''));
+    return input.replace(/(<([^>]+)>)/ig, '').trim();
 }

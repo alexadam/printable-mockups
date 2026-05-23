@@ -186,7 +186,7 @@
 }
 
 .lm_stack.lm_docked>.lm_items {
-	*z-index: 3;
+	z-index: 3;
 	transition: height .4s ease-in;
 	border: solid 2px;
 	border-image-slice: 1 !important;

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars,no-useless-assignment */
 import React from 'react';
 
 const generatePatternID = (rootName) => rootName + '_' + Math.floor(Math.random() * 1000000)
@@ -276,7 +277,7 @@ export class BrowserMockup extends React.Component {
             svgHeight: itemHeight
         }
 
-        let classNames = "mkp-svg-browser mkp-svg" 
+        let classNames = "mkp-svg-browser mkp-svg"
         if (this.props.asIcon) {
             classNames = "mkp-svg-browser mkp-svg-icon"
         }
@@ -287,7 +288,7 @@ export class BrowserMockup extends React.Component {
         }
 
         return (
-            <svg className={classNames} 
+            <svg className={classNames}
                  type="mkp-svg-browser"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
@@ -370,7 +371,7 @@ export class TabletMockup extends React.Component {
             svgHeight: itemHeight
         }
 
-        let classNames = "mkp-svg-tablet mkp-svg" 
+        let classNames = "mkp-svg-tablet mkp-svg"
         if (this.props.asIcon) {
             classNames = "mkp-svg-tablet mkp-svg-icon"
         }
@@ -381,7 +382,7 @@ export class TabletMockup extends React.Component {
         }
 
         return (
-            <svg className={classNames} 
+            <svg className={classNames}
                  type="mkp-svg-tablet"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
@@ -514,7 +515,7 @@ export class PhoneMockup extends React.Component {
 
         ////
 
-        let classNames = "mkp-svg-browser mkp-svg" 
+        let classNames = "mkp-svg-browser mkp-svg"
         if (this.props.asIcon) {
             classNames = "mkp-svg-browser mkp-svg-icon"
         }
@@ -525,7 +526,7 @@ export class PhoneMockup extends React.Component {
         }
 
         return (
-            <svg className={classNames} 
+            <svg className={classNames}
                  type="mkp-svg-phone"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
@@ -624,7 +625,7 @@ export class WatchMockup extends React.Component {
             svgHeight: watchHeight
         }
 
-        let classNames = "mkp-svg-browser mkp-svg" 
+        let classNames = "mkp-svg-browser mkp-svg"
         if (this.props.asIcon) {
             classNames = "mkp-svg-browser mkp-svg-icon"
         }
@@ -635,7 +636,7 @@ export class WatchMockup extends React.Component {
         }
 
         return (
-            <svg className={classNames} 
+            <svg className={classNames}
                  type="mkp-svg-phone"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}
@@ -731,7 +732,7 @@ export class NotesMockup extends React.Component {
             svgHeight: itemHeight
         }
 
-        let classNames = "mkp-svg-notes mkp-svg" 
+        let classNames = "mkp-svg-notes mkp-svg"
         if (this.props.asIcon) {
             classNames = "mkp-svg-notes mkp-svg-icon"
         }
@@ -742,7 +743,7 @@ export class NotesMockup extends React.Component {
         }
 
         return (
-            <svg className={classNames} 
+            <svg className={classNames}
                  type="mkp-svg-notes"
                  style={{width:ww, height:wh}}
                  viewBox={viewBox}

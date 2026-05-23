@@ -9,10 +9,11 @@
  */
 
 
+import { createRoot } from 'react-dom/client';
+
 export default class ReactComponentHandler {
     constructor(container, state) {
-        this._reactComponent = null;
-        this._originalComponentWillUpdate = null;
+        this._root = null;
         this._container = container;
         this._initialState = state;
         this._reactClass = this._getReactClass();
@@ -32,12 +33,8 @@ export default class ReactComponentHandler {
      * @returns {void}
      */
     _render() {
-        this._reactComponent = ReactDOM.render(this._getReactComponent(), this._container.getElement()[0]);
-        this._originalComponentWillUpdate = this._reactComponent.componentWillUpdate || function() {};
-        this._reactComponent.componentWillUpdate = this._onUpdate.bind(this);
-        if (this._container.getState()) {
-            this._reactComponent.setState(this._container.getState());
-        }
+        this._root = createRoot(this._container.getElement()[0]);
+        this._root.render(this._getReactComponent());
     }
 
     /**
@@ -47,21 +44,12 @@ export default class ReactComponentHandler {
      * @returns {void}
      */
     _destroy() {
-        ReactDOM.unmountComponentAtNode(this._container.getElement()[0]);
+        if (this._root) {
+            this._root.unmount();
+            this._root = null;
+        }
         this._container.off('open', this._render, this);
         this._container.off('destroy', this._destroy, this);
-    }
-
-    /**
-     * Hooks into React's state management and applies the componentstate
-     * to GoldenLayout
-     *
-     * @private
-     * @returns {void}
-     */
-    _onUpdate(nextProps, nextState) {
-        this._container.setState(nextState);
-        this._originalComponentWillUpdate.call(this._reactComponent, nextProps, nextState);
     }
 
     /**
