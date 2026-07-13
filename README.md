@@ -2,7 +2,7 @@
 
 Create printable UI mockups/wireframes templates
 
-## Try it: [Demo](https://alexadam.github.io/demos/printable-mockups/index.html)
+## Try it: [Demo](https://www.printablemockups.com/)
 
 <img src="https://github.com/alexadam/printable-mockups/blob/master/imgs/ex.gif?raw=true" width="800">
 
