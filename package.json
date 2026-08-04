@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "canvg": "^4.0.3",
     "jquery": "^4.0.0",
     "jspdf": "^4.2.1",
     "react": "^19.2.6",

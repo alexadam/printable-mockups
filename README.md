@@ -16,11 +16,9 @@ Create printable UI mockups/wireframes templates
 
  - It doesn't work (well) on small screens / touchscreens
  - Not all the features are implemented
- - The generated PDF file is huge and blurry
 
 ## To-Do
 
- - Improve the generated PDF file
  - Show mockups dimensions
  - Implement Save as SVG/JSON and import from JSON
  - Add option to set background pattern's color, stroke width & opacity
@@ -49,7 +47,6 @@ npm run dev
 ## Credits
 
  - [GoldenLayout](https://golden-layout.com/)
- - [Canvg](https://github.com/canvg/canvg)
  - [jsPDF](https://github.com/MrRio/jsPDF)
  - [React-Modal](https://github.com/reactjs/react-modal)
  - [Icons](https://ionicons.com/)

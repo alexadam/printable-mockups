@@ -4,7 +4,6 @@ import Modal from 'react-modal';
 import './style.css';
 import './properties-menu.css'
 
-import {BrowserMockup, PhoneMockup, WatchMockup} from './svg-utils.jsx'
 import * as PDFUtils from './svg-pdf'
 
 import MyGoldenLayout from './mockup-editor.jsx'
@@ -392,6 +391,12 @@ class App extends React.Component {
         console.log('layout data', data, 'PD', paperDim);
     }
 
+    /*
+     * Collects what the PDF export needs: the paper, and for every mockup on it
+     * its position on screen plus the description it was rendered from. The
+     * export rebuilds the geometry from that description, so nothing here has
+     * to touch - or resize - the live DOM.
+     */
     prepareSVGData = () => {
         let container = document.getElementById('layoutContainer')
         let containerSize = container.getBoundingClientRect()
@@ -409,46 +414,27 @@ class App extends React.Component {
 
         let svgElems = document.getElementsByClassName('mkp-svg')
         for (let svgElem of svgElems) {
-            let type = svgElem.getAttribute('type')
+            let exportData = svgElem.getAttribute('data-mkp-export')
+            if (!exportData) {
+                continue
+            }
 
-            let size = null
-            size = svgElem.getBoundingClientRect()
-
-            // let children = svgElem.children;
-            // for (let child of children) {
-            //     if (child.tagName === 'g') {
-            //         size = child.getBoundingClientRect()
-            //         // TODO remove / test different heights
-            //         // let tttt = svgElem.getBoundingClientRect()
-            //     }
-            // }
-
-            let qualityFactor = 2.5
-
-            let originalWidth = svgElem.style.width
-            let originalHeight = svgElem.style.height
-            svgElem.style.width = parseInt(svgElem.style.width) * qualityFactor + 'px'
-            svgElem.style.height = parseInt(svgElem.style.height) * qualityFactor + 'px'
-
-            let svgAsText = new XMLSerializer().serializeToString(svgElem);
-
-            svgElem.style.height = originalHeight
-            svgElem.style.width = originalWidth
+            let {type, geometryArgs, properties} = JSON.parse(exportData)
+            let rect = svgElem.getBoundingClientRect()
 
             data.forms.push({
                 type,
-                size,
-                svgAsText,
-                options: {}
+                geometryArgs,
+                properties,
+                rect: {left: rect.left, top: rect.top, width: rect.width, height: rect.height}
             })
         }
 
         return data
     }
 
-    savePdf = async () => {
-        let data = this.prepareSVGData()
-        await PDFUtils.createTestPDF(data)
+    savePdf = () => {
+        PDFUtils.createPDF(this.prepareSVGData())
     }
 
     onPaperOrientationChange = (newOrientation) => {

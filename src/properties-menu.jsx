@@ -1,6 +1,52 @@
 import React from 'react'
-import {PatternSelectorIcon} from './svg-utils.jsx'
 
+const generatePatternID = (rootName) => rootName + '_' + Math.floor(Math.random() * 1000000)
+
+// A fixed-size preview of a pattern, drawn at whatever size looks good in the
+// menu - unlike the mockups, nothing here is meant to end up on paper.
+class PatternSelectorIcon extends React.Component {
+
+    render = () => {
+        let patternId = generatePatternID('example')
+        let pattern = null
+        let patternDim = 15
+
+        if (this.props.type === 'dots') {
+            pattern = (
+                <pattern id={patternId} patternUnits="userSpaceOnUse" width={patternDim} height={patternDim} x={0} y={0}>
+                    <circle cx={patternDim/2} cy={patternDim/2} r={1} fill="black"/>
+                </pattern>
+            )
+        } else if (this.props.type === 'lines') {
+            pattern = (
+                <pattern id={patternId} patternUnits="userSpaceOnUse" width={patternDim} height={patternDim} x={0} y={0}>
+                    <line x1={0} y1={patternDim} x2={patternDim} y2={patternDim} stroke="black" strokeWidth={1} />
+                </pattern>
+            )
+        } else if (this.props.type === 'squares') {
+            pattern = (
+                <pattern id={patternId} patternUnits="userSpaceOnUse" width={patternDim} height={patternDim} x={0} y={0}>
+                    <line x1={0} y1={patternDim} x2={patternDim} y2={patternDim} stroke="black" strokeWidth={1} />
+                    <line x1={patternDim} y1={0} x2={patternDim} y2={patternDim} stroke="black" strokeWidth={1} />
+                </pattern>
+            )
+        }
+
+        let dim = 75
+        return (
+            <svg
+                 type="mkp-svg-pattern-example"
+                 style={{width: dim +'px', height: dim + 'px'}}
+                 viewBox={"0 0 " + dim + " " + dim}
+                 preserveAspectRatio="xMidYMid meet">
+                 {pattern}
+                <g>
+                    <rect x="0" y={0} width={dim} height={dim} stroke="black" strokeWidth={1} fill={`url(#${patternId})`}/>
+                </g>
+            </svg>
+        )
+    }
+}
 
 const parseBoolean = (val) => {
     if (typeof val === "boolean") {

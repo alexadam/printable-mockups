@@ -1,24 +1,22 @@
+import {A4_SIZE_MM} from './print-constants'
 
-
-
-
-
-const getMMToPixelFactor = (pageOrientation = 'landscape') => {
-    let A4_Width_MM = 297
-    let A4_Height_MM = 210
-    let A4_Width_Pixels = 1000
-    let A4_Height_Pixels = 707
-
-    if (pageOrientation === 'portrait') {
-        A4_Width_MM = 210
-        A4_Height_MM = 297
-        A4_Width_Pixels = 707
-        A4_Height_Pixels = 1000
-    }
-
-    return A4_Width_MM / A4_Width_Pixels  
+/*
+ * The paper is drawn at a fixed pixel size on screen; these convert between
+ * that and real millimetres. No rounding: the values feed layout and export,
+ * and a rounded millimetre is a visible error on paper.
+ */
+const A4_SIZE_PIXELS = {
+    landscape: {width: 1000, height: 707},
+    portrait: {width: 707, height: 1000}
 }
 
-export const mmToPixels = (mmValue, pageOrientation) => Math.floor(mmValue * 1 / getMMToPixelFactor(pageOrientation))
+const getMMToPixelFactor = (pageOrientation = 'landscape') => {
+    let sizeMM = A4_SIZE_MM[pageOrientation] || A4_SIZE_MM.landscape
+    let sizePixels = A4_SIZE_PIXELS[pageOrientation] || A4_SIZE_PIXELS.landscape
 
-export const pixelsToMM = (pixelsValue, pageOrientation) => Math.floor(pixelsValue * getMMToPixelFactor(pageOrientation))
+    return sizeMM.width / sizePixels.width
+}
+
+export const mmToPixels = (mmValue, pageOrientation) => mmValue / getMMToPixelFactor(pageOrientation)
+
+export const pixelsToMM = (pixelsValue, pageOrientation) => pixelsValue * getMMToPixelFactor(pageOrientation)
