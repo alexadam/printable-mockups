@@ -62,7 +62,12 @@ const Shape = ({shape, patternFill}) => {
                      stroke={stroke} strokeWidth={shape.strokeWidth} fill={fill}/>
     }
     if (shape.kind === 'text') {
-        return <text x={shape.x} y={shape.y} fontSize={shape.fontSize} fill={fill}>{shape.text}</text>
+        // The PDF export draws text in Helvetica, so the preview asks for it too.
+        // It has to be an inline style: the app's global font rule would win
+        // over a font-family presentation attribute.
+        return <text x={shape.x} y={shape.y} fontSize={shape.fontSize}
+                     style={{fontFamily: 'Helvetica, Arial, sans-serif'}}
+                     fill={fill}>{shape.text}</text>
     }
     return null
 }
@@ -129,13 +134,88 @@ const MockupSVG = (props) => {
     )
 }
 
+// Properties arrive from the saved layout, where a checkbox may have become a string
+const isEnabled = (value, fallback) => {
+    if (value === undefined || value === null) {
+        return fallback
+    }
+    return value !== false && value !== 'false'
+}
+
+const group = (properties, name) => (properties && properties[name]) || {}
+
 export const BrowserMockup = (props) => <MockupSVG {...props} type="browser-mockup"/>
+
+export const LaptopMockup = (props) => <MockupSVG {...props} type="laptop-mockup"/>
+
+export const MonitorMockup = (props) => <MockupSVG {...props} type="monitor-mockup"/>
+
+export const TVMockup = (props) => (
+    <MockupSVG {...props}
+               type="tv-mockup"
+               geometryArgs={{hasStand: isEnabled(group(props.properties, 'stand').isStandVisible, true)}}/>
+)
 
 export const TabletMockup = (props) => <MockupSVG {...props} type="tablet-mockup"/>
 
 export const PhoneMockup = (props) => <MockupSVG {...props} type="phone-mockup"/>
 
+export const AndroidMockup = (props) => (
+    <MockupSVG {...props}
+               type="android-mockup"
+               geometryArgs={{hasNavBar: isEnabled(group(props.properties, 'navBar').isNavBarVisible, true)}}/>
+)
+
+export const FoldableMockup = (props) => <MockupSVG {...props} type="foldable-mockup"/>
+
+export const CarMockup = (props) => (
+    <MockupSVG {...props}
+               type="car-mockup"
+               geometryArgs={{hasControls: isEnabled(group(props.properties, 'controls').areControlsVisible, true)}}/>
+)
+
+export const KioskMockup = (props) => (
+    <MockupSVG {...props}
+               type="kiosk-mockup"
+               geometryArgs={{hasStand: isEnabled(group(props.properties, 'stand').isStandVisible, true)}}/>
+)
+
+export const TerminalMockup = (props) => <MockupSVG {...props} type="terminal-mockup"/>
+
+export const WidgetsMockup = (props) => (
+    <MockupSVG {...props}
+               type="widgets-mockup"
+               geometryArgs={{layout: group(props.properties, 'widgets').layout || 'mixed'}}/>
+)
+
+export const VRMockup = (props) => <MockupSVG {...props} type="vr-mockup"/>
+
 export const WatchMockup = (props) => <MockupSVG {...props} type="watch-mockup"/>
+
+export const RoundWatchMockup = (props) => <MockupSVG {...props} type="round-watch-mockup"/>
+
+export const ModalMockup = (props) => <MockupSVG {...props} type="modal-mockup"/>
+
+export const StoryboardMockup = (props) => {
+    let storyboard = group(props.properties, 'storyboard')
+    return (
+        <MockupSVG {...props}
+                   type="storyboard-mockup"
+                   geometryArgs={{
+                       columns: parseInt(storyboard.columns) || 3,
+                       rows: parseInt(storyboard.rows) || 2,
+                       frame: storyboard.frame === 'browser' ? 'browser' : 'phone'
+                   }}/>
+    )
+}
+
+export const TitleBlockMockup = (props) => <MockupSVG {...props} type="title-block-mockup"/>
+
+export const StickyNoteMockup = (props) => (
+    <MockupSVG {...props}
+               type="sticky-note-mockup"
+               geometryArgs={{hasFold: isEnabled(group(props.properties, 'fold').isFoldVisible, true)}}/>
+)
 
 // The notes mockup has no fixed shape - it fills whatever pane it is dropped in
 export const NotesMockup = (props) => (

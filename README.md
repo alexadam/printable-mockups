@@ -1,6 +1,6 @@
 # printable-mockups
 
-Create printable UI mockups/wireframes templates
+Create printable UI mockups and wireframes templates
 
 ## Try it: [Demo](https://www.printablemockups.com/)
 
@@ -22,7 +22,6 @@ Create printable UI mockups/wireframes templates
  - Show mockups dimensions
  - Implement Save as SVG/JSON and import from JSON
  - Add option to set background pattern's color, stroke width & opacity
- - Add more mockups and background patterns
 
  ## How to run it on your machine
 

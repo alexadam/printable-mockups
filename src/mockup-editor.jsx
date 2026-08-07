@@ -15,7 +15,12 @@ import  GoldenLayout from './golden-layout/js_es6/LayoutManager';
 import './golden-layout/css/goldenlayout-base.css';
 import './golden-layout/css/goldenlayout-dark-theme.css';
 
-import {BrowserMockup, TabletMockup, PhoneMockup, WatchMockup, NotesMockup} from './svg-utils.jsx'
+import {
+    BrowserMockup, LaptopMockup, MonitorMockup, TVMockup, TabletMockup, PhoneMockup, AndroidMockup,
+    WatchMockup, RoundWatchMockup, ModalMockup, StoryboardMockup, TitleBlockMockup,
+    StickyNoteMockup, NotesMockup, FoldableMockup, CarMockup, KioskMockup, TerminalMockup,
+    WidgetsMockup, VRMockup
+} from './svg-utils.jsx'
 import './mockup-editor.css'
 import './properties-menu.css'
 
@@ -23,6 +28,92 @@ import * as Utils from './utils'
 import PropertiesMenu from './properties-menu.jsx'
 
 
+const dots = (dimensionInMM = 5) => ({patternType: 'dots', patternDimensionInMM: dimensionInMM})
+
+/*
+ * Every mockup, in the order they appear in the menu. This one list drives the
+ * menu items, the GoldenLayout component registration and the drag sources, so
+ * a new mockup is a geometry function, a wrapper in svg-utils and an entry here.
+ * `group` is the menu section it lands in; the sections show up in the order
+ * their first mockup does.
+ */
+const MOCKUPS = [
+    {type: 'browser-mockup', title: 'Browser Mockup', Mockup: BrowserMockup, group: 'Desktop',
+     properties: {backgroundData: dots()}},
+    {type: 'terminal-mockup', title: 'Terminal Window', Mockup: TerminalMockup, group: 'Desktop',
+     properties: {backgroundData: {patternType: 'lines', patternDimensionInMM: 6}}},
+    {type: 'laptop-mockup', title: 'Laptop Mockup', Mockup: LaptopMockup, group: 'Desktop',
+     properties: {backgroundData: dots()}},
+    {type: 'monitor-mockup', title: 'Monitor Mockup', Mockup: MonitorMockup, group: 'Desktop',
+     properties: {backgroundData: dots()}},
+    {type: 'tablet-mockup', title: 'Tablet Mockup', Mockup: TabletMockup, group: 'Mobile',
+     properties: {backgroundData: dots()}},
+    {type: 'phone-mockup', title: 'Phone Mockup (notch)', Mockup: PhoneMockup, group: 'Mobile',
+     properties: {backgroundData: dots()}},
+    {type: 'android-mockup', title: 'Phone Mockup (punch-hole)', Mockup: AndroidMockup, group: 'Mobile',
+     properties: {backgroundData: dots(), navBar: {isNavBarVisible: true}}},
+    {type: 'foldable-mockup', title: 'Foldable Phone (open)', Mockup: FoldableMockup, group: 'Mobile',
+     properties: {backgroundData: dots()}},
+    {type: 'watch-mockup', title: 'Watch Mockup (square)', Mockup: WatchMockup, group: 'Wearable & XR',
+     properties: {backgroundData: dots()}},
+    {type: 'round-watch-mockup', title: 'Watch Mockup (round)', Mockup: RoundWatchMockup, group: 'Wearable & XR',
+     properties: {backgroundData: dots()}},
+    {type: 'vr-mockup', title: 'VR / AR Field of View', Mockup: VRMockup, group: 'Wearable & XR',
+     properties: {backgroundData: dots()}},
+    {type: 'tv-mockup', title: 'TV / 16:9 Frame', Mockup: TVMockup, group: 'Large Screens',
+     properties: {backgroundData: dots(), stand: {isStandVisible: true}}},
+    {type: 'car-mockup', title: 'Car Infotainment', Mockup: CarMockup, group: 'Large Screens',
+     properties: {backgroundData: dots(), controls: {areControlsVisible: true}}},
+    {type: 'kiosk-mockup', title: 'Kiosk / POS Terminal', Mockup: KioskMockup, group: 'Large Screens',
+     properties: {backgroundData: dots(), stand: {isStandVisible: true}}},
+    {type: 'modal-mockup', title: 'Modal / Dialog Card', Mockup: ModalMockup, group: 'UI & Layout',
+     properties: {backgroundData: dots()}},
+    {type: 'widgets-mockup', title: 'Widget Squares', Mockup: WidgetsMockup, group: 'UI & Layout',
+     properties: {backgroundData: dots(), widgets: {layout: 'mixed'}}},
+    {type: 'storyboard-mockup', title: 'Storyboard Sheet', Mockup: StoryboardMockup, group: 'UI & Layout',
+     properties: {backgroundData: dots(), storyboard: {columns: 3, rows: 2, frame: 'phone'}}},
+    {type: 'title-block-mockup', title: 'Title Block', Mockup: TitleBlockMockup, group: 'Paper & Notes',
+     properties: {}},
+    {type: 'sticky-note-mockup', title: 'Sticky Note / Index Card', Mockup: StickyNoteMockup, group: 'Paper & Notes',
+     properties: {backgroundData: {patternType: 'lines', patternDimensionInMM: 6},
+                  fold: {isFoldVisible: true}}},
+    {type: 'notes-mockup', title: 'Notes Mockup', Mockup: NotesMockup, group: 'Paper & Notes',
+     properties: {border: {isBorderVisible: true}, backgroundData: {patternType: 'lines', patternDimensionInMM: 7}}}
+]
+
+const MOCKUP_BY_TYPE = {}
+for (let mockup of MOCKUPS) {
+    MOCKUP_BY_TYPE[mockup.type] = mockup
+}
+
+// [{name, mockups}], sections in the order their first mockup appears above
+const MOCKUP_GROUPS = []
+for (let mockup of MOCKUPS) {
+    let group = MOCKUP_GROUPS.find((g) => g.name === mockup.group)
+    if (!group) {
+        group = {name: mockup.group, mockups: []}
+        MOCKUP_GROUPS.push(group)
+    }
+    group.mockups.push(mockup)
+}
+
+// px box the icon SVG is fitted into - keep in sync with .mkp-editor-src-menu-item in mockup-editor.css
+const MENU_ICON_SIZE = 58
+
+// The mockup type doubles as the GoldenLayout component name and the menu item id
+const menuItemID = (type) => type + '-menu-item'
+
+const itemConfig = (type) => ({
+    type: 'react-component',
+    component: type,
+    // without this GoldenLayout labels the tab with the component name
+    title: MOCKUP_BY_TYPE[type].title,
+    props: {
+        type,
+        // a deep copy, so panes never end up sharing one properties object
+        properties: JSON.parse(JSON.stringify(MOCKUP_BY_TYPE[type].properties))
+    }
+})
 
 
 class MockupComponent extends React.Component {
@@ -155,37 +246,15 @@ class MockupComponent extends React.Component {
 
         let svgElem = null
         let componentType = this.props.glContainer._config.props['type']
+        let mockup = MOCKUP_BY_TYPE[componentType]
 
-        if (componentType === 'watch-mockup') {
-            svgElem = <WatchMockup parentWidth={this.state.svgWidth} 
-                                   parentHeight={this.state.svgHeight} 
-                                   pageData={this.state.pageData} 
-                                   properties={this.state.properties}
-                                   asIcon={false}/>
-        } else if (componentType === 'phone-mockup') {
-            svgElem = <PhoneMockup parentWidth={this.state.svgWidth} 
-                                   parentHeight={this.state.svgHeight} 
-                                   pageData={this.state.pageData} 
-                                   properties={this.state.properties}
-                                   asIcon={false}/>
-        } else if (componentType === 'browser-mockup') {
-            svgElem = <BrowserMockup parentWidth={this.state.svgWidth} 
-                                     parentHeight={this.state.svgHeight} 
-                                     pageData={this.state.pageData} 
-                                     properties={this.state.properties}
-                                     asIcon={false}/>
-        } else if (componentType === 'tablet-mockup') {
-            svgElem = <TabletMockup parentWidth={this.state.svgWidth} 
-                                     parentHeight={this.state.svgHeight} 
-                                     pageData={this.state.pageData} 
-                                     properties={this.state.properties}
-                                     asIcon={false}/>
-        } else if (componentType === 'notes-mockup') {
-            svgElem = <NotesMockup parentWidth={this.state.svgWidth} 
-                                     parentHeight={this.state.svgHeight} 
-                                     pageData={this.state.pageData} 
-                                     properties={this.state.properties}
-                                     asIcon={false}/>
+        if (mockup) {
+            let Mockup = mockup.Mockup
+            svgElem = <Mockup parentWidth={this.state.svgWidth}
+                              parentHeight={this.state.svgHeight}
+                              pageData={this.state.pageData}
+                              properties={this.state.properties}
+                              asIcon={false}/>
         }
 
         /**
@@ -229,70 +298,46 @@ class MockupComponent extends React.Component {
     }
 }
 
-const WatchMockupWrapper = (props) => (
-    <div className="svg-wrapper">
-        <WatchMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon}/>
-    </div>
-)
+// The draggable icon in the side menu. GoldenLayout binds the drag to its id.
+const MockupMenuItem = ({mockup}) => {
+    let Mockup = mockup.Mockup
+    return (
+        <div id={menuItemID(mockup.type)} className="mkp-editor-src-menu-item" title={mockup.title}>
+            <div className="svg-wrapper">
+                <Mockup parentWidth={MENU_ICON_SIZE} parentHeight={MENU_ICON_SIZE} asIcon={true}/>
+            </div>
+        </div>
+    )
+}
 
-const PhoneMockupWrapper = (props) => (
-    <div className="svg-wrapper">
-        <PhoneMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon} />
-    </div>
-)
-
-const BrowserMockupWrapper = (props) => (
-    <div className="svg-wrapper">
-        <BrowserMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon} />
-    </div>
-)
-
-const TabletMockupWrapper = (props) => (
-    <div className="svg-wrapper">
-        <TabletMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon} />
-    </div>
-)
-
-const NotesMockupWrapper = (props) => (
-    <div className="svg-wrapper">
-        <NotesMockup parentWidth={props.width} parentHeight={props.height} asIcon={props.asIcon} />
-    </div>
-)
-
-
-const PhoneMockupMenuItem = () => (
-    <div id="PhoneMockupMenuItem" className="mkp-editor-src-menu-item" title="Phone Mockup">
-        <PhoneMockupWrapper height={90} width={90} asIcon={true} />
-    </div>
-)
-
-const WatchMockupMenuItem = () => (
-    <div id="WatchMockupMenuItem" className="mkp-editor-src-menu-item" title="Watch Mockup">
-        <WatchMockupWrapper height={90} width={90} asIcon={true} />
-    </div>
-)
-
-const BrowserMockupMenuItem = () => (
-    <div id="BrowserMockupMenuItem" className="mkp-editor-src-menu-item" title="Browser Mockup">
-        <BrowserMockupWrapper height={90} width={90} asIcon={true} />
-    </div>
-)
-
-const TabletMockupMenuItem = () => (
-    <div id="TabletMockupMenuItem" className="mkp-editor-src-menu-item" title="Tablet Mockup">
-        <TabletMockupWrapper height={90} width={90} asIcon={true} />
-    </div>
-)
-
-const NotesMockupMenuItem = () => (
-    <div id="NotesMockupMenuItem" className="mkp-editor-src-menu-item" title="Notes Mockup">
-        <NotesMockupWrapper height={90} width={90} asIcon={true} />
+/*
+ * One collapsible section of the side menu. Collapsing only hides the items in
+ * CSS - they have to stay in the DOM, because GoldenLayout bound a drag source
+ * to each of them once, by id, at startup.
+ */
+const MockupMenuGroup = ({group, isCollapsed, onToggle}) => (
+    <div className={'mkp-editor-menu-group' + (isCollapsed ? ' mkp-editor-menu-group-collapsed' : '')}>
+        <div className="mkp-editor-menu-group-header"
+             onClick={onToggle}
+             role="button"
+             tabIndex={0}
+             onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onToggle()}
+             title={(isCollapsed ? 'Show ' : 'Hide ') + group.name}>
+            <span className="mkp-editor-menu-group-arrow">&#9662;</span>
+            <span className="mkp-editor-menu-group-name">{group.name}</span>
+            <span className="mkp-editor-menu-group-count">{group.mockups.length}</span>
+        </div>
+        <div className="mkp-editor-menu-group-items">
+            {group.mockups.map((mockup) => <MockupMenuItem mockup={mockup} key={mockup.type}/>)}
+        </div>
     </div>
 )
 
 export default class MyGoldenLayout extends React.PureComponent {
 
     state = {
+        // names of the menu sections the user has collapsed
+        collapsedGroups: [],
         pageWidth: 1000,
         pageHeight: 707,
         pageOrientation: 'landscape',
@@ -335,58 +380,17 @@ export default class MyGoldenLayout extends React.PureComponent {
             },
             content: [{
                 type: 'row',
-                content: [{
-                    type: 'react-component',
-                    component: 'PhoneMockupComponent',
-                    props: {
-                        type: 'phone-mockup',
-                        properties: {
-                            backgroundData: {
-                                patternType: 'dots',
-                                patternDimensionInMM: 5
-                            }
-                        }
+                content: [
+                    itemConfig('phone-mockup'),
+                    itemConfig('android-mockup'),
+                    {
+                        type: 'column',
+                        content: [
+                            itemConfig('watch-mockup'),
+                            itemConfig('watch-mockup')
+                        ]
                     }
-                },{
-                    type: 'react-component',
-                    component: 'PhoneMockupComponent',
-                    props: {
-                        type: 'phone-mockup',
-                        properties: {
-                            backgroundData: {
-                                patternType: 'dots',
-                                patternDimensionInMM: 5
-                            }
-                        }
-                    }
-                },{
-                    type: 'column',
-                    content: [{
-                        type: 'react-component',
-                        component: 'WatchMockupComponent',
-                        props: {
-                            type: 'watch-mockup',
-                            properties: {
-                                backgroundData: {
-                                    patternType: 'dots',
-                                    patternDimensionInMM: 5
-                                }
-                            }
-                        }
-                    },{
-                        type: 'react-component',
-                        component: 'WatchMockupComponent',
-                        props: {
-                            type: 'watch-mockup',
-                            properties: {
-                                backgroundData: {
-                                    patternType: 'dots',
-                                    patternDimensionInMM: 5
-                                }
-                            }
-                        }
-                    }]
-                }]
+                ]
             }]
         };
 
@@ -413,101 +417,17 @@ export default class MyGoldenLayout extends React.PureComponent {
         let layout = new GoldenLayout(config, document.getElementById('layoutContainer'));
 
         // Redux example
-        //wrapComponent('PhoneMockupComponent', 'this.context.store')
-        layout.registerComponent('PhoneMockupComponent', wrapComponent());
-        layout.registerComponent('WatchMockupComponent', wrapComponent());
-        layout.registerComponent('BrowserMockupComponent', wrapComponent());
-        layout.registerComponent('TabletMockupComponent', wrapComponent());
-        layout.registerComponent('NotesMockupComponent', wrapComponent());
+        //wrapComponent('phone-mockup', 'this.context.store')
+        for (let mockup of MOCKUPS) {
+            layout.registerComponent(mockup.type, wrapComponent());
+        }
 
         layout.init();
 
-
-
-        layout.createDragSource(document.getElementById('PhoneMockupMenuItem'), 
-            {
-                type: 'react-component',
-                component: 'PhoneMockupComponent',
-                props: {
-                    type: 'phone-mockup',
-                    properties: {
-                        backgroundData: {
-                            patternType: 'dots',
-                            patternDimensionInMM: 5
-                        }
-                    }
-                }
-            } 
-        );
-
-        layout.createDragSource(document.getElementById('WatchMockupMenuItem'), 
-            {
-                type: 'react-component',
-                component: 'WatchMockupComponent',
-                props: {
-                    type: 'watch-mockup',
-                    properties: {
-                        backgroundData: {
-                            patternType: 'dots',
-                            patternDimensionInMM: 5
-                        }
-                    }
-                }
-            }
-        );
-
-        layout.createDragSource(document.getElementById('BrowserMockupMenuItem'), 
-            {
-                type: 'react-component',
-                component: 'BrowserMockupComponent',
-                props: {
-                    type: 'browser-mockup',
-                    properties: {
-                        backgroundData: {
-                            patternType: 'dots',
-                            patternDimensionInMM: 5
-                        }
-                    }
-                }
-            }
-        );
-
-        layout.createDragSource(document.getElementById('TabletMockupMenuItem'), 
-            {
-                type: 'react-component',
-                component: 'TabletMockupComponent',
-                props: {
-                    type: 'tablet-mockup',
-                    properties: {
-                        backgroundData: {
-                            patternType: 'dots',
-                            patternDimensionInMM: 5
-                        }
-                    }
-                }
-            }
-        );
-
-        layout.createDragSource(document.getElementById('NotesMockupMenuItem'), 
-            {
-                type: 'react-component',
-                component: 'NotesMockupComponent',
-                props: {
-                    type: 'notes-mockup',
-                    properties: {
-                        border: {
-                            isBorderVisible: true
-                        },
-                        backgroundData: {
-                            patternType: 'lines',
-                            patternDimensionInMM: 7
-                        }
-                    }
-                }
-            }
-        );
-
-
+        // the menu items are already in the DOM: render() runs before this
+        for (let mockup of MOCKUPS) {
+            layout.createDragSource(document.getElementById(menuItemID(mockup.type)), itemConfig(mockup.type));
+        }
 
         layout.on('stateChanged', () => {
             // var state = JSON.stringify( myLayout.toConfig() );
@@ -580,6 +500,14 @@ export default class MyGoldenLayout extends React.PureComponent {
         return this.layout.toConfig()
     }
 
+    toggleGroup = (groupName) => {
+        this.setState((prevState) => ({
+            collapsedGroups: prevState.collapsedGroups.includes(groupName)
+                ? prevState.collapsedGroups.filter((name) => name !== groupName)
+                : [...prevState.collapsedGroups, groupName]
+        }))
+    }
+
     getPaperDimensions = () => {
         let elem = document.getElementById('layoutContainer')
         return elem.getBoundingClientRect()
@@ -592,11 +520,12 @@ export default class MyGoldenLayout extends React.PureComponent {
         return (
             <div className="mkp-editor-container">
                 <div className="mkp-editor-menu-container" >
-                    <BrowserMockupMenuItem />
-                    <TabletMockupMenuItem />
-                    <PhoneMockupMenuItem />
-                    <WatchMockupMenuItem />
-                    <NotesMockupMenuItem />
+                    {MOCKUP_GROUPS.map((group) => (
+                        <MockupMenuGroup group={group}
+                                         key={group.name}
+                                         isCollapsed={this.state.collapsedGroups.includes(group.name)}
+                                         onToggle={() => this.toggleGroup(group.name)}/>
+                    ))}
                 </div>
                 <div className="mkp-layout-gl-container">
                     <div id='layoutContainer' 

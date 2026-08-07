@@ -12,9 +12,7 @@
 
 html, body {
     width: 100%; height: 100%; padding: 0; margin: 0; box-sizing: border-box;
-    background: #757F9A;
-background: -webkit-linear-gradient(to right, #D7DDE8, #757F9A);
-background: linear-gradient(to right, #D7DDE8, #757F9A);
+    background: #FBFAF7;
 
 }
 
@@ -75,10 +73,16 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
 }
 
 .mkp-pom-item {
-    background-color: white;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    border: solid 1px #A8A296;
     margin: 5px;
     cursor: pointer;
-    opacity: 0.25;
+    opacity: 1;
+}
+
+.mkp-pom-item:hover {
+    border-color: #6B6559;
 }
 
 .mkp-pom-landscape {
@@ -89,8 +93,9 @@ background: linear-gradient(to right, #D7DDE8, #757F9A);
     width: 21px; height: 30px;
 }
 
-.mkp-pom-selected {
-    border: solid 1px black;
+.mkp-pom-selected, .mkp-pom-selected:hover {
+    border: solid 2px #1A1A1A;
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.12);
     opacity: 1;
 }
 

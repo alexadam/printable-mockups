@@ -9,24 +9,83 @@
 
 }
 
+/* one column of collapsible sections, scrolling as a whole */
 .mkp-editor-menu-container {
-    height: 100%; 
-    padding-top: 10px;
-    width: 400px; min-width: 400px;
+    height: 100%;
+    padding: 8px;
+    width: 280px; min-width: 280px;
+    box-sizing: border-box;
     display: flex; flex-direction: column;
-    align-items: center;
+    align-content: flex-start;
+    gap: 4px;
+    overflow-y: auto;
+    margin-right: 30px;
+    margin-left: 60px;
 }
-.mkp-editor-src-menu-item {
-    width: 100px; height: 100px; margin-bottom: 25px;
-    background-color: rgba(255,255,255,1);
-    border-radius: 5px;
-    padding: 10px;
+
+.mkp-editor-menu-group {
+    display: flex; flex-direction: column;
+}
+.mkp-editor-menu-group-header {
+    display: flex; flex-direction: row; align-items: center;
+    gap: 5px;
+    padding: 5px 4px;
     cursor: pointer;
-    box-shadow: 0 6px 12px -2px rgba(50,50,93,.25),0 3px 7px -3px rgba(0,0,0,.3);
+    user-select: none;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6B6559;
+    border-bottom: solid 1px rgba(0,0,0,0.1);
+}
+.mkp-editor-menu-group-header:hover {
+    color: #1A1A1A;
+}
+.mkp-editor-menu-group-arrow {
+    font-size: 10px;
+    line-height: 1;
+    transition: transform 0.12s ease;
+}
+.mkp-editor-menu-group-name {
+    flex-grow: 1;
+}
+.mkp-editor-menu-group-count {
+    font-size: 10px;
+    opacity: 0.6;
+}
+
+/* the items wrap into as many columns as fit */
+.mkp-editor-menu-group-items {
+    display: flex; flex-direction: row; flex-wrap: wrap;
+    justify-content: flex-start; align-content: flex-start;
+    gap: 6px;
+    padding: 6px 0 8px 0;
+}
+
+.mkp-editor-menu-group-collapsed .mkp-editor-menu-group-arrow {
+    transform: rotate(-90deg);
+}
+/* collapsing hides the items but keeps them in the DOM - GoldenLayout bound a
+   drag source to each of them by id, once, at startup */
+.mkp-editor-menu-group-collapsed .mkp-editor-menu-group-items {
+    display: none;
+}
+
+.mkp-editor-src-menu-item {
+    width: 78px; height: 78px;
+    background-color: rgba(255,255,255,1);
+    border-radius: 4px;
+    padding: 6px;
+    box-sizing: border-box;
+    cursor: pointer;
+    box-shadow: 0 3px 6px -2px rgba(50,50,93,.25),0 2px 4px -3px rgba(0,0,0,.3);
 }
 .mkp-editor-src-menu-item:hover {
-    box-shadow: 0 6px 12px -2px rgba(50,50,93,.25),0 3px 7px -3px rgba(0,0,0,.3);
-    box-shadow: 0 30px 60px -12px rgba(50,50,93,.25),0 18px 36px -18px rgba(0,0,0,.3),0 -12px 36px -8px rgba(0,0,0,.025);
+    box-shadow: 0 12px 24px -8px rgba(50,50,93,.35),0 6px 12px -8px rgba(0,0,0,.3);
+}
+.mkp-editor-src-menu-item .svg-wrapper {
+    box-sizing: border-box;
+    padding: 0;
 }
 
 
@@ -47,6 +106,6 @@
 
 @media only screen and (max-device-width : 1500px) {
     .mkp-editor-menu-container {
-        width: 200px; min-width: 200px;
+        width: 196px; min-width: 196px;
     }
 }

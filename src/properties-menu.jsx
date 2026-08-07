@@ -55,18 +55,84 @@ const parseBoolean = (val) => {
     return val === "true"
 }
 
-class BorderPropertiesMenu extends React.Component {
+/*
+ * The on/off options, keyed by the property group they are stored under. The
+ * fallback is what the geometry assumes when nothing has been stored yet, so
+ * the checkbox and the drawing agree the first time the menu is opened.
+ */
+const TOGGLES = {
+    border: {key: 'isBorderVisible', label: 'Display border:', fallback: false},
+    navBar: {key: 'isNavBarVisible', label: 'Display navigation bar:', fallback: true},
+    stand: {key: 'isStandVisible', label: 'Display stand:', fallback: true},
+    fold: {key: 'isFoldVisible', label: 'Folded corner:', fallback: true},
+    controls: {key: 'areControlsVisible', label: 'Display controls:', fallback: true}
+}
+
+const toggleValue = (properties, group, toggle) => {
+    let value = (properties[group] || {})[toggle.key]
+    return value === undefined || value === null ? toggle.fallback : parseBoolean(value)
+}
+
+class TogglePropertyMenu extends React.Component {
 
     state = {
-        isBorderVisible: parseBoolean(this.props.properties.border.isBorderVisible)
+        isOn: toggleValue(this.props.properties, this.props.group, TOGGLES[this.props.group])
     }
 
-    onBorderVisibleChange = () => {
+    onChange = () => {
         this.setState({
-            isBorderVisible: !this.state.isBorderVisible
-        }, () => {            
+            isOn: !this.state.isOn
+        }, () => {
             this.props.onNewProperties(
-                'border',
+                this.props.group,
+                {
+                    [TOGGLES[this.props.group].key]: this.state.isOn
+                })
+        })
+    }
+
+    render = () => {
+
+        let toggle = TOGGLES[this.props.group]
+
+        return (
+            <div className="mkp-prop-menu-component">
+                <div className="mkp-prop-menu-row">
+                    <div className="mkp-prop-menu-label">{toggle.label}</div>
+                    <input className="mkp-prop-menu-checkbox" type="checkbox" name={toggle.key}
+                            checked={this.state.isOn} onChange={this.onChange}/>
+                </div>
+            </div>
+        )
+    }
+
+}
+
+const MAX_STORYBOARD_CELLS = 6
+
+const clampCells = (value, fallback = 1) => {
+    let count = parseInt(value)
+    if (isNaN(count)) {
+        return fallback
+    }
+    return Math.min(MAX_STORYBOARD_CELLS, Math.max(1, count))
+}
+
+class StoryboardPropertiesMenu extends React.Component {
+
+    // the fallbacks are the ones the geometry uses when nothing is stored
+    state = {
+        columns: clampCells((this.props.properties.storyboard || {}).columns, 3),
+        rows: clampCells((this.props.properties.storyboard || {}).rows, 2),
+        frame: (this.props.properties.storyboard || {}).frame === 'browser' ? 'browser' : 'phone'
+    }
+
+    onChange = (key, value) => {
+        this.setState({
+            [key]: value
+        }, () => {
+            this.props.onNewProperties(
+                'storyboard',
                 {
                     ...this.state
                 })
@@ -78,9 +144,72 @@ class BorderPropertiesMenu extends React.Component {
         return (
             <div className="mkp-prop-menu-component">
                 <div className="mkp-prop-menu-row">
-                    <div className="mkp-prop-menu-label">Display border:</div>
-                    <input className="mkp-prop-menu-checkbox" type="checkbox" name="Is border visible" 
-                            checked={this.state.isBorderVisible} onChange={this.onBorderVisibleChange}/>
+                    <div className="mkp-prop-menu-title">
+                        Set Storyboard Grid
+                    </div>
+                </div>
+                <div className="mkp-prop-menu-row">
+                    <div className="mkp-prop-menu-label">Columns:</div>
+                    <input className="mkp-prop-menu-input" type="number" min="1" max={MAX_STORYBOARD_CELLS}
+                            value={this.state.columns}
+                            onChange={(e) => this.onChange('columns', clampCells(e.target.value))}/>
+                    <div className="mkp-prop-menu-label">Rows:</div>
+                    <input className="mkp-prop-menu-input" type="number" min="1" max={MAX_STORYBOARD_CELLS}
+                            value={this.state.rows}
+                            onChange={(e) => this.onChange('rows', clampCells(e.target.value))}/>
+                </div>
+                <div className="mkp-prop-menu-row">
+                    <div className="mkp-prop-menu-label">Frame:</div>
+                    <select className="mkp-prop-menu-input" value={this.state.frame}
+                            onChange={(e) => this.onChange('frame', e.target.value)}>
+                        <option value="phone">Phone</option>
+                        <option value="browser">Browser</option>
+                    </select>
+                </div>
+            </div>
+        )
+    }
+
+}
+
+
+// The sheet layouts the widget geometry knows how to draw
+const WIDGET_LAYOUTS = [
+    {value: 'mixed', label: 'One 4×2 and two 2×2'},
+    {value: 'small', label: 'Four 2×2'},
+    {value: 'wide', label: 'Two 4×2'}
+]
+
+class WidgetsPropertiesMenu extends React.Component {
+
+    state = {
+        layout: (this.props.properties.widgets || {}).layout || 'mixed'
+    }
+
+    onChange = (value) => {
+        this.setState({
+            layout: value
+        }, () => {
+            this.props.onNewProperties('widgets', {...this.state})
+        })
+    }
+
+    render = () => {
+
+        return (
+            <div className="mkp-prop-menu-component">
+                <div className="mkp-prop-menu-row">
+                    <div className="mkp-prop-menu-title">
+                        Set Widget Sizes
+                    </div>
+                </div>
+                <div className="mkp-prop-menu-row">
+                    <div className="mkp-prop-menu-label">Layout:</div>
+                    <select className="mkp-prop-menu-input" value={this.state.layout}
+                            onChange={(e) => this.onChange(e.target.value)}>
+                        {WIDGET_LAYOUTS.map((layout) =>
+                            <option value={layout.value} key={layout.value}>{layout.label}</option>)}
+                    </select>
                 </div>
             </div>
         )
@@ -161,6 +290,21 @@ class BackgroundPatternMenu extends React.Component {
 
 }
 
+// Which option groups a mockup shows, in the order they appear
+const SUBMENUS = {
+    'notes-mockup': ['background', 'border'],
+    'android-mockup': ['background', 'navBar'],
+    'tv-mockup': ['background', 'stand'],
+    'car-mockup': ['background', 'controls'],
+    'kiosk-mockup': ['background', 'stand'],
+    'widgets-mockup': ['widgets', 'background'],
+    'sticky-note-mockup': ['background', 'fold'],
+    'storyboard-mockup': ['storyboard', 'background'],
+    'title-block-mockup': []
+}
+
+const DEFAULT_SUBMENUS = ['background']
+
 export default class PropertiesMenu extends React.Component {
 
     state = {
@@ -181,11 +325,26 @@ export default class PropertiesMenu extends React.Component {
 
         let subMenus = []
 
-        if (this.props.componentType === 'notes-mockup') {            
-            subMenus.push(<BackgroundPatternMenu backgroundData={this.state.backgroundData} onNewProperties={this.onNewProperties} key="bg-props"/>)
-            subMenus.push(<BorderPropertiesMenu properties={this.state} onNewProperties={this.onNewProperties} key="border-props"/>)
-        } else {
-            subMenus.push(<BackgroundPatternMenu backgroundData={this.state.backgroundData} onNewProperties={this.onNewProperties} key="bg-props"/>)
+        for (const name of SUBMENUS[this.props.componentType] || DEFAULT_SUBMENUS) {
+            if (name === 'background') {
+                subMenus.push(<BackgroundPatternMenu backgroundData={this.state.backgroundData} onNewProperties={this.onNewProperties} key="bg-props"/>)
+            } else if (TOGGLES[name]) {
+                subMenus.push(<TogglePropertyMenu group={name} properties={this.state} onNewProperties={this.onNewProperties} key={name + '-props'}/>)
+            } else if (name === 'storyboard') {
+                subMenus.push(<StoryboardPropertiesMenu properties={this.state} onNewProperties={this.onNewProperties} key="storyboard-props"/>)
+            } else if (name === 'widgets') {
+                subMenus.push(<WidgetsPropertiesMenu properties={this.state} onNewProperties={this.onNewProperties} key="widgets-props"/>)
+            }
+        }
+
+        if (subMenus.length === 0) {
+            subMenus.push(
+                <div className="mkp-prop-menu-component" key="no-props">
+                    <div className="mkp-prop-menu-row">
+                        <div className="mkp-prop-menu-label">This mockup has no options.</div>
+                    </div>
+                </div>
+            )
         }
 
         return (
